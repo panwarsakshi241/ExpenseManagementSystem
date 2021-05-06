@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.home.HomeFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/selectNoOfDays"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_days_TV" />
+
+        <Spinner
+            android:id="@+id/selectDaysSpinner"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/selectNumberOfDays"
+            android:padding="10dp"
+            android:popupBackground="@drawable/custom_background" />
+
+        <Button
+            android:id="@+id/okayButton"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_700"
+            android:text="@string/view_btn"
+            android:layout_marginEnd="5dp"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/separator"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/selectDate"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/selectDateTV" />
+
+        <TextView
+            android:id="@+id/DateEntered"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/custom_input"
+            android:hint="@string/_23_04_2021_date"
+            android:autofillHints="@string/_23_04_2021_date" />
+
+
+        <Button
+            android:id="@+id/viewbyDateButton"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_700"
+            android:text="@string/view_btn"
+            android:layout_marginEnd="5dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expense Details"
+        android:layout_margin="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/totalExpense"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_expense_calculated" />
+
+        <TextView
+            android:id="@+id/totalExpenseCalculated"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/custom_input"
+            android:text="@string/Hint_2000" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/viewList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:padding="10dp"/>
+
+</LinearLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal"
+    tools:context=".login.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/custom_input"
+        style="@style/expenseManagementSystemH1"
+        android:layout_margin="20dp">
+
+        <ImageView
+            style="@style/expenseManagementSystemImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_wallet" />
+
+        <TextView
+            android:id="@+id/loginTV"
+            style="@style/expenseManagementSystemH1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loginTV"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/emailidET"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/emailET"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_username_icon"
+            android:hint="@string/emailET"
+            android:inputType="textEmailAddress"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/passwordET"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/passwordET"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_password_icon"
+            android:hint="@string/passwordET"
+            android:inputType="textWebPassword"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/loginBtn"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:enabled="false"
+            android:text="@string/login_Btn" />
+
+        <TextView
+            android:id="@+id/signupHere"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/signUpTV"
+            android:textColor="@color/gray" />
+
+
+    </LinearLayout>
+
+</ScrollView>

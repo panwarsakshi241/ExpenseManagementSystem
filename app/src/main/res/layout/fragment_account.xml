@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.account.AccountFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_note"
+        android:textColor="@color/red"
+        style="@style/expenseManagementSystemH2"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/addInitialAmountTV"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Initial_amount" />
+
+        <EditText
+            android:id="@+id/addInitialAmountET"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/Hint_2000"
+            android:background="@drawable/custom_input"
+            android:hint="@string/Hint_2000"
+            android:inputType="number"
+            android:padding="5dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/addCategoryTV"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/category_TV" />
+
+        <Spinner
+            android:id="@+id/addAccountCategorySpinner"
+            style="@style/expenseManagementSystemH2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_input"
+            android:entries="@array/category"
+            android:padding="5dp"
+            android:popupBackground="@color/teal" />
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green"
+        android:text="@string/account_category_warning"
+        style="@style/settingStyle"/>
+
+    <Button
+        android:id="@+id/InitialAmountSave"
+        style="@style/expenseManagementSystemH2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="@string/income_save_btn" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_wallet_24"
+        android:contentDescription="@string/app_name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/app_name"
+        style="@style/expenseManagementSystemH2"
+        android:textColor="@color/green_200"
+        android:textStyle="bold"/>
+
+</LinearLayout>

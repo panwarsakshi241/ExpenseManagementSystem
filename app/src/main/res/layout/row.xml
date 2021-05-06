@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/gridViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow"
+    android:orientation="vertical"
+    tools:context=".fragments.home.HomeFragment"
+    android:layout_margin="50dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:background="@color/yellow_200">
+
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dated "
+            android:textStyle="bold"
+            style="@style/settingStyle"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/expenseDateFetched"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown"
+            style="@style/settingStyle"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"/>
+
+
+    <LinearLayout
+        style="@style/settingStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10sp">
+
+        <TextView
+            android:id="@+id/expenseId"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Id"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ExpenseIdFetched"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/settingStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/ExpenseTV"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/expense_added"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ExpenseEntered"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/settingStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/expenseCategoryTV"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Source"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/expenseCategoryFetched"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/settingStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/expenseSourceTV"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/expenseSourceFetched"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/settingStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/DetailsTV"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/expenseDetailsFetched"
+            style="@style/settingStyle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomeShown" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"
+        />
+
+</LinearLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="expenseResources">
+<!--        <item>@string/select</item>-->
+        <item>@string/cash</item>
+        <item>@string/pnb</item>
+        <item>@string/sbi</item>
+        <item>@string/icici</item>
+        <item>@string/rbi</item>
+        <item>@string/allAccounts</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>@string/select</item>
+        <item>@string/cash</item>
+        <item>@string/pnb</item>
+        <item>@string/sbi</item>
+        <item>@string/icici</item>
+        <item>@string/rbi</item>
+        <item>@string/others</item>
+    </string-array>
+
+    <string-array name="resource">
+        <item>@string/select</item>
+        <item>@string/salary_SI</item>
+        <item>@string/sales_SI</item>
+        <item>@string/Commission_SI</item>
+        <item>@string/loan</item>
+    </string-array>
+    
+    <string-array name="Expense">
+
+        <item>@string/select</item>
+        <item >@string/clothing</item>
+        <item >@string/education</item>
+        <item >@string/drinks</item>
+        <item >@string/food</item>
+        <item >@string/fuel</item>
+        <item >@string/hotel</item>
+        <item >@string/Restaurant</item>
+        <item >@string/Travel</item>
+        <item >@string/highway</item>
+        <item >@string/accessaries</item>
+        <item >@string/Festival</item>
+        <item >@string/Personal</item>
+        <item >@string/Pet</item>
+        <item >@string/Merchandise</item>
+        <item >@string/health</item>
+        <item >@string/bill</item>
+        <item>@string/others</item>
+
+
+    </string-array>
+
+    <string-array name="selectNumberOfDays">
+        <item>@string/select</item>
+        <item>@string/one</item>
+        <item>@string/two</item>
+        <item>@string/three</item>
+        <item>@string/four</item>
+        <item>@string/five</item>
+        <item>@string/six</item>
+        <item>@string/seven</item>
+        <item>@string/eight</item>
+        <item>@string/nine</item>
+        <item>@string/ten</item>
+        <item>@string/eleven</item>
+        <item>@string/twelve</item>
+        <item>@string/thirteen</item>
+        <item>@string/forteen</item>
+        <item>@string/fifteen</item>
+        <item>@string/sixteen</item>
+        <item>@string/seventeen</item>
+        <item>@string/eighteen</item>
+        <item>@string/ninteen</item>
+        <item>@string/twenty</item>
+        <item>@string/twentyOne</item>
+        <item>@string/twentyTwo</item>
+        <item>@string/twentyThree</item>
+        <item>@string/twentyFour</item>
+        <item>@string/twentyFive</item>
+        <item>@string/twentySix</item>
+        <item>@string/twentySeven</item>
+        <item>@string/twentyEight</item>
+        <item>@string/twentyNine</item>
+        <item>@string/thirty</item>
+        <item>@string/thirtyOne</item>
+
+    </string-array>
+
+</resources>

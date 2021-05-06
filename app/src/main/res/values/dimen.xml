@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="expenseManagementSystemH1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:itemPadding">10dp</item>
+        <item name="textAllCaps">true</item>
+        <item name="textInputStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
+        <item name="fontFamily">@font/arbutus_slab</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="itemTextColor">@color/green</item>
+
+    </style>
+
+    <style name="expenseManagementSystemH2">
+
+        <item name="textInputStyle">@id/italic</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="paddingStart">12dp</item>
+        <item name="paddingEnd">12dp</item>
+
+
+    </style>
+
+    <style name="expenseManagementSystemImageView">
+
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:scaleType">fitCenter</item>
+
+    </style>
+
+    <style name="gridViewStyle">
+
+        <item name="android:columnWidth">150dp</item>
+        <item name="android:horizontalSpacing">25dp</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:verticalSpacing">25dp</item>
+        <item name="android:layout_margin">30dp</item>
+        <item name="paddingEnd">10dp</item>
+        <item name="android:layout_gravity">center</item>
+
+    </style>
+
+    <style name="cardViewImageStyle">
+
+        <item name="android:layout_marginLeft">35dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:scaleType">fitCenter</item>
+
+    </style>
+
+    <style name="cardViewTextViewStyle">
+
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="itemTextColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
+    <style name="settingStyle">
+
+<!--        <item name="android:layout_marginTop">5dp</item>-->
+        <item name="android:layout_marginStart">10dp</item>
+<!--        <item name="android:layout_marginBottom">2dp</item>-->
+        <item name="android:textSize">16sp</item>
+        <item name="itemSpacing">5dp</item>
+        <item name="itemTextColor">@color/black</item>
+
+    </style>
+</resources>

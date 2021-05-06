@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name">Xpense Auditor</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loginTV">🔍 Xpense Auditor</string>
+    <string name="emailET">Enter Email</string>
+    <string name="passwordET">Enter Password</string>
+    <string name="signUpTV">Don\'t have account ? SignUp Here</string>
+    <string name="signIpTV">Already have account ? SignIn Here</string>
+    <string name="login_Btn">LOGIN</string>
+    <string name="register_Btn">REGISTER</string>
+    <string name="confirmPasswordET">Confirm Password</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="home_menuItem">Home</string>
+    <string name="update_menuItem">Update</string>
+    <string name="history_menuItem">History</string>
+    <string name="budget_menuItem">Budget</string>
+    <string name="generate_reports_menuItem">Generate Reports</string>
+    <string name="setting_menuItem">Setting</string>
+    <string name="logout_menuItem">Logout</string>
+    <string name="rate_us_menuItem">Rate Us</string>
+    <string name="invite_menuItem">Invite</string>
+    <string name="communication_menuItem_Title">Communication</string>
+    <string name="settings_menuItem_titile">settings</string>
+    <string name="agenda_menuitem_Title">agenda</string>
+    <string name="XpenseManager">Xpense 🔍ditor</string>
+    <string name="acount_holder_name_TV">Acount Holder Name</string>
+    <!--- settings -->
+    <string name="set_expense_limit_textView">Set Expense Limit </string>
+    <string name="Hint_2000">₹ 2000</string>
+    <string name="send_notification">Allow Notification</string>
+    <string name="Textoff">Off</string>
+    <string name="Texton">On</string>
+    <string name="set_reminder_tv">Set Reminder</string>
+    <string name="change_password_TV">Change Password</string>
+    <string name="account_setting_TV">_______________Account Setting_______________</string>
+    <string name="general_settings_tv">_______________General Settings_______________</string>
+    <string name="delete_account_tv">Delete Account</string>
+
+    <string name="select">🔍 Select</string>
+    <string name="cash"> Cash</string>
+    <string name="pnb">PNB Bank</string>
+    <string name="sbi">SBI Bank</string>
+    <string name="rbi">RBI Bank</string>
+    <string name="icici">ICICI Bank</string>
+    <string name="allAccounts">All Accounts</string>
+    <string name="others">Others</string>
+
+    <string name="monthly_report_textView">Monthly Report</string>
+    <string name="income_tv">Income</string>
+    <string name="incomeShown">₹ 00.00</string>
+    <string name="expense_added">Expense</string>
+    <string name="current_balance_TV">Current Balance</string>
+    <string name="previous_balance_TV">Previous Balance</string>
+    <string name="account_menuItem">Account</string>
+    <string name="add_income_TV">Add Income</string>
+    <string name="category_TV">Category</string>
+    <string name="resource_TV">Resource</string>
+    <string name="salary_SI">Salary</string>
+    <string name="sales_SI">Sales</string>
+    <string name="Commission_SI">Commission</string>
+    <string name="loan">Loan</string>
+    <string name="date_TV">Date</string>
+    <string name="choose_date_TV">Choose Date</string>
+    <string name="income_save_btn">Save</string>
+    <string name="display_message_textview_HomeExpenseResourceSpinner">Display Message TextView</string>
+    <string name="add_expense_TV">Add Expense</string>
+
+    <!---Expense Spinner-->
+    <string name="clothing">Clothing</string>
+    <string name="education">Education</string>
+    <string name="drinks">Drinks</string>
+    <string name="food">Food</string>
+    <string name="fuel">Fuel</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="bill">Bill</string>
+    <string name="health">Health</string>
+    <string name="highway">Highway</string>
+    <string name="hotel">Hotel</string>
+    <string name="Merchandise">Merchandise</string>
+    <string name="Personal">Personal</string>
+    <string name="Pet">Pet</string>
+    <string name="Restaurant">Restaurant</string>
+    <string name="Travel">Travel</string>
+    <string name="Festival">Festival</string>
+    <string name="accessaries">Accessaries</string>
+    <string name="details_of_expense_ET">Details of expense ....</string>
+
+    <!--Number of Days -->
+
+    <string name="one">1 </string>
+    <string name="two">2 </string>
+    <string name="three">3 </string>
+    <string name="four">4 </string>
+    <string name="five">5 </string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="ten">10</string>
+    <string name="eleven">11</string>
+    <string name="twelve">12</string>
+    <string name="thirteen">13</string>
+    <string name="forteen">14</string>
+    <string name="fifteen">15</string>
+    <string name="sixteen">16</string>
+    <string name="seventeen">17</string>
+    <string name="eighteen">18</string>
+    <string name="ninteen">19</string>
+    <string name="twenty">20</string>
+    <string name="twentyOne">21</string>
+    <string name="twentyTwo">22</string>
+    <string name="twentyThree">23</string>
+    <string name="twentyFour">24</string>
+    <string name="twentyFive">25</string>
+    <string name="twentySix">26</string>
+    <string name="twentySeven">27</string>
+    <string name="twentyEight">28</string>
+    <string name="twentyNine">29</string>
+    <string name="thirty">30</string>
+    <string name="thirtyOne">31</string>
+    <string name="number_of_days_TV">Select Days</string>
+    <string name="add_income_btn">Add Income</string>
+    <string name="add_expense_btn">Add Expense</string>
+    <string name="transfer_btn">Transfer</string>
+    <string name="view_btn">View</string>
+    <string name="selectDateTV">Select Date</string>
+    <string name="_23_04_2021_date">Select Date</string>
+    <string name="total_expense_calculated">Total Expense Calculated</string>
+    <string name="Initial_amount">Amount</string>
+    <string name="add_initial_amount_e_g_2000_ET">Add initial amount e.g $2000</string>
+    <string name="account_note">Please fill the below form correctly to help the system to calculate your expense. All your details will remain confidential and will be accessible to you only.</string>
+    <string name="account_category_warning">NOTE : Please don\'t choose same category again otherwise your details will get updated.</string>
+    <string name="Income_note">Note: Please fill all the details correctly to help the system manage your income expense details correctly. Once you save the details, no-one would be able to edit your details including you.</string>
+    <string name="expense_note">Note: Please fill all the details correctly to help the system manage your expense details correctly. Once you save the details, no-one would be able to edit your details including you.</string>
+    <string name="transfer_note">Note: Please fill all the details correctly to help the system manage your transfer details correctly. Once you save the details, no-one would be able to edit your details including you.</string>
+    <string name="comment_note">Note : Please mention any particular detail you want to add .</string>
+    <string name="enter_current_password_ET">Enter current password</string>
+    <string name="enter_new_password_ET">Enter new Password</string>
+    <string name="separator">____________or____________</string>
+
+
+</resources>

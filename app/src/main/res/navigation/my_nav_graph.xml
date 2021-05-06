@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.expense.ExpenseFragment"
+        android:label="Expense"
+        tools:layout="@layout/fragment_expense" >
+        <action
+            android:id="@+id/action_expenseFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment"
+        android:label="Income"
+        tools:layout="@layout/fragment_income" >
+        <action
+            android:id="@+id/action_incomeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transferFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.transfer.TransferFragment"
+        android:label="transfer"
+        tools:layout="@layout/fragment_transfer" >
+        <action
+            android:id="@+id/action_transferFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.View.ViewFragment"
+        android:label=" View Reports"
+        tools:layout="@layout/fragment_view"/>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.setting.SettingFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.aapnainfotech.expensemanagementsystem.fragments.account.AccountFragment"
+        android:label="Account Details"
+        tools:layout="@layout/fragment_account" />
+
+</navigation>
