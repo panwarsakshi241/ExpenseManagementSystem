@@ -3,12 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wallpaper"
     tools:context=".fragments.home.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profilepicture"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_profile"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"
+                android:gravity="center"/>
+
+            <TextView
+                style="@style/gridViewStyle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="My Dashboard"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+
+
+        </LinearLayout>
+
 
         <Spinner
             android:id="@+id/spinner"
@@ -23,7 +55,6 @@
         </Spinner>
 
         <LinearLayout
-            style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -35,20 +66,26 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/addincome"
                     style="@style/expenseManagementSystemH2"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:backgroundTint="@color/green"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/custom_bg"
+                    android:backgroundTint="@color/off_white"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_add"
                     android:text="@string/add_income_btn" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/addexpense"
                     style="@style/expenseManagementSystemH2"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:backgroundTint="@color/red"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/custom_bg"
+                    android:backgroundTint="@color/off_white"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_sub"
                     android:text="@string/add_expense_btn" />
 
             </LinearLayout>
@@ -60,20 +97,26 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/addtransfer"
                     style="@style/expenseManagementSystemH2"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:backgroundTint="@color/purple_500"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/custom_bg"
+                    android:backgroundTint="@color/off_white"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_transfer"
                     android:text="@string/transfer_btn" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/view"
                     style="@style/expenseManagementSystemH2"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:backgroundTint="@color/gray"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/custom_bg"
+                    android:backgroundTint="@color/off_white"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_view"
                     android:text="@string/view_btn" />
 
             </LinearLayout>
@@ -86,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/teal"
+            android:background="@color/purple_700"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="10dp"
@@ -96,7 +139,8 @@
                 style="@style/expenseManagementSystemH1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/monthly_report_textView" />
+                android:text="@string/monthly_report_textView"
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,6 +153,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/income_tv"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -117,6 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/incomeShown"
+                    android:textColor="@color/white"
                     android:textStyle="italic" />
 
             </LinearLayout>
@@ -132,6 +178,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/previous_balance_TV"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -140,6 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/incomeShown"
+                    android:textColor="@color/white"
                     android:textStyle="italic" />
 
             </LinearLayout>
@@ -155,6 +203,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/expense_added"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -163,6 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/incomeShown"
+                    android:textColor="@color/white"
                     android:textStyle="italic" />
 
             </LinearLayout>
@@ -178,6 +228,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/current_balance_TV"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -186,6 +237,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/incomeShown"
+                    android:textColor="@color/white"
                     android:textStyle="italic" />
 
             </LinearLayout>

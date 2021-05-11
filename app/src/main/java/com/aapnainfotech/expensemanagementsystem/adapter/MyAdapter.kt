@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.model.Expense
-import kotlin.math.exp
 
 class MyAdapter(val mctx : Context,
                 val layoutResId : Int,
@@ -23,18 +22,18 @@ class MyAdapter(val mctx : Context,
         val Expense = view.findViewById<TextView>(R.id.ExpenseEntered)
         val Id = view.findViewById<TextView>(R.id.ExpenseIdFetched)
         val Category = view.findViewById<TextView>(R.id.expenseCategoryFetched)
-        val source = view.findViewById<TextView>(R.id.expenseSourceFetched)
-        val date = view.findViewById<TextView>(R.id.expenseDateFetched)
-        val details = view.findViewById<TextView>(R.id.expenseDetailsFetched)
+        val Source = view.findViewById<TextView>(R.id.expenseSourceFetched)
+        val Date = view.findViewById<TextView>(R.id.expenseDateFetched)
+        val Details = view.findViewById<TextView>(R.id.expenseDetailsFetched)
 
         val expense = expenseList[position]
 
         Expense.text = expense.expense
         Id.text = expense.id
         Category.text = expense.category
-        source.text = expense.source
-        date.text = expense.date
-        details.text = expense.details
+        Source.text = expense.source
+        Date.text = expense.date
+        Details.text = expense.details
 
         return view
     }

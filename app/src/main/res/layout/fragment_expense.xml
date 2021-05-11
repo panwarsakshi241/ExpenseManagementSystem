@@ -4,7 +4,6 @@
     android:id="@+id/expense"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_background"
     tools:context=".fragments.expense.ExpenseFragment">
 
     <LinearLayout
@@ -142,7 +141,7 @@
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/purple_700"
             android:text="@string/income_save_btn" />
 
 
@@ -162,7 +161,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/green_200"
+            android:textColor="#ABD7FA"
             android:textStyle="bold" />
 
     </LinearLayout>

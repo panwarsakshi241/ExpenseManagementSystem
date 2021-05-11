@@ -14,10 +14,10 @@ import com.google.firebase.database.ValueEventListener
 
 class HomeFragment : Fragment() {
 
-    lateinit var addIncome: Button
-    lateinit var addExpense: Button
-    lateinit var addTrasfer: Button
-    lateinit var ViewReport: Button
+    lateinit var addIncome: ImageButton
+    lateinit var addExpense: ImageButton
+    lateinit var addTrasfer: ImageButton
+    lateinit var ViewReport: ImageButton
     lateinit var spinner: Spinner
     lateinit var incomeTV: TextView
     lateinit var expenseTV: TextView
@@ -217,22 +217,6 @@ class HomeFragment : Fragment() {
                 }
 
             })
-
-    }
-
-
-    private fun calculateCurrentBalance() {
-
-        calculateInitialAccountIncome()
-        calculateIncome()
-
-        Toast.makeText(
-            activity,
-            "${totalIncome - CalculatedExpense} ",
-            Toast.LENGTH_LONG
-        )
-            .show()
-//        currentBalanceTV.text = currentBalance.toString()
 
     }
 

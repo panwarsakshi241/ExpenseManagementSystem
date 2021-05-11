@@ -24,12 +24,12 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
 
-//, Communicator
 class MainActivity : AppCompatActivity() {
 
     lateinit var drawer_layout: DrawerLayout
     lateinit var navigation_view: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
+    lateinit var toolbar: Toolbar
 
     companion object {
         var currentUser: String? = ""
@@ -44,14 +44,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_ExpenseManagementSystem)
         setContentView(R.layout.activity_main)
-
+//        supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.hostfragment))
 
 
         drawer_layout = findViewById(R.id.drawer_layout)
         navigation_view = findViewById(R.id.navigation_view)
 
-//        setupViews()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         auth = FirebaseAuth.getInstance()
@@ -79,8 +78,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val navController = findNavController(R.id.hostfragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
+//        val navController = findNavController(R.id.hostfragment)
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+        return true
     }
 
     private fun navigationViewListener() {
@@ -143,16 +143,6 @@ class MainActivity : AppCompatActivity() {
                         .show()
                     drawer_layout.closeDrawers()
                 }
-                R.id.setting -> {
-//                    makeCurrentFragment(SettingFragment())
-                    findNavController(R.id.hostfragment).navigate(R.id.settingFragment)
-                    Toast.makeText(
-                        applicationContext,
-                        "Change your Settings", Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    drawer_layout.closeDrawers()
-                }
                 R.id.logout -> {
                     Toast.makeText(
                         applicationContext,
@@ -189,14 +179,10 @@ class MainActivity : AppCompatActivity() {
                         .show()
                     drawer_layout.closeDrawers()
                 }
-//                R.id.acountHolder -> {
-//                   val header = DrawerHeader()
-//                    header.loadProfile()
-//                }
+
             }
             true
         }
-
 
     }
 
@@ -208,17 +194,5 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this@MainActivity, user?.email, Toast.LENGTH_LONG).show()
 
     }
-
-//    fun setupViews(){
-//        setUpDrawerLayout()
-//    }
-//
-//    private fun setUpDrawerLayout() {
-//        setSupportActionBar(toolbar)
-//        toggle = ActionBarDrawerToggle(this,drawer_layout, toolbar ,R.string.open,R.string.close)
-//        drawer_layout.addDrawerListener(toggle)
-//        toggle.syncState()
-//    }
-
 
 }

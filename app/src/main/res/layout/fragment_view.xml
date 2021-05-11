@@ -33,7 +33,7 @@
             android:id="@+id/okayButton"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/purple_700"
             android:text="@string/view_btn"
             android:layout_marginEnd="5dp"/>
 
@@ -74,7 +74,7 @@
             android:id="@+id/viewbyDateButton"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/purple_700"
             android:text="@string/view_btn"
             android:layout_marginEnd="5dp"/>
 
@@ -83,7 +83,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Expense Details"
+        android:text="@string/expense_details_TV"
         android:layout_margin="5dp"/>
 
     <LinearLayout
