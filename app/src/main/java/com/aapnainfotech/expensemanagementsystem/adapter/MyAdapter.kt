@@ -15,9 +15,6 @@ class MyAdapter(val mctx : Context,
                 val expenseList : List<Expense>) : ArrayAdapter<Expense>(mctx , layoutResId , expenseList ) {
 
 
-    var xpense = ""
-    var totExp = 0
-    var total = 0
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater : LayoutInflater =  LayoutInflater.from(mctx)
 

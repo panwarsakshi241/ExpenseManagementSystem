@@ -38,7 +38,7 @@
     <string name="general_settings_tv">_______________General Settings_______________</string>
     <string name="delete_account_tv">Delete Account</string>
 
-    <string name="select">🔍 Select</string>
+    <string name="select">Select</string>
     <string name="cash"> Cash</string>
     <string name="pnb">PNB Bank</string>
     <string name="sbi">SBI Bank</string>

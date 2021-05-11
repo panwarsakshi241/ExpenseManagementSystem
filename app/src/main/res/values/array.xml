@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="expenseResources">
-<!--        <item>@string/select</item>-->
+        <item>@string/select</item>
         <item>@string/cash</item>
         <item>@string/pnb</item>
         <item>@string/sbi</item>

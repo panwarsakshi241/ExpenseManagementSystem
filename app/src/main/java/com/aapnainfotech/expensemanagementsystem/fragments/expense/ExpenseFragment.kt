@@ -62,12 +62,12 @@ class ExpenseFragment : Fragment() {
         val categoryArray = resources.getStringArray(R.array.category)
         val resourceArray = resources.getStringArray(R.array.Expense)
 
-        var user = MainActivity.currentUser?.replace(".","")
+        var user = MainActivity.currentUser?.replace(".", "")
 
         //initiating the Firebase Database
         ref = FirebaseDatabase.getInstance().getReference(user!!)
 
-        Toast.makeText(activity,MainActivity.currentUser , Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, MainActivity.currentUser, Toast.LENGTH_LONG).show()
 
         //setting onClick listener to date EditText
         setDate()
@@ -116,27 +116,30 @@ class ExpenseFragment : Fragment() {
         if (comment.isEmpty()
             || comment.isEmpty()
             || selectedDate.equals(getString(R.string.choose_date_TV))
-            ||selectedCategory.equals(getString(R.string.select))
-            || selectedresource.equals(getString(R.string.select))) {
+            || selectedCategory.equals(getString(R.string.select))
+            || selectedresource.equals(getString(R.string.select))
+        ) {
 
-            if (expense.isEmpty()){
+            if (expense.isEmpty()) {
                 addExpense.error = "Please enter Expense !"
                 return
             }
-            if (comment.isEmpty()){
+            if (comment.isEmpty()) {
                 expenseDetails.error = "Please fill the details "
                 return
             }
-            if (selectedDate.equals(getString(R.string.choose_date_TV))){
+            if (selectedDate.equals(getString(R.string.choose_date_TV))) {
                 expenseDate.error = "Please choose the date"
                 return
             }
-            if (selectedCategory.equals(getString(R.string.select))){
-                (expenseCategorySpinner.getSelectedView() as TextView ).error = "Please Choose some category"
+            if (selectedCategory.equals(getString(R.string.select))) {
+                (expenseCategorySpinner.getSelectedView() as TextView).error =
+                    "Please Choose some category"
                 return
             }
-            if (selectedresource.equals(getString(R.string.select))){
-                (expenseResourceSpinner.getSelectedView() as TextView ).error = "Please Choose some resource"
+            if (selectedresource.equals(getString(R.string.select))) {
+                (expenseResourceSpinner.getSelectedView() as TextView).error =
+                    "Please Choose some resource"
                 return
             }
 
@@ -146,10 +149,18 @@ class ExpenseFragment : Fragment() {
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
 
-        val path = "Expense/"+userId
+        val path = "Expense/$selectedCategory/" + userId
 
         val user =
-            Expense(userId, expense, selectedDate, selectedCategory, selectedresource, comment , timeStamp)
+            Expense(
+                userId,
+                expense,
+                selectedDate,
+                selectedCategory,
+                selectedresource,
+                comment,
+                timeStamp
+            )
 
         ref.child(path).setValue(user).addOnCompleteListener {
             Toast.makeText(activity, "Expense details saved successfully", Toast.LENGTH_SHORT)
@@ -182,14 +193,17 @@ class ExpenseFragment : Fragment() {
 
     }
 
-    private fun showDialogueBox(){
+    private fun showDialogueBox() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Are You Sure ??")
-        builder.setMessage("The Expense details are all correct?" +
-                " You wouldn't be able to make changes after you press okay .")
-        builder.setPositiveButton("Yes",{ dialogInterface: DialogInterface, i: Int ->
-            saveExpense() })
-        builder.setNegativeButton("No",{ dialogInterface: DialogInterface, i: Int ->
+        builder.setMessage(
+            "The Expense details are all correct?" +
+                    " You wouldn't be able to make changes after you press okay ."
+        )
+        builder.setPositiveButton("Yes", { dialogInterface: DialogInterface, i: Int ->
+            saveExpense()
+        })
+        builder.setNegativeButton("No", { dialogInterface: DialogInterface, i: Int ->
         })
         builder.show()
     }

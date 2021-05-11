@@ -10,6 +10,7 @@ import android.widget.*
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.adapter.MyAdapter
+import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.*
@@ -35,7 +36,8 @@ class ViewFragment : Fragment() {
     var days: String = ""
     var path = ""
 
-    var totexp = 0
+    var total = 0.0
+    var expense = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,8 +60,8 @@ class ViewFragment : Fragment() {
         incomeList = mutableListOf()
 
         val user = MainActivity.currentUser?.replace(".", "")
-
-        path = user + "/Expense"
+        val spinnerValue = selectedSpinnerItem
+        path = user + "/Expense/$spinnerValue"
 
 //        ref = FirebaseDatabase.getInstance().getReference(path)
 
@@ -88,15 +90,20 @@ class ViewFragment : Fragment() {
         //view report as per the selected number of days
         viewReports.setOnClickListener {
 
-//            if (days.equals(getString(R.string.select))){
-//            (selectDaysCount.getSelectedView() as TextView ).error = "Please select number of Days"
-//
-//            }
-            val query: Query =
-                FirebaseDatabase.getInstance().getReference(path).limitToFirst(days.toInt())
-            query.addListenerForSingleValueEvent(valueEventListener)
+            if (days.equals(getString(R.string.select))) {
 
-            Toast.makeText(activity, "View Reports of last $days days ", Toast.LENGTH_LONG).show()
+                (selectDaysCount.getSelectedView() as TextView).error =
+                    "Please select number of Days"
+
+            } else {
+
+                list.visibility = View.VISIBLE
+                val query: Query =
+                    FirebaseDatabase.getInstance().getReference(path).limitToLast(days.toInt())
+                query.addListenerForSingleValueEvent(valueEventListener)
+
+            }
+
         }
 
         //set on click listener on selectDate TextView
@@ -104,6 +111,7 @@ class ViewFragment : Fragment() {
 
         //view reports of selected date
         searchByDate.setOnClickListener {
+            list.visibility = View.VISIBLE
             val dateSelected = selectDate.text.toString()
             val query: Query =
                 FirebaseDatabase.getInstance().getReference(path)
@@ -129,10 +137,13 @@ class ViewFragment : Fragment() {
 
                     for (i in snapshot.children) {
 
+                        val key = i.key.toString()
                         val exp = i.getValue(Expense::class.java)
                         expenseList.add(exp!!)
 
                     }
+
+                    totalExpenseCalculated.text = expense
                     adapter.notifyDataSetChanged()
                 }
 

@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -20,24 +21,24 @@ import com.aapnainfotech.expensemanagementsystem.login.LoginActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
 
 //, Communicator
 class MainActivity : AppCompatActivity() {
 
-    lateinit var drawer_layout : DrawerLayout
-    lateinit var navigation_view : NavigationView
+    lateinit var drawer_layout: DrawerLayout
+    lateinit var navigation_view: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
 
-    companion object{
-        var currentUser :String? = ""
+    companion object {
+        var currentUser: String? = ""
     }
 
-    lateinit var auth : FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
-    var databaseReference : DatabaseReference? = null
-    var database : FirebaseDatabase? = null
-
+    var databaseReference: DatabaseReference? = null
+    var database: FirebaseDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +51,17 @@ class MainActivity : AppCompatActivity() {
         drawer_layout = findViewById(R.id.drawer_layout)
         navigation_view = findViewById(R.id.navigation_view)
 
+//        setupViews()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
         databaseReference = database?.reference!!.child("Profile")
 
-        toggle = ActionBarDrawerToggle(this,drawer_layout,R.string.open,R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         loadProfile()
         navigationViewListener()
@@ -68,103 +71,154 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (toggle.onOptionsItemSelected(item)){
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController= findNavController(R.id.hostfragment)
+        onBackPressed()
+        val navController = findNavController(R.id.hostfragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun navigationViewListener(){
+    private fun navigationViewListener() {
 
         navigation_view.setNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.home ->{
+            when (it.itemId) {
+                R.id.home -> {
                     findNavController(R.id.hostfragment).navigate(R.id.homeFragment)
-                    Toast.makeText(applicationContext,
-                        "home is Clicked",Toast.LENGTH_SHORT).show()
+                    drawer_layout.closeDrawers()
+                    Toast.makeText(
+                        applicationContext,
+                        "home is Clicked",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
 
                 }
-                R.id.update -> Toast.makeText(applicationContext,
-                    "update is under development",Toast.LENGTH_SHORT).show()
+                R.id.update -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "update is under development", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
 
-                R.id.history -> Toast.makeText(applicationContext,
-                    "History is under development", Toast.LENGTH_SHORT).show()
-
-                R.id.account ->{
+                R.id.history -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "History is under development",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+                R.id.account -> {
                     findNavController(R.id.hostfragment).navigate(R.id.accountFragment)
-                    Toast.makeText(applicationContext,
-                        "Enter your Account Details", Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(
+                        applicationContext,
+                        "Enter your Account Details",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
                 }
 
-                R.id.budget -> Toast.makeText(applicationContext,
-                    "Budget is under development", Toast.LENGTH_SHORT).show()
-
-                R.id.reports -> Toast.makeText(applicationContext,
-                    "Reports is under development", Toast.LENGTH_SHORT).show()
-
-                R.id.setting ->{
+                R.id.budget -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Budget is under development", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+                R.id.reports -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Reports is under development", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+                R.id.setting -> {
 //                    makeCurrentFragment(SettingFragment())
                     findNavController(R.id.hostfragment).navigate(R.id.settingFragment)
-                    Toast.makeText(applicationContext,
-                        "Change your Settings", Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(
+                        applicationContext,
+                        "Change your Settings", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
                 }
                 R.id.logout -> {
                     Toast.makeText(
                         applicationContext,
                         "Logout is Clicked", Toast.LENGTH_SHORT
-                    ).show()
+                    )
+                        .show()
 
                     auth.signOut()
-                    startActivity(Intent(this , LoginActivity::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
                     onBackPressed()
                 }
 
-                R.id.rateus -> Toast.makeText(applicationContext,
-                    "Rate us is Clicked", Toast.LENGTH_SHORT).show()
-
-                R.id.invite -> Toast.makeText(applicationContext,
-                    "Invite is Clicked", Toast.LENGTH_SHORT).show()
-
-                R.id.profilepicture -> Toast.makeText(applicationContext,
-                    "Profile picture is clicked",Toast.LENGTH_LONG).show()
-
-
+                R.id.rateus -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Rate us is Clicked", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+                R.id.invite -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Invite is Clicked", Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+                R.id.profilepicture -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Profile picture is clicked", Toast.LENGTH_LONG
+                    )
+                        .show()
+                    drawer_layout.closeDrawers()
+                }
+//                R.id.acountHolder -> {
+//                   val header = DrawerHeader()
+//                    header.loadProfile()
+//                }
             }
             true
         }
 
 
-
     }
 
-    private fun loadProfile(){
+    private fun loadProfile() {
         val user = auth.currentUser
-        val userreference = databaseReference?.child(user?.uid!!)
 
         currentUser = user?.email
-        Toast.makeText(this@MainActivity , user?.email , Toast.LENGTH_LONG).show()
 
-//        userreference?.addValueEventListener(object :ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//               currentUser  = snapshot.child("username").value.toString()
-//                Toast.makeText(this@MainActivity , user?.email , Toast.LENGTH_LONG).show()
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
+        Toast.makeText(this@MainActivity, user?.email, Toast.LENGTH_LONG).show()
 
     }
 
+//    fun setupViews(){
+//        setUpDrawerLayout()
+//    }
+//
+//    private fun setUpDrawerLayout() {
+//        setSupportActionBar(toolbar)
+//        toggle = ActionBarDrawerToggle(this,drawer_layout, toolbar ,R.string.open,R.string.close)
+//        drawer_layout.addDrawerListener(toggle)
+//        toggle.syncState()
+//    }
 
 
 }

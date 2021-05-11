@@ -20,13 +20,18 @@ class HomeFragment : Fragment() {
     lateinit var ViewReport: Button
     lateinit var spinner: Spinner
     lateinit var incomeTV: TextView
+    lateinit var expenseTV: TextView
+    lateinit var currentBalanceTV: TextView
 
+    companion object {
+        var selectedSpinnerItem: String = ""
+        var user: String? = ""
+        var CalculatedIncome: Double = 0.0
+        var CalculatedExpense: Double = 0.0
+        var InitialAccountIncome: Double = 0.0
+        var totalIncome: Double = 0.0
+    }
 
-    var selectedSpinnerItem: String = ""
-    var user: String? = ""
-    var CalculatedIncome: Double = 0.0
-    var InitialAccountIncome: Double = 0.0
-    var TotalIncome: Double = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +46,8 @@ class HomeFragment : Fragment() {
         addTrasfer = view.findViewById(R.id.addtransfer)
         ViewReport = view.findViewById(R.id.view)
         incomeTV = view.findViewById(R.id.income_shown)
+        expenseTV = view.findViewById(R.id.expense_shown)
+        currentBalanceTV = view.findViewById(R.id.current_balance_shown)
 
         spinner = view.findViewById(R.id.spinner)
 
@@ -56,7 +63,27 @@ class HomeFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedSpinnerItem = spinnerArray.get(p2)
 
-                calculateInitialAccountIncome()
+                if (selectedSpinnerItem.equals(getString(R.string.select))) {
+
+                    Toast.makeText(
+                        activity,
+                        "Please select category !!",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+
+                } else if (selectedSpinnerItem.equals(getString(R.string.allAccounts))) {
+                    Toast.makeText(
+                        activity,
+                        "yet to be implemented",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                } else {
+                    calculateInitialAccountIncome()
+                    calculateExpense()
+//                    calculateCurrentBalance()
+                }
 
 
             }
@@ -98,7 +125,8 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun calculateIncome() {
+    // retrieving data from the  Income
+    fun calculateIncome() {
 
         CalculatedIncome = 0.0
 
@@ -114,6 +142,7 @@ class HomeFragment : Fragment() {
                         CalculatedIncome += income.toInt()
                     }
 
+                    Toast.makeText(activity, "$CalculatedIncome", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -125,10 +154,10 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun calculateInitialAccountIncome() {
-
+    //retrieving data from the Account database
+    fun calculateInitialAccountIncome() {
         calculateIncome()
-
+        totalIncome = 0.0
         FirebaseDatabase.getInstance().getReference(user!! + "/Account/" + selectedSpinnerItem)
             .addValueEventListener(object :
                 ValueEventListener {
@@ -137,10 +166,11 @@ class HomeFragment : Fragment() {
                     val income = snapshot.child("amount").value.toString()
                     InitialAccountIncome = income.toDouble()
 
-                    val total = InitialAccountIncome + CalculatedIncome
-                    incomeTV.text = total.toString()
-
+                    totalIncome = InitialAccountIncome + CalculatedIncome
+                    incomeTV.text = totalIncome.toString()
+                    Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
                 }
+
 
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
@@ -150,5 +180,67 @@ class HomeFragment : Fragment() {
 
     }
 
+
+    fun calculateExpense() {
+
+        CalculatedExpense = 0.0
+
+        FirebaseDatabase.getInstance().getReference(user!! + "/Expense/" + selectedSpinnerItem)
+            .addValueEventListener(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    for (i in snapshot.children) {
+
+                        val key = i.key.toString()
+                        val expense = snapshot.child("$key/expense").value.toString()
+                        CalculatedExpense += expense.toInt()
+                    }
+                    expenseTV.text = CalculatedExpense.toString()
+
+                    val currentBalance = totalIncome - CalculatedExpense
+
+                    currentBalanceTV.text = currentBalance.toString()
+
+                    Toast.makeText(
+                        activity,
+                        CalculatedExpense.toString() + " and " + totalIncome,
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+
+                }
+
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+    }
+
+
+    private fun calculateCurrentBalance() {
+
+        calculateInitialAccountIncome()
+        calculateIncome()
+
+        Toast.makeText(
+            activity,
+            "${totalIncome - CalculatedExpense} ",
+            Toast.LENGTH_LONG
+        )
+            .show()
+//        currentBalanceTV.text = currentBalance.toString()
+
+    }
+
+
+    //calculate all account income details
+    private fun CalculateAllAcountIncome() {
+
+
+    }
 
 }
