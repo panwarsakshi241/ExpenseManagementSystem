@@ -140,6 +140,7 @@
     <string name="enter_new_password_ET">Enter new Password</string>
     <string name="separator">____________or____________</string>
     <string name="expense_details_TV">Expense Details</string>
+    <string name="my_dashboard_TV">My Dashboard</string>
 
 
 </resources>

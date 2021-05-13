@@ -1,5 +1,7 @@
 package com.aapnainfotech.expensemanagementsystem.fragments.account
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,7 +69,7 @@ class AccountFragment : Fragment() {
 
         saveBtn.setOnClickListener {
 
-            saveDetails()
+            showDialogueBox()
 
         }
 
@@ -105,6 +107,22 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.homeFragment)
         }
 
+    }
+
+    //dialogue Box
+    private fun showDialogueBox() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Are You Sure ??")
+        builder.setMessage(
+            "you haven't selected the same category ?" +
+                    "your data will be overwritten if you do so ."
+        )
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+            saveDetails()
+        }
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+        }
+        builder.show()
     }
 
 }

@@ -1,16 +1,30 @@
 package com.aapnainfotech.expensemanagementsystem.fragments.home
 
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.ContentProvider
+import android.content.ContentResolver
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_main.*
+import java.io.IOException
+import java.net.URI
 
 class HomeFragment : Fragment() {
 
@@ -22,6 +36,11 @@ class HomeFragment : Fragment() {
     lateinit var incomeTV: TextView
     lateinit var expenseTV: TextView
     lateinit var currentBalanceTV: TextView
+    lateinit var accountHolder: TextView
+    lateinit var profilePicture : CircleImageView
+
+    private val PICK_IMAGE :Int = 1
+    var imageUri : Uri?= null
 
     companion object {
         var selectedSpinnerItem: String = ""
@@ -48,14 +67,19 @@ class HomeFragment : Fragment() {
         incomeTV = view.findViewById(R.id.income_shown)
         expenseTV = view.findViewById(R.id.expense_shown)
         currentBalanceTV = view.findViewById(R.id.current_balance_shown)
+        accountHolder = view.findViewById(R.id.accountHolder)
+        profilePicture = view.findViewById(R.id.profilepicture)
 
         spinner = view.findViewById(R.id.spinner)
 
         user = MainActivity.currentUser?.replace(".", "")
 
+        val index = user?.indexOf('@')
+        val username = user?.substring(0,index!!)
+        accountHolder.text = "Welcome , $username !!"
+
         val spinnerArray = resources.getStringArray(R.array.expenseResources)
 
-        setHasOptionsMenu(true)
 
         spinner.onItemSelectedListener = object :
 
@@ -110,20 +134,40 @@ class HomeFragment : Fragment() {
         ViewReport.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_viewFragment)
         }
+
+
+        profilePicture.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(view: View?) {
+                val openGalleryIntent = Intent()
+                openGalleryIntent.setType("image/*")
+                openGalleryIntent.setAction(Intent.ACTION_GET_CONTENT)
+
+                startActivityForResult(Intent.createChooser(openGalleryIntent,"select picture") ,PICK_IMAGE)
+            }
+
+        })
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.nav_menu, menu)
-    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.setting) {
-            findNavController().navigate(R.id.settingFragment)
+        if (resultCode == PICK_IMAGE && resultCode == RESULT_OK){
+            imageUri = data!!.data
+
+            try {
+
+                val bitmap : Bitmap = MediaStore.Images.Media.getBitmap(getActivity()?.getApplicationContext()?.getContentResolver(),imageUri)
+                profilePicture.setImageBitmap(bitmap)
+
+            }catch (ae : IOException){
+
+                ae.printStackTrace()
+
+            }
+
         }
-        return super.onOptionsItemSelected(item)
     }
-
 
     // retrieving data from the  Income
     fun calculateIncome() {

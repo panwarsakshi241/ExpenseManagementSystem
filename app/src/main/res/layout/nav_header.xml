@@ -6,14 +6,13 @@
     android:background="@color/purple_700"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ImageView
         android:id="@+id/profilepicture"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_profile"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp" />
+        android:src="@drawable/ic_wallet_icon"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,16 +21,8 @@
         android:text="@string/XpenseManager"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/acountHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/acount_holder_name_TV"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="italic" />
 
 </LinearLayout>

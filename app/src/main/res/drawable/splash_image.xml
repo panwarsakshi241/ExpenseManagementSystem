@@ -5,16 +5,12 @@
         android:drawable="@color/white"/>
 
     <item
+        android:id="@+id/logo"
         android:drawable="@drawable/ic_wallet"
         android:gravity="center"
         android:width="200dp"
         android:height="200dp"
         />
-
-
-
-
-
 
 
 </layer-list>
