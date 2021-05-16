@@ -15,13 +15,11 @@ import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ViewFragment : Fragment() {
 
     lateinit var list: ListView
-    lateinit var viewReports: Button
 
     //    lateinit var ref: DatabaseReference
     lateinit var expenseList: MutableList<Expense>
@@ -32,11 +30,15 @@ class ViewFragment : Fragment() {
     lateinit var searchByDate: Button
     lateinit var adapter: MyAdapter
 
-    lateinit var selectDaysCount: Spinner
-    var days: String = ""
+    lateinit var selectFilterModeSpinner: Spinner
+    var selectedFilterOption: String = ""
     var path = ""
+    var dateSelected = ""
+    var user :String?=""
+    var spinnerValue=""
 
-    var total = 0.0
+    var index : Int = 0
+    var date : String =""
     var expense = ""
 
     override fun onCreateView(
@@ -47,31 +49,30 @@ class ViewFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_view, container, false)
         list = view.findViewById(R.id.viewList)
-        viewReports = view.findViewById(R.id.okayButton)
-        selectDaysCount = view.findViewById(R.id.selectDaysSpinner)
+        selectFilterModeSpinner = view.findViewById(R.id.selectDaysSpinner)
         searchByDate = view.findViewById(R.id.viewbyDateButton)
         selectDate = view.findViewById(R.id.DateEntered)
 
         totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
 
-        val daysArray = resources.getStringArray(R.array.selectNumberOfDays)
+        val filterMode = resources.getStringArray(R.array.selectfilterMode)
 
         expenseList = mutableListOf()
         incomeList = mutableListOf()
 
-        val user = MainActivity.currentUser?.replace(".", "")
-        val spinnerValue = selectedSpinnerItem
-        path = user + "/Expense/$spinnerValue"
+        user = MainActivity.currentUser?.replace(".", "")
+        spinnerValue = selectedSpinnerItem
+        path = "$user/Expense/$spinnerValue"
 
 //        ref = FirebaseDatabase.getInstance().getReference(path)
 
 
         //retrieving data from Select number of days spinner
-        selectDaysCount.onItemSelectedListener = object :
+        selectFilterModeSpinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                days = daysArray.get(p2)
+                selectedFilterOption = filterMode.get(p2)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -86,48 +87,79 @@ class ViewFragment : Fragment() {
         )
         list.adapter = adapter
 
-
-        //view report as per the selected number of days
-        viewReports.setOnClickListener {
-
-            if (days.equals(getString(R.string.select))) {
-
-                (selectDaysCount.getSelectedView() as TextView).error =
-                    "Please select number of Days"
-
-            } else {
-
-                list.visibility = View.VISIBLE
-                val query: Query =
-                    FirebaseDatabase.getInstance().getReference(path).limitToLast(days.toInt())
-                query.addListenerForSingleValueEvent(valueEventListener)
-
-            }
-
-        }
-
         //set on click listener on selectDate TextView
         setDate()
 
         //view reports of selected date
-        searchByDate.setOnClickListener {
-            list.visibility = View.VISIBLE
-            val dateSelected = selectDate.text.toString()
-            val query: Query =
-                FirebaseDatabase.getInstance().getReference(path)
-                    .orderByChild("date")
-                    .equalTo(dateSelected)
-            query.addListenerForSingleValueEvent(valueEventListener)
-
-            Toast.makeText(activity, "Under development", Toast.LENGTH_LONG).show()
-//            findExpenseByDate()
-        }
+        genrateReport()
 
 
         return view
     }
 
-    val valueEventListener = FirebaseDatabase.getInstance().getReference(path)
+
+    fun genrateReport(){
+
+
+        searchByDate.setOnClickListener {
+            list.visibility = View.VISIBLE
+            dateSelected = selectDate.text.toString()
+
+            index = dateSelected.lastIndexOf('/')
+            date = dateSelected.substring(0,index)
+
+            Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
+
+            val query: Query =
+                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+//                    .orderByChild("date")
+//                    .equalTo(dateSelected)
+            query.addListenerForSingleValueEvent(valueEventListener)
+        }
+
+
+//        if(selectedFilterOption.equals(getString(R.string.date))) {
+//
+//            //view reports of selected date
+//            searchByDate.setOnClickListener {
+//                list.visibility = View.VISIBLE
+//                dateSelected = selectDate.text.toString()
+//
+//                index = dateSelected.lastIndexOf('/')
+//                date = dateSelected.substring(0,index)
+//
+//                Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
+//
+//                val query: Query =
+//                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+//                        .orderByChild("date")
+//                        .equalTo(dateSelected)
+//                query.addListenerForSingleValueEvent(valueEventListener)
+//            }
+//        }
+//        if (selectedFilterOption.equals(getString(R.string.month))){
+//
+//            searchByDate.setOnClickListener {
+//                list.visibility = View.VISIBLE
+//                dateSelected = selectDate.text.toString()
+//
+//                index = dateSelected.lastIndexOf('/')
+//                date = dateSelected.substring(0,index)
+//
+//                val query: Query =
+//                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+//
+//                query.addListenerForSingleValueEvent(valueEventListener)
+//
+//
+//            }
+//
+//        }
+
+    }
+
+
+    val valueEventListener = FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
         .addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -169,7 +201,46 @@ class ViewFragment : Fragment() {
             val datepickerDialogue = DatePickerDialog(
                 requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
 
-                    selectDate.setText("$mDate/$mMonth/$mYear")
+                    var month =""
+
+                    if(mMonth == 0){
+                        month  = "January"
+                    }
+                    if(mMonth == 1){
+                        month  = "February"
+                    }
+                    if(mMonth == 2){
+                        month  = "March"
+                    }
+                    if(mMonth == 3){
+                        month  = "April"
+                    }
+                    if(mMonth == 4){
+                        month  = "May"
+                    }
+                    if(mMonth == 6){
+                        month  = "June"
+                    }
+                    if(mMonth == 7){
+                        month  = "July"
+                    }
+                    if(mMonth == 8){
+                        month  = "August"
+                    }
+                    if(mMonth == 9){
+                        month  = "September"
+                    }
+                    if(mMonth == 10){
+                        month  = "October"
+                    }
+                    if(mMonth == 11){
+                        month  = "November"
+                    }
+                    if(mMonth == 12){
+                        month  = "December"
+                    }
+
+                    selectDate.setText("$mYear/$month/$mDate")
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)

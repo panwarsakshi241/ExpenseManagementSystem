@@ -1,30 +1,28 @@
 package com.aapnainfotech.expensemanagementsystem.fragments.home
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.content.ContentProvider
-import android.content.ContentResolver
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
-import com.google.android.material.appbar.MaterialToolbar
+import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
-import java.net.URI
+import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class HomeFragment : Fragment() {
 
@@ -37,10 +35,11 @@ class HomeFragment : Fragment() {
     lateinit var expenseTV: TextView
     lateinit var currentBalanceTV: TextView
     lateinit var accountHolder: TextView
-    lateinit var profilePicture : CircleImageView
+    lateinit var profilePicture: CircleImageView
 
-    private val PICK_IMAGE :Int = 1
-    var imageUri : Uri?= null
+    private val PICK_IMAGE: Int = 1
+    var imageUri: Uri? = null
+    var bitmap: Bitmap? = null
 
     companion object {
         var selectedSpinnerItem: String = ""
@@ -49,6 +48,10 @@ class HomeFragment : Fragment() {
         var CalculatedExpense: Double = 0.0
         var InitialAccountIncome: Double = 0.0
         var totalIncome: Double = 0.0
+        var month = ""
+        var year = ""
+        var presentDate = ""
+        val dateTimeFormat = SimpleDateFormat("YYYY/MM/DD hh:mm:ss")
     }
 
 
@@ -75,8 +78,11 @@ class HomeFragment : Fragment() {
         user = MainActivity.currentUser?.replace(".", "")
 
         val index = user?.indexOf('@')
-        val username = user?.substring(0,index!!)
+        val username = user?.substring(0, index!!)
         accountHolder.text = "Welcome , $username !!"
+
+        val date = Date()
+        presentDate = IncomeFragment.dateTimeFormat.format(date)
 
         val spinnerArray = resources.getStringArray(R.array.expenseResources)
 
@@ -136,13 +142,17 @@ class HomeFragment : Fragment() {
         }
 
 
-        profilePicture.setOnClickListener(object : View.OnClickListener{
+        profilePicture.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+
                 val openGalleryIntent = Intent()
                 openGalleryIntent.setType("image/*")
                 openGalleryIntent.setAction(Intent.ACTION_GET_CONTENT)
 
-                startActivityForResult(Intent.createChooser(openGalleryIntent,"select picture") ,PICK_IMAGE)
+                startActivityForResult(
+                    Intent.createChooser(openGalleryIntent, "select picture"),
+                    PICK_IMAGE
+                )
             }
 
         })
@@ -152,15 +162,17 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == PICK_IMAGE && resultCode == RESULT_OK){
+        if (resultCode == PICK_IMAGE && resultCode == RESULT_OK) {
             imageUri = data!!.data
 
             try {
 
-                val bitmap : Bitmap = MediaStore.Images.Media.getBitmap(getActivity()?.getApplicationContext()?.getContentResolver(),imageUri)
+                val inputStream: InputStream? =
+                    activity?.applicationContext?.contentResolver?.openInputStream(imageUri!!)
+                bitmap = BitmapFactory.decodeStream(inputStream)
                 profilePicture.setImageBitmap(bitmap)
 
-            }catch (ae : IOException){
+            } catch (ae: IOException) {
 
                 ae.printStackTrace()
 
@@ -172,29 +184,85 @@ class HomeFragment : Fragment() {
     // retrieving data from the  Income
     fun calculateIncome() {
 
+        previousMonth()
         CalculatedIncome = 0.0
 
-        FirebaseDatabase.getInstance().getReference(user!! + "/Income/" + selectedSpinnerItem)
-            .addValueEventListener(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
 
-                    for (i in snapshot.children) {
+        try {
+            FirebaseDatabase.getInstance()
+                .getReference(user!! + "/Income/$year/$month/$selectedSpinnerItem")
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                        val key = i.key.toString()
-                        val income = snapshot.child("$key/income").value.toString()
-                        CalculatedIncome += income.toInt()
+                        for (i in snapshot.children) {
+
+                            val key = i.key.toString()
+                            val income = snapshot.child("$key/income").value.toString()
+                            CalculatedIncome += income.toInt()
+
+                        }
+
+                        Toast.makeText(activity, "$CalculatedIncome", Toast.LENGTH_LONG).show()
                     }
 
-                    Toast.makeText(activity, "$CalculatedIncome", Toast.LENGTH_LONG).show()
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                })
+        }catch (e : Exception){
+            e.stackTrace
+        }
 
-            })
+    }
 
+    //previous month
+    fun previousMonth() {
+
+        val f_index = presentDate.indexOf('/')
+        val l_index = presentDate.lastIndexOf('/')
+        val pMonth = presentDate.substring(f_index + 1, l_index)
+        val pYear = presentDate.substring(0, f_index)
+
+        if (pMonth == "01") {
+            month = "December"
+            val p_Year = pYear.toInt() - 1
+            year = p_Year.toString()
+        } else if (pMonth == "02") {
+            month = "January"
+            year = pYear
+        } else if (pMonth == "03") {
+            month = "February"
+            year = pYear
+        } else if (pMonth == "04") {
+            month = "March"
+            year = pYear
+        } else if (pMonth == "05") {
+            month = "April"
+            year = pYear
+        } else if (pMonth == "06") {
+            month = "May"
+            year = pYear
+        } else if (pMonth == "07") {
+            month = "June"
+            year = pYear
+        } else if (pMonth == "08") {
+            month = "July"
+            year = pYear
+        } else if (pMonth == "09") {
+            month = "August"
+            year = pYear
+        } else if (pMonth == "10") {
+            month = "September"
+            year = pYear
+        } else if (pMonth == "11") {
+            month = "October"
+            year = pYear
+        } else {
+            month = "November"
+            year = pYear
+        }
     }
 
 
@@ -227,40 +295,51 @@ class HomeFragment : Fragment() {
 
     fun calculateExpense() {
 
+        previousMonth()
         CalculatedExpense = 0.0
 
-        FirebaseDatabase.getInstance().getReference(user!! + "/Expense/" + selectedSpinnerItem)
-            .addValueEventListener(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+        try {
+            FirebaseDatabase.getInstance()
+                .getReference(user!! + "/Expense/$year/$month/$selectedSpinnerItem")
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                    for (i in snapshot.children) {
+                        for (i in snapshot.children) {
 
-                        val key = i.key.toString()
-                        val expense = snapshot.child("$key/expense").value.toString()
-                        CalculatedExpense += expense.toInt()
+                            val key = i.key.toString()
+                            val expense = snapshot.child("$key/expense").value.toString()
+                            CalculatedExpense += expense.toInt()
+                        }
+                        expenseTV.text = CalculatedExpense.toString()
+
+                        val currentBalance = totalIncome - CalculatedExpense
+
+                        currentBalanceTV.text = currentBalance.toString()
+
+                        Toast.makeText(
+                            activity,
+                            CalculatedExpense.toString() + " and " + totalIncome,
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+
                     }
-                    expenseTV.text = CalculatedExpense.toString()
-
-                    val currentBalance = totalIncome - CalculatedExpense
-
-                    currentBalanceTV.text = currentBalance.toString()
-
-                    Toast.makeText(
-                        activity,
-                        CalculatedExpense.toString() + " and " + totalIncome,
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-
-                }
 
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
 
-            })
+                })
+        } catch (e: Exception) {
+            e.stackTrace
+        }
+
+    }
+
+    fun currentDate() {
+
 
     }
 

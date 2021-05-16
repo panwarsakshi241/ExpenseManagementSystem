@@ -149,7 +149,9 @@ class ExpenseFragment : Fragment() {
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
 
-        val path = "Expense/$selectedCategory/" + userId
+        val index = selectedDate.lastIndexOf('/')
+        val date = selectedDate.substring(0,index)
+        val path = "Expense/$date/$selectedCategory/$userId"
 
         val user =
             Expense(
@@ -181,7 +183,47 @@ class ExpenseFragment : Fragment() {
             val datepickerDialogue = DatePickerDialog(
                 requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
 
-                    expenseDate.setText("$mDate/$mMonth/$mYear")
+
+                    var month =""
+
+                    if(mMonth == 0){
+                        month  = "January"
+                    }
+                    if(mMonth == 1){
+                        month  = "February"
+                    }
+                    if(mMonth == 2){
+                        month  = "March"
+                    }
+                    if(mMonth == 3){
+                        month  = "April"
+                    }
+                    if(mMonth == 4){
+                        month  = "May"
+                    }
+                    if(mMonth == 6){
+                        month  = "June"
+                    }
+                    if(mMonth == 7){
+                        month  = "July"
+                    }
+                    if(mMonth == 8){
+                        month  = "August"
+                    }
+                    if(mMonth == 9){
+                        month  = "September"
+                    }
+                    if(mMonth == 10){
+                        month  = "October"
+                    }
+                    if(mMonth == 11){
+                        month  = "November"
+                    }
+                    if(mMonth == 12){
+                        month  = "December"
+                    }
+
+                    expenseDate.setText("$mYear/$month/$mDate")
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)

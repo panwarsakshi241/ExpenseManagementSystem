@@ -89,38 +89,9 @@
 
     <!--Number of Days -->
 
-    <string name="one">1 </string>
-    <string name="two">2 </string>
-    <string name="three">3 </string>
-    <string name="four">4 </string>
-    <string name="five">5 </string>
-    <string name="six">6</string>
-    <string name="seven">7</string>
-    <string name="eight">8</string>
-    <string name="nine">9</string>
-    <string name="ten">10</string>
-    <string name="eleven">11</string>
-    <string name="twelve">12</string>
-    <string name="thirteen">13</string>
-    <string name="forteen">14</string>
-    <string name="fifteen">15</string>
-    <string name="sixteen">16</string>
-    <string name="seventeen">17</string>
-    <string name="eighteen">18</string>
-    <string name="ninteen">19</string>
-    <string name="twenty">20</string>
-    <string name="twentyOne">21</string>
-    <string name="twentyTwo">22</string>
-    <string name="twentyThree">23</string>
-    <string name="twentyFour">24</string>
-    <string name="twentyFive">25</string>
-    <string name="twentySix">26</string>
-    <string name="twentySeven">27</string>
-    <string name="twentyEight">28</string>
-    <string name="twentyNine">29</string>
-    <string name="thirty">30</string>
-    <string name="thirtyOne">31</string>
-    <string name="number_of_days_TV">Select Days</string>
+    <string name="date">Date</string>
+    <string name="month">Month</string>
+    <string name="filterMode">Filter by</string>
     <string name="add_income_btn">Add Income</string>
     <string name="add_expense_btn">Add Expense</string>
     <string name="transfer_btn">Transfer</string>
@@ -128,6 +99,7 @@
     <string name="selectDateTV">Select Date</string>
     <string name="_23_04_2021_date">Select Date</string>
     <string name="total_expense_calculated">Total Expense Calculated</string>
+    <string name="generateReport">Generate Reports</string>
     <string name="Initial_amount">Amount</string>
     <string name="add_initial_amount_e_g_2000_ET">Add initial amount e.g $2000</string>
     <string name="account_note">Please fill the below form correctly to help the system to calculate your expense. All your details will remain confidential and will be accessible to you only.</string>

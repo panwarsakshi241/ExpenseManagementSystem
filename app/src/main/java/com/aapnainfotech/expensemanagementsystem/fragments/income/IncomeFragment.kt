@@ -4,16 +4,17 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.*
+import java.text.DateFormat.getDateInstance
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +35,7 @@ class IncomeFragment : Fragment() {
     var user : String? = ""
 
     companion object {
-        val dateTimeFormat = SimpleDateFormat("yyyy/mm/dd hh:mm:ss")
+        val dateTimeFormat = SimpleDateFormat("YYYY/MM/DD hh:mm:ss")
     }
 
 
@@ -138,7 +139,10 @@ class IncomeFragment : Fragment() {
 
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
-        val path = "Income/" + selectedcategory+"/"+userId
+
+        val index = selectedDate.lastIndexOf('/')
+        val date = selectedDate.substring(0,index)
+        val path = "Income/$date/$selectedcategory/$userId"
 
         val user =
             Income(userId, income, selectedDate, selectedcategory, selectedResource, timeStamp)
@@ -156,7 +160,46 @@ class IncomeFragment : Fragment() {
         val datepickerDialogue = DatePickerDialog(
             requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
 
-                addDate.setText("$mDate/$mMonth/$mYear")
+                var month =""
+
+                if(mMonth == 0){
+                   month  = "January"
+                }
+                if(mMonth == 1){
+                    month  = "February"
+                }
+                if(mMonth == 2){
+                    month  = "March"
+                }
+                if(mMonth == 3){
+                    month  = "April"
+                }
+                if(mMonth == 4){
+                    month  = "May"
+                }
+                if(mMonth == 6){
+                    month  = "June"
+                }
+                if(mMonth == 7){
+                    month  = "July"
+                }
+                if(mMonth == 8){
+                    month  = "August"
+                }
+                if(mMonth == 9){
+                    month  = "September"
+                }
+                if(mMonth == 10){
+                    month  = "October"
+                }
+                if(mMonth == 11){
+                    month  = "November"
+                }
+                if(mMonth == 12){
+                    month  = "December"
+                }
+
+                addDate.setText("$mYear/$month/$mDate")
             }, Calendar.getInstance().get(Calendar.YEAR),
             Calendar.getInstance().get(Calendar.MONTH),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
