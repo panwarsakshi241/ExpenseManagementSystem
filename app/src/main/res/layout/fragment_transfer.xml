@@ -24,7 +24,7 @@
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Amount Transfered" />
+            android:text="@string/amount_transfered_TV" />
 
         <EditText
             android:id="@+id/transferedAmountET"
@@ -50,7 +50,7 @@
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Source Account" />
+            android:text="@string/source_account_TV" />
 
         <Spinner
             android:id="@+id/sourceAccountspinner"
@@ -75,7 +75,7 @@
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Target Account" />
+            android:text="@string/target_account_TV" />
 
         <Spinner
             android:id="@+id/targetAccountSpinner"
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_input"
-            android:entries="@array/resource"
+            android:entries="@array/category"
             android:padding="5dp"
             android:popupBackground="@color/teal" />
 
@@ -115,6 +115,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/transferBtn"
         style="@style/expenseManagementSystemH2"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

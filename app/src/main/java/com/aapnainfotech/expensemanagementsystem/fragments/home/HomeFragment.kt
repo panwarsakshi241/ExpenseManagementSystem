@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         var month = ""
         var year = ""
         var presentDate = ""
-        val dateTimeFormat = SimpleDateFormat("YYYY/MM/DD hh:mm:ss")
+        val dateTimeFormat = SimpleDateFormat("YYYY/MM/dd hh:mm:ss")
     }
 
 

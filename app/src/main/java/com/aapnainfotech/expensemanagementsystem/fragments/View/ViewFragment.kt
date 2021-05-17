@@ -34,11 +34,11 @@ class ViewFragment : Fragment() {
     var selectedFilterOption: String = ""
     var path = ""
     var dateSelected = ""
-    var user :String?=""
-    var spinnerValue=""
+    var user: String? = ""
+    var spinnerValue = ""
 
-    var index : Int = 0
-    var date : String =""
+    var index: Int = 0
+    var date: String = ""
     var expense = ""
 
     override fun onCreateView(
@@ -62,10 +62,6 @@ class ViewFragment : Fragment() {
 
         user = MainActivity.currentUser?.replace(".", "")
         spinnerValue = selectedSpinnerItem
-        path = "$user/Expense/$spinnerValue"
-
-//        ref = FirebaseDatabase.getInstance().getReference(path)
-
 
         //retrieving data from Select number of days spinner
         selectFilterModeSpinner.onItemSelectedListener = object :
@@ -98,100 +94,100 @@ class ViewFragment : Fragment() {
     }
 
 
-    fun genrateReport(){
+    fun genrateReport() {
 
 
-        searchByDate.setOnClickListener {
-            list.visibility = View.VISIBLE
-            dateSelected = selectDate.text.toString()
-
-            index = dateSelected.lastIndexOf('/')
-            date = dateSelected.substring(0,index)
-
-            Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
-
-            val query: Query =
-                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+//        searchByDate.setOnClickListener {
+//            list.visibility = View.VISIBLE
+//            dateSelected = selectDate.text.toString()
+//
+//            index = dateSelected.lastIndexOf('/')
+//            date = dateSelected.substring(0,index)
+//
+//            Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
+//
+//            val query: Query =
+//                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
 //                    .orderByChild("date")
 //                    .equalTo(dateSelected)
-            query.addListenerForSingleValueEvent(valueEventListener)
+//            query.addListenerForSingleValueEvent(valueEventListener)
+//        }
+
+
+        if (selectedFilterOption.equals(getString(R.string.date))) {
+
+            //view reports of selected date
+            searchByDate.setOnClickListener {
+                list.visibility = View.VISIBLE
+                dateSelected = selectDate.text.toString()
+
+                index = dateSelected.lastIndexOf('/')
+                date = dateSelected.substring(0, index)
+
+                Toast.makeText(activity, "View Button clicked !", Toast.LENGTH_LONG).show()
+
+                val query: Query =
+                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+                        .orderByChild("date")
+                        .equalTo(dateSelected)
+                query.addListenerForSingleValueEvent(valueEventListener)
+            }
+        } else {
+
+            searchByDate.setOnClickListener {
+                list.visibility = View.VISIBLE
+                dateSelected = selectDate.text.toString()
+
+                index = dateSelected.lastIndexOf('/')
+                date = dateSelected.substring(0, index)
+
+                val query: Query =
+                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+
+                query.addListenerForSingleValueEvent(valueEventListener)
+
+
+            }
+
         }
-
-
-//        if(selectedFilterOption.equals(getString(R.string.date))) {
-//
-//            //view reports of selected date
-//            searchByDate.setOnClickListener {
-//                list.visibility = View.VISIBLE
-//                dateSelected = selectDate.text.toString()
-//
-//                index = dateSelected.lastIndexOf('/')
-//                date = dateSelected.substring(0,index)
-//
-//                Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
-//
-//                val query: Query =
-//                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-//                        .orderByChild("date")
-//                        .equalTo(dateSelected)
-//                query.addListenerForSingleValueEvent(valueEventListener)
-//            }
-//        }
-//        if (selectedFilterOption.equals(getString(R.string.month))){
-//
-//            searchByDate.setOnClickListener {
-//                list.visibility = View.VISIBLE
-//                dateSelected = selectDate.text.toString()
-//
-//                index = dateSelected.lastIndexOf('/')
-//                date = dateSelected.substring(0,index)
-//
-//                val query: Query =
-//                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-//
-//                query.addListenerForSingleValueEvent(valueEventListener)
-//
-//
-//            }
-//
-//        }
 
     }
 
 
-    val valueEventListener = FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-        .addValueEventListener(object : ValueEventListener {
+    val valueEventListener =
+        FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+            .addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
+                override fun onDataChange(snapshot: DataSnapshot) {
 
-                if (snapshot.exists()) {
-                    expenseList.clear()
+                    if (snapshot.exists()) {
+                        expenseList.clear()
 
-                    for (i in snapshot.children) {
+                        for (i in snapshot.children) {
 
-                        val key = i.key.toString()
-                        val exp = i.getValue(Expense::class.java)
-                        expenseList.add(exp!!)
+                            val key = i.key.toString()
+                            val exp = i.getValue(Expense::class.java)
+                            expenseList.add(exp!!)
 
+                        }
+
+                        totalExpenseCalculated.text = expense
+                        adapter.notifyDataSetChanged()
                     }
 
-                    totalExpenseCalculated.text = expense
-                    adapter.notifyDataSetChanged()
+
                 }
 
+                /**
+                 * DataSnapshot contains all the values of this database node (ref)
+                 *
+                 */
 
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-            /**
-             * DataSnapshot contains all the values of this database node (ref)
-             *
-             */
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+            })
 
     // set date
     private fun setDate() {
@@ -201,43 +197,43 @@ class ViewFragment : Fragment() {
             val datepickerDialogue = DatePickerDialog(
                 requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
 
-                    var month =""
+                    var month = ""
 
-                    if(mMonth == 0){
-                        month  = "January"
+                    if (mMonth == 0) {
+                        month = "January"
                     }
-                    if(mMonth == 1){
-                        month  = "February"
+                    if (mMonth == 1) {
+                        month = "February"
                     }
-                    if(mMonth == 2){
-                        month  = "March"
+                    if (mMonth == 2) {
+                        month = "March"
                     }
-                    if(mMonth == 3){
-                        month  = "April"
+                    if (mMonth == 3) {
+                        month = "April"
                     }
-                    if(mMonth == 4){
-                        month  = "May"
+                    if (mMonth == 4) {
+                        month = "May"
                     }
-                    if(mMonth == 6){
-                        month  = "June"
+                    if (mMonth == 6) {
+                        month = "June"
                     }
-                    if(mMonth == 7){
-                        month  = "July"
+                    if (mMonth == 7) {
+                        month = "July"
                     }
-                    if(mMonth == 8){
-                        month  = "August"
+                    if (mMonth == 8) {
+                        month = "August"
                     }
-                    if(mMonth == 9){
-                        month  = "September"
+                    if (mMonth == 9) {
+                        month = "September"
                     }
-                    if(mMonth == 10){
-                        month  = "October"
+                    if (mMonth == 10) {
+                        month = "October"
                     }
-                    if(mMonth == 11){
-                        month  = "November"
+                    if (mMonth == 11) {
+                        month = "November"
                     }
-                    if(mMonth == 12){
-                        month  = "December"
+                    if (mMonth == 12) {
+                        month = "December"
                     }
 
                     selectDate.setText("$mYear/$month/$mDate")

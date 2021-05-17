@@ -35,7 +35,7 @@ class IncomeFragment : Fragment() {
     var user : String? = ""
 
     companion object {
-        val dateTimeFormat = SimpleDateFormat("YYYY/MM/DD hh:mm:ss")
+        val dateTimeFormat = SimpleDateFormat("YYYY/MM/dd hh:mm:ss")
     }
 
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,28 +9,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/generateReport"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:text="@string/generateReport" />
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/selectNoOfDays"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="match_parent"
+            style="@style/viewStyle"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/filterMode" />
 
         <Spinner
             android:id="@+id/selectDaysSpinner"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="match_parent"
+            style="@style/viewStyle"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:entries="@array/selectfilterMode"
             android:padding="10dp"
@@ -39,48 +36,47 @@
 
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/selectDate"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="match_parent"
+            style="@style/viewStyle"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/selectDateTV" />
 
         <TextView
             android:id="@+id/DateEntered"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="match_parent"
+            style="@style/viewStyle"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:autofillHints="@string/_23_04_2021_date"
             android:background="@drawable/custom_input"
             android:hint="@string/_23_04_2021_date"
-            android:autofillHints="@string/_23_04_2021_date" />
+            android:padding="5dp" />
 
 
     </LinearLayout>
 
     <Button
         android:id="@+id/viewbyDateButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="25dp"
         android:backgroundTint="@color/purple_700"
-        android:text="@string/view_btn"
-        android:layout_marginEnd="5dp"
         android:gravity="center"
-        android:layout_gravity="center"/>
+        android:text="@string/view_btn" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/expense_details_TV"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:text="@string/expense_details_TV" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -89,18 +85,18 @@
 
         <TextView
             android:id="@+id/totalExpense"
-            style="@style/expenseManagementSystemH2"
+            style="@style/viewStyle"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/total_expense_calculated" />
 
         <TextView
             android:id="@+id/totalExpenseCalculated"
-            style="@style/expenseManagementSystemH2"
+            style="@style/viewStyle"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:background="@drawable/custom_input"
+            android:padding="5dp"
             android:text="@string/Hint_2000" />
 
 
@@ -112,7 +108,6 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:padding="10dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </LinearLayout>
