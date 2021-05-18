@@ -54,6 +54,7 @@
     </string-array>
 
     <string-array name="selectfilterMode">
+        <item>@string/select</item>
         <item>@string/date</item>
         <item>@string/month</item>
     </string-array>

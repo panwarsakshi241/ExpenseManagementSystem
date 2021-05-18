@@ -12,7 +12,6 @@ import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.adapter.MyAdapter
 import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
-import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.*
 import java.util.*
 
@@ -23,7 +22,6 @@ class ViewFragment : Fragment() {
 
     //    lateinit var ref: DatabaseReference
     lateinit var expenseList: MutableList<Expense>
-    lateinit var incomeList: MutableList<Income>
     lateinit var selectDate: TextView
     lateinit var totalExpenseCalculated: TextView
 
@@ -49,33 +47,19 @@ class ViewFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_view, container, false)
         list = view.findViewById(R.id.viewList)
-        selectFilterModeSpinner = view.findViewById(R.id.selectDaysSpinner)
+        selectFilterModeSpinner = view.findViewById(R.id.selectFilterOption)
         searchByDate = view.findViewById(R.id.viewbyDateButton)
         selectDate = view.findViewById(R.id.DateEntered)
 
         totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
 
-        val filterMode = resources.getStringArray(R.array.selectfilterMode)
-
         expenseList = mutableListOf()
-        incomeList = mutableListOf()
 
         user = MainActivity.currentUser?.replace(".", "")
         spinnerValue = selectedSpinnerItem
 
         //retrieving data from Select number of days spinner
-        selectFilterModeSpinner.onItemSelectedListener = object :
-
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectedFilterOption = filterMode.get(p2)
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
+        filterBySpinnerValue()
 
         adapter = MyAdapter(
             requireContext(),
@@ -87,8 +71,11 @@ class ViewFragment : Fragment() {
         setDate()
 
         //view reports of selected date
-        genrateReport()
+        searchByDate.setOnClickListener {
 
+            genrateReport()
+
+        }
 
         return view
     }
@@ -96,58 +83,35 @@ class ViewFragment : Fragment() {
 
     fun genrateReport() {
 
+        list.visibility = View.VISIBLE
+        dateSelected = selectDate.text.toString()
 
-//        searchByDate.setOnClickListener {
-//            list.visibility = View.VISIBLE
-//            dateSelected = selectDate.text.toString()
-//
-//            index = dateSelected.lastIndexOf('/')
-//            date = dateSelected.substring(0,index)
-//
-//            Toast.makeText(activity,"View Button clicked !",Toast.LENGTH_LONG).show()
-//
-//            val query: Query =
-//                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-//                    .orderByChild("date")
-//                    .equalTo(dateSelected)
-//            query.addListenerForSingleValueEvent(valueEventListener)
-//        }
+        index = dateSelected.lastIndexOf('/')
+        date = dateSelected.substring(0, index)
 
+        if(selectedFilterOption.equals(getString(R.string.select))){
+            (selectFilterModeSpinner.getSelectedView() as TextView).error =
+                "Please Choose some category"
+            return
+        }
 
         if (selectedFilterOption.equals(getString(R.string.date))) {
 
             //view reports of selected date
-            searchByDate.setOnClickListener {
-                list.visibility = View.VISIBLE
-                dateSelected = selectDate.text.toString()
 
-                index = dateSelected.lastIndexOf('/')
-                date = dateSelected.substring(0, index)
+            val query: Query =
+                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+                    .orderByChild("date")
+                    .equalTo(dateSelected)
+            query.addListenerForSingleValueEvent(valueEventListener)
 
-                Toast.makeText(activity, "View Button clicked !", Toast.LENGTH_LONG).show()
-
-                val query: Query =
-                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-                        .orderByChild("date")
-                        .equalTo(dateSelected)
-                query.addListenerForSingleValueEvent(valueEventListener)
-            }
         } else {
 
-            searchByDate.setOnClickListener {
-                list.visibility = View.VISIBLE
-                dateSelected = selectDate.text.toString()
+            val query: Query =
+                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
 
-                index = dateSelected.lastIndexOf('/')
-                date = dateSelected.substring(0, index)
+            query.addListenerForSingleValueEvent(valueEventListener)
 
-                val query: Query =
-                    FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
-
-                query.addListenerForSingleValueEvent(valueEventListener)
-
-
-            }
 
         }
 
@@ -165,7 +129,6 @@ class ViewFragment : Fragment() {
 
                         for (i in snapshot.children) {
 
-                            val key = i.key.toString()
                             val exp = i.getValue(Expense::class.java)
                             expenseList.add(exp!!)
 
@@ -243,6 +206,24 @@ class ViewFragment : Fragment() {
             )
 
             datepickerDialogue.show()
+
+        }
+
+    }
+
+    fun filterBySpinnerValue() {
+
+        selectFilterModeSpinner.onItemSelectedListener = object :
+
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val filterByArray = resources.getStringArray(R.array.selectfilterMode)
+                selectedFilterOption = filterByArray.get(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
 
         }
 

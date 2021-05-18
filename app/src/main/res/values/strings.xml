@@ -113,7 +113,7 @@
     <string name="separator">____________or____________</string>
     <string name="expense_details_TV">Expense Details</string>
     <string name="my_dashboard_TV">My Dashboard</string>
-    <string name="amount_transfered_TV">Amount Transfered</string>
+    <string name="amount_transfered_TV">Amount Transferred</string>
     <string name="source_account_TV">Source Account</string>
     <string name="target_account_TV">Target Account</string>
 
