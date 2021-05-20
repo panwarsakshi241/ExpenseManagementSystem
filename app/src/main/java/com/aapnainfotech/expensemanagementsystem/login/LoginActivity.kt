@@ -119,8 +119,6 @@ class LoginActivity : AppCompatActivity() {
 
                                 //if authentication is successfullly done
                                 if (task.isSuccessful) {
-                                    // firebase register user
-                                    val firebaseUser: FirebaseUser = task.result!!.user!!
 
                                     Toast.makeText(
                                         this,

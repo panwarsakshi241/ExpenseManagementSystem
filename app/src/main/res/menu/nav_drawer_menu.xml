@@ -10,16 +10,6 @@
             android:title="@string/home_menuItem" />
 
         <item
-            android:id="@+id/update"
-            android:icon="@drawable/ic_update"
-            android:title="@string/update_menuItem" />
-
-        <item
-            android:id="@+id/history"
-            android:icon="@drawable/ic_history"
-            android:title="@string/history_menuItem" />
-
-        <item
             android:id="@+id/account"
             android:icon="@drawable/ic_account"
             android:title="@string/account_menuItem" />

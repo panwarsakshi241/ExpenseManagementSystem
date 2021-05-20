@@ -71,11 +71,11 @@ class SettingFragment : Fragment() {
 
             with(builder) {
                 setTitle("Change Password")
-                setPositiveButton("change password") { dialog, which ->
+                setPositiveButton("change password") { _, _ ->
                     //change password
                     changePassword()
                 }
-                setNegativeButton("Cancel") { dialog, which ->
+                setNegativeButton("Cancel") { _, _ ->
 
                 }
                 setView(dialogLayout)
@@ -136,8 +136,8 @@ class SettingFragment : Fragment() {
                         .getCredential(user.email!!, currentPassword.text.toString())
 
                     // Prompt the user to re-provide their sign-in credentials
-                    user?.reauthenticate(credential)
-                        ?.addOnCompleteListener {
+                    user.reauthenticate(credential)
+                        .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 Toast.makeText(
                                     activity,
@@ -145,8 +145,8 @@ class SettingFragment : Fragment() {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                user?.updatePassword(newpassword.text.toString())
-                                    ?.addOnCompleteListener { task ->
+                                user.updatePassword(newpassword.text.toString())
+                                    .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             Toast.makeText(
                                                 activity,

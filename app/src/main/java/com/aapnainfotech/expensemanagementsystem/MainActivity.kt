@@ -154,24 +154,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
                         .show()
 
                 }
-                R.id.update -> {
-                    Toast.makeText(
-                        applicationContext,
-                        "update is under development", Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    drawer_layout.closeDrawers()
-                }
 
-                R.id.history -> {
-                    Toast.makeText(
-                        applicationContext,
-                        "History is under development",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    drawer_layout.closeDrawers()
-                }
                 R.id.account -> {
 
                     findNavController(R.id.hostfragment).navigate(R.id.accountFragment)

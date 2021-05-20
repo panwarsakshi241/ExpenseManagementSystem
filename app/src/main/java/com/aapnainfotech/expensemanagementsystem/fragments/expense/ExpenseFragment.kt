@@ -181,7 +181,7 @@ class ExpenseFragment : Fragment() {
 
 
             val datepickerDialogue = DatePickerDialog(
-                requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
+                requireContext(), DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDate ->
 
 
                     var month =""
@@ -242,10 +242,10 @@ class ExpenseFragment : Fragment() {
             "The Expense details are all correct?" +
                     " You wouldn't be able to make changes after you press okay ."
         )
-        builder.setPositiveButton("Yes", { dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes", { _: DialogInterface, _: Int ->
             saveExpense()
         })
-        builder.setNegativeButton("No", { dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No", { _: DialogInterface, _: Int ->
         })
         builder.show()
     }

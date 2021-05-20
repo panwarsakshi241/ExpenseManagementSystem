@@ -158,7 +158,7 @@ class ViewFragment : Fragment() {
         selectDate.setOnClickListener {
 
             val datepickerDialogue = DatePickerDialog(
-                requireContext(), DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDate ->
+                requireContext(), DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDate ->
 
                     var month = ""
 
