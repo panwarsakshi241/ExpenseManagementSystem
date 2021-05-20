@@ -49,7 +49,7 @@ class AccountFragment : Fragment() {
         timeStamp = IncomeFragment.dateTimeFormat.format(date)
 
         val user = MainActivity.currentUser?.replace(".","")
-        ref = FirebaseDatabase.getInstance().getReference(user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
 
         //retrieve data drom the Select category Spinner
 

@@ -116,6 +116,11 @@
     <string name="amount_transfered_TV">Amount Transferred</string>
     <string name="source_account_TV">Source Account</string>
     <string name="target_account_TV">Target Account</string>
+    <string name="skip_TV">skip</string>
+    <string name="add_incomeTV">Add\nIncome</string>
+    <string name="add_expense">Add\nExpense</string>
+    <string name="add_transferTV">Add\nTransfer</string>
+    <string name="view_reportTV">View\nReport</string>
 
 
 </resources>

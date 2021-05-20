@@ -100,7 +100,7 @@ class ViewFragment : Fragment() {
             //view reports of selected date
 
             val query: Query =
-                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+                FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
                     .orderByChild("date")
                     .equalTo(dateSelected)
             query.addListenerForSingleValueEvent(valueEventListener)
@@ -108,7 +108,7 @@ class ViewFragment : Fragment() {
         } else {
 
             val query: Query =
-                FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+                FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
 
             query.addListenerForSingleValueEvent(valueEventListener)
 
@@ -119,7 +119,7 @@ class ViewFragment : Fragment() {
 
 
     val valueEventListener =
-        FirebaseDatabase.getInstance().getReference("$user/Expense/$date/$spinnerValue")
+        FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
             .addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {

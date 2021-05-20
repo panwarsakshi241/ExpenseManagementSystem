@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 app:navigationIcon="@drawable/ic_hamburger"
                 app:title="@string/app_name"
-                app:titleTextColor="@color/white"/>
+                app:titleTextColor="@color/white" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

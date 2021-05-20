@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 import java.io.InputStream
+import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +43,7 @@ class HomeFragment : Fragment() {
     var bitmap: Bitmap? = null
 
     companion object {
+
         var selectedSpinnerItem: String = ""
         var user: String? = ""
         var CalculatedIncome: Double = 0.0
@@ -51,7 +53,7 @@ class HomeFragment : Fragment() {
         var month = ""
         var year = ""
         var presentDate = ""
-        val dateTimeFormat = SimpleDateFormat("YYYY/MM/dd hh:mm:ss")
+
     }
 
 
@@ -110,9 +112,10 @@ class HomeFragment : Fragment() {
                     )
                         .show()
                 } else {
+
                     calculateInitialAccountIncome()
                     calculateExpense()
-//                    calculateCurrentBalance()
+
                 }
 
 
@@ -190,7 +193,7 @@ class HomeFragment : Fragment() {
 
         try {
             FirebaseDatabase.getInstance()
-                .getReference(user!! + "/Income/$year/$month/$selectedSpinnerItem")
+                .getReference("Users/"+user!! + "/Income/$year/$month/$selectedSpinnerItem")
                 .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -211,8 +214,8 @@ class HomeFragment : Fragment() {
                     }
 
                 })
-        }catch (e : Exception){
-            e.stackTrace
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
@@ -270,25 +273,42 @@ class HomeFragment : Fragment() {
     fun calculateInitialAccountIncome() {
         calculateIncome()
         totalIncome = 0.0
-        FirebaseDatabase.getInstance().getReference(user!! + "/Account/" + selectedSpinnerItem)
-            .addValueEventListener(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+        try {
+            FirebaseDatabase.getInstance().getReference("Users/"+user!! + "/Account/" + selectedSpinnerItem)
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        try {
 
-                    val income = snapshot.child("amount").value.toString()
-                    InitialAccountIncome = income.toDouble()
+                            val income = snapshot.child("amount").value.toString()
+                            InitialAccountIncome = income.toDouble()
 
-                    totalIncome = InitialAccountIncome + CalculatedIncome
-                    incomeTV.text = totalIncome.toString()
-                    Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
-                }
+                            totalIncome = InitialAccountIncome + CalculatedIncome
+                            incomeTV.text = totalIncome.toString()
+
+                        } catch (e: NumberFormatException) {
+
+                            Toast.makeText(
+                                activity,
+                                "Please add the account your details !",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+
+                        }
+
+                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
+                    }
 
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
 
-            })
+                })
+        } catch (ae: Exception) {
+            ae.stackTrace
+        }
 
     }
 
@@ -300,7 +320,7 @@ class HomeFragment : Fragment() {
 
         try {
             FirebaseDatabase.getInstance()
-                .getReference(user!! + "/Expense/$year/$month/$selectedSpinnerItem")
+                .getReference("Users/"+user!! + "/Expense/$year/$month/$selectedSpinnerItem")
                 .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -335,18 +355,6 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             e.stackTrace
         }
-
-    }
-
-    fun currentDate() {
-
-
-    }
-
-
-    //calculate all account income details
-    private fun CalculateAllAcountIncome() {
-
 
     }
 

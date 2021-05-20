@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         databaseReference = database?.reference!!.child("Profile")
 
 
-        toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
             .apply {
                 drawer_layout.addDrawerListener(this)
                 this.syncState()
@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
 //        toggle.syncState()
 
         supportFragmentManager.addOnBackStackChangedListener(this)
-//        displayHomeUporHamburger()
 
 
         loadProfile()
@@ -136,9 +135,8 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-//        val navController = findNavController(R.id.hostfragment)
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-        return true
+        val navController = findNavController(R.id.hostfragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     private fun navigationViewListener() {

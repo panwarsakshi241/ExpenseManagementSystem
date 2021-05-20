@@ -47,7 +47,7 @@ class IncomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_income, container, false)
 
         user = MainActivity.currentUser?.replace(".", "")
-        ref = FirebaseDatabase.getInstance().getReference(user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
 
         addDate = view.findViewById(R.id.addDateTV)
         saveIncome = view.findViewById(R.id.incomeSave)

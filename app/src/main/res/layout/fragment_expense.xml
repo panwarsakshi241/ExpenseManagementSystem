@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/expense"
     android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/expenseManagementSystemH2"
+            style="@style/settingStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/expense_note"
@@ -136,13 +137,15 @@
             android:text="@string/comment_note"
             android:textColor="@color/green" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveExpense"
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_700"
-            android:text="@string/income_save_btn" />
+            android:backgroundTint="@color/teal_700"
+            android:text="@string/income_save_btn"
+            android:textColor="@color/white"
+            app:cornerRadius="20dp" />
 
 
         <ImageView

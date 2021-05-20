@@ -62,10 +62,10 @@ class ExpenseFragment : Fragment() {
         val categoryArray = resources.getStringArray(R.array.category)
         val resourceArray = resources.getStringArray(R.array.Expense)
 
-        var user = MainActivity.currentUser?.replace(".", "")
+        val user = MainActivity.currentUser?.replace(".", "")
 
         //initiating the Firebase Database
-        ref = FirebaseDatabase.getInstance().getReference(user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
 
         Toast.makeText(activity, MainActivity.currentUser, Toast.LENGTH_LONG).show()
 

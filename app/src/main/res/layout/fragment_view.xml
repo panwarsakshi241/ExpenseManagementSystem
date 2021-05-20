@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.home.HomeFragment">
 
@@ -62,15 +63,16 @@
 
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/viewbyDateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="25dp"
-        android:backgroundTint="@color/purple_700"
+        android:backgroundTint="@color/teal_700"
         android:gravity="center"
-        android:text="@string/view_btn" />
+        android:text="@string/view_btn"
+        app:cornerRadius="20dp"/>
 
     <TextView
         android:layout_width="match_parent"

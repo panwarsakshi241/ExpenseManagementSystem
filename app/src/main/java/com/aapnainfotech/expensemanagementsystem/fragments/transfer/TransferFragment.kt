@@ -51,7 +51,7 @@ class TransferFragment : Fragment() {
         transferedAmountET = view.findViewById(R.id.transferedAmountET)
 
         user = MainActivity.currentUser?.replace(".", "")
-        ref = FirebaseDatabase.getInstance().getReference(user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
 
         sourceAccountSpinnerValue()
         targetAccountSpinnerValue()
