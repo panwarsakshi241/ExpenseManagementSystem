@@ -1,33 +1,32 @@
 package com.aapnainfotech.expensemanagementsystem
 
-import android.content.DialogInterface
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.view.View.inflate
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
-import com.aapnainfotech.expensemanagementsystem.fragments.setting.SettingFragment
 import com.aapnainfotech.expensemanagementsystem.login.LoginActivity
+import com.aapnainfotech.expensemanagementsystem.model.Budget
+import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
 
@@ -35,11 +34,20 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
     lateinit var navigation_view: NavigationView
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var toolbar: Toolbar
+    lateinit var ref: DatabaseReference
     private var mToolBarNavigationListenerIsRegistered: Boolean = false
+
+    //budget planning dialog box views
+
+    lateinit var BudgetAmount: EditText
+    lateinit var selectMonth: Spinner
 
     companion object {
         var currentUser: String? = ""
     }
+
+    var timeStamp = ""
+    var selectedMonth = ""
 
     lateinit var auth: FirebaseAuth
 
@@ -66,6 +74,9 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         database = FirebaseDatabase.getInstance()
         databaseReference = database?.reference!!.child("Profile")
 
+        loadProfile()
+        val current_user = currentUser?.replace(".","")
+        ref = FirebaseDatabase.getInstance().getReference("Users/" + current_user)
 
         toggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
             .apply {
@@ -77,15 +88,13 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
 
         supportFragmentManager.addOnBackStackChangedListener(this)
 
-
-        loadProfile()
         navigationViewListener()
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-       val inflater =  menuInflater
-        inflater.inflate(R.menu.nav_menu,menu)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.nav_menu, menu)
         return true
     }
 
@@ -170,9 +179,12 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
                 }
 
                 R.id.budget -> {
+
+                    showDialogBox()
+
                     Toast.makeText(
                         applicationContext,
-                        "Budget is under development", Toast.LENGTH_SHORT
+                        "Plan your monthly budget !", Toast.LENGTH_SHORT
                     )
                         .show()
                     drawer_layout.closeDrawers()
@@ -254,5 +266,89 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
     override fun onBackStackChanged() {
 //        displayHomeUporHamburger()
     }
+
+
+    fun showDialogBox() {
+
+        val builder = AlertDialog.Builder(this)
+        val inflater: LayoutInflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.budget_planning_dialog_layout, null)
+
+        BudgetAmount = dialogLayout.findViewById(R.id.enterBudgetAmtET)
+        selectMonth = dialogLayout.findViewById(R.id.selectMonthSpinner)
+        val saveButton = dialogLayout.findViewById<Button>(R.id.saveButton)
+        val cancelButton = dialogLayout.findViewById<Button>(R.id.cancelButton)
+
+        selectMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val monthArray = resources.getStringArray(R.array.selectMonth)
+                selectedMonth = monthArray.get(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        
+        with(builder) {
+            setTitle("Plan Your Budget")
+
+            saveButton.setOnClickListener {
+                //saveBudgetDetails
+                saveBudgetDetails()
+            }
+            cancelButton.setOnClickListener {
+                findNavController(R.id.hostfragment).navigate(R.id.homeFragment)
+            }
+            setView(dialogLayout)
+            show()
+        }
+
+    }
+
+    private fun saveBudgetDetails() {
+
+        if (BudgetAmount.text.isNotEmpty()
+            && !selectedMonth.equals(getString(R.string.select))
+        ) {
+
+            val userId: String =
+                ref.push().key.toString()
+
+            val amt = BudgetAmount.text.toString().trim()
+            //timeStamp
+            val date = Date()
+            timeStamp = IncomeFragment.dateTimeFormat.format(date)
+
+            val year = timeStamp.substring(0, 4)
+            val path = "Budget/$year/$selectedMonth"
+
+            val user = Budget(
+                userId,
+                amt,
+                selectedMonth,
+                timeStamp
+            )
+
+            ref.child(path).setValue(user).addOnCompleteListener {
+                Toast.makeText(this, "Budget details saved successfully", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        } else {
+
+            if (BudgetAmount.text.isEmpty()) {
+                BudgetAmount.error = "Please enter Expense !"
+                return
+            }
+            if (selectedMonth.equals(getString(R.string.select))) {
+                (selectMonth.getSelectedView() as TextView).error =
+                    "Please Choose some category"
+                return
+            }
+        }
+    }
+
 
 }

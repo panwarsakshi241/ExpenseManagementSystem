@@ -121,7 +121,21 @@
     <string name="add_expense">Add\nExpense</string>
     <string name="add_transferTV">Add\nTransfer</string>
     <string name="view_reportTV">View\nReport</string>
+    <string name="budget_amount_TV">Budget Amount</string>
+    <string name="select_month_Tv">Select Month</string>
 
-
+    <string name="jan">January</string>
+    <string name="feb">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="aug">August</string>
+    <string name="sep">September</string>
+    <string name="oct">October</string>
+    <string name="nov">November</string>
+    <string name="dec">December</string>
+    <string name="cancel_dialogbox_btn">Cancel</string>
 
 </resources>

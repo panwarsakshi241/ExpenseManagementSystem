@@ -59,4 +59,22 @@
         <item>@string/month</item>
     </string-array>
 
+    <string-array name="selectMonth">
+
+        <item>@string/select</item>
+        <item>@string/jan</item>
+        <item>@string/feb</item>
+        <item>@string/march</item>
+        <item>@string/april</item>
+        <item>@string/may</item>
+        <item>@string/june</item>
+        <item>@string/july</item>
+        <item>@string/aug</item>
+        <item>@string/sep</item>
+        <item>@string/oct</item>
+        <item>@string/nov</item>
+        <item>@string/dec</item>
+
+    </string-array>
+
 </resources>

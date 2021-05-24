@@ -21,7 +21,8 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 import java.io.InputStream
 import java.lang.NumberFormatException
-import java.text.SimpleDateFormat
+import com.tapadoo.alerter.Alerter
+import java.time.Year
 import java.util.*
 
 
@@ -52,7 +53,11 @@ class HomeFragment : Fragment() {
         var totalIncome: Double = 0.0
         var month = ""
         var year = ""
+        var cMonth = ""
+        var cYear = ""
         var presentDate = ""
+        var allAccountExpense = 0.0
+        var budgetAmount = 0.0
 
     }
 
@@ -105,6 +110,10 @@ class HomeFragment : Fragment() {
                         .show()
 
                 } else if (selectedSpinnerItem.equals(getString(R.string.allAccounts))) {
+
+//                    allAccountIncomeOfPreviousMonth()
+                    CumulativeInitialIncome()
+
                     Toast.makeText(
                         activity,
                         "yet to be implemented",
@@ -114,6 +123,7 @@ class HomeFragment : Fragment() {
                 } else {
 
                     calculateInitialAccountIncome()
+
                     calculateExpense()
 
                 }
@@ -159,6 +169,9 @@ class HomeFragment : Fragment() {
             }
 
         })
+
+        getBudgetAmount()
+
         return view
     }
 
@@ -193,7 +206,7 @@ class HomeFragment : Fragment() {
 
         try {
             FirebaseDatabase.getInstance()
-                .getReference("Users/"+user!! + "/Income/$year/$month/$selectedSpinnerItem")
+                .getReference("Users/" + user!! + "/Income/$year/$month/$selectedSpinnerItem")
                 .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -230,40 +243,64 @@ class HomeFragment : Fragment() {
 
         if (pMonth == "01") {
             month = "December"
+            cMonth = "January"
+            cYear = pYear
             val p_Year = pYear.toInt() - 1
             year = p_Year.toString()
         } else if (pMonth == "02") {
             month = "January"
+            cMonth = "February"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "03") {
             month = "February"
+            cMonth = "March"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "04") {
             month = "March"
+            cMonth = "April"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "05") {
             month = "April"
+            cMonth = "May"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "06") {
             month = "May"
+            cMonth = "June"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "07") {
             month = "June"
+            cMonth = "July"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "08") {
             month = "July"
+            cMonth = "August"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "09") {
             month = "August"
+            cMonth = "September"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "10") {
             month = "September"
+            cMonth = "October"
+            cYear = pYear
             year = pYear
         } else if (pMonth == "11") {
             month = "October"
+            cMonth = "November"
+            cYear = pYear
             year = pYear
         } else {
             month = "November"
+            cMonth = "December"
+            cYear = pYear
             year = pYear
         }
     }
@@ -274,7 +311,8 @@ class HomeFragment : Fragment() {
         calculateIncome()
         totalIncome = 0.0
         try {
-            FirebaseDatabase.getInstance().getReference("Users/"+user!! + "/Account/" + selectedSpinnerItem)
+            FirebaseDatabase.getInstance()
+                .getReference("Users/" + user!! + "/Account/" + selectedSpinnerItem)
                 .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -297,7 +335,7 @@ class HomeFragment : Fragment() {
 
                         }
 
-                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
                     }
 
 
@@ -320,7 +358,7 @@ class HomeFragment : Fragment() {
 
         try {
             FirebaseDatabase.getInstance()
-                .getReference("Users/"+user!! + "/Expense/$year/$month/$selectedSpinnerItem")
+                .getReference("Users/" + user!! + "/Expense/$year/$month/$selectedSpinnerItem")
                 .addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -355,6 +393,261 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             e.stackTrace
         }
+
+    }
+
+
+    //function to calculate the total expense of current month
+
+    fun calculateAllAccountExpense() {
+
+        previousMonth()
+        allAccountExpense = 0.0
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        for (i in 1 until len - 1) {
+
+            val category = categoryArray.get(i)
+            try {
+
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Expense/$cYear/$cMonth/$category")
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (j in snapshot.children) {
+
+                                val key = j.key.toString()
+                                val expense = snapshot.child("$key/expense").value.toString()
+                                allAccountExpense += expense.toInt()
+
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+
+            } catch (ae: Exception) {
+
+                ae.stackTrace
+
+            }
+
+        }
+
+    }
+
+    // retrieve the budget amount from the firebase real time database
+
+    fun getBudgetAmount() {
+
+        previousMonth()
+        budgetAmount = 0.0
+        calculateAllAccountExpense()
+
+        try {
+
+            FirebaseDatabase.getInstance()
+                .getReference("Users/$user/Budget/$cYear/$cMonth")
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        val Amt = snapshot.child("amount").value.toString()
+
+                        Toast.makeText(
+                            activity,
+                            "budget amount : $Amt and $allAccountExpense",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        budgetAmount = Amt.toDouble()
+
+                        if (allAccountExpense > budgetAmount) {
+
+                            //send Alert Notification
+                            sendAlertNotification()
+
+
+                        }
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
+        } catch (e: Exception) {
+
+            e.stackTrace
+
+        }
+
+    }
+
+
+    // send Alert notification if the user exceeds the budget limit
+
+    private fun sendAlertNotification() {
+
+        Alerter.create(activity)
+            .setTitle("WARNING !!")
+            .setText("Expense Reached the Limit !")
+            .setIcon(R.drawable.ic_warning)
+            .setBackgroundColorRes(R.color.yellow_200)
+            .setDuration(6000)
+            .setOnClickListener(View.OnClickListener {
+
+                Toast.makeText(
+                    activity,
+                    "Alert Clicked !",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+
+            }).show()
+
+    }
+
+    // function to calculate the total income (Commulative of all accounts )of the previous month
+    fun allAccountIncomeOfPreviousMonth() {
+
+        previousMonth()
+//        calculateInitialAccountIncome()
+        CalculatedIncome = 0.0
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        for (i in 1 until len - 1) {
+
+            val category = categoryArray.get(i)
+            try {
+
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Income/$year/$month/$category")
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (j in snapshot.children) {
+
+                                val key = j.key.toString()
+                                val income = snapshot.child("$key/income").value.toString()
+                                CalculatedIncome += income.toInt()
+
+                            }
+
+                            Toast.makeText(
+                                activity,
+                                "CalculatedIncome : $CalculatedIncome",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+//                            totalIncome = InitialAccountIncome + CalculatedIncome
+//
+//                            Toast.makeText(
+//                                activity,
+//                                "Total income : $totalIncome  and InitialAccountIncome : $InitialAccountIncome and Calculated Income : $CalculatedIncome",
+//                                Toast.LENGTH_LONG
+//                            )
+//                                .show()
+//                            incomeTV.text = totalIncome.toString()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+
+            } catch (ae: Exception) {
+
+                ae.stackTrace
+
+            }
+
+        }
+
+
+    }
+
+    //calculate all category initial account income
+    fun CumulativeInitialIncome() {
+
+        allAccountIncomeOfPreviousMonth()
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        totalIncome = 0.0
+        var totalInitialAmount = 0.0
+
+        for (i in 1 until len-1) {
+            val category = categoryArray.get(i)
+            try {
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Account/" + category)
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            try {
+
+                                val income = snapshot.child("amount").value.toString()
+                                InitialAccountIncome = income.toDouble()
+
+                                totalInitialAmount += InitialAccountIncome
+                                totalIncome = totalInitialAmount + CalculatedIncome
+
+                                Toast.makeText(
+                                    activity,
+                                    "Total income : $totalIncome  and TotalInitialAmount : $totalInitialAmount and Calculated Income : $CalculatedIncome",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+
+                                incomeTV.text = totalIncome.toString()
+
+                            } catch (e: NumberFormatException) {
+
+                                Toast.makeText(
+                                    activity,
+                                    "Please add the account your details !",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+
+                            }
+
+//                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
+                        }
+
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+            } catch (ae: Exception) {
+                ae.stackTrace
+            }
+
+
+        }
+
+
+    }
+
+    //function to calculate the total expense (commulative of all accounts) of the previous month
+    fun allAccountExpenseOfPreviousMonth() {
+
 
     }
 

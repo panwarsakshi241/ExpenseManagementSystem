@@ -74,8 +74,8 @@ class LoginActivity : AppCompatActivity() {
             before: Int,
             count: Int
         ) {
-            var nameInput = username.text.toString().trim()
-            var passwordInput = password.text.toString().trim()
+            val nameInput = username.text.toString().trim()
+            val passwordInput = password.text.toString().trim()
 
             login.setEnabled(!nameInput.isEmpty() && !passwordInput.isEmpty())
         }

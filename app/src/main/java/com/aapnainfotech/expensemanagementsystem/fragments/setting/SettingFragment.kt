@@ -212,7 +212,7 @@ class SettingFragment : Fragment() {
 
         val firebase = FirebaseAuth.getInstance()
         val firebaseUser = firebase.currentUser
-        firebaseUser.delete().addOnCompleteListener(object : OnCompleteListener<Void> {
+        firebaseUser?.delete()?.addOnCompleteListener(object : OnCompleteListener<Void> {
 
             override fun onComplete(task: Task<Void>) {
                 if (task.isSuccessful) {

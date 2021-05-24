@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_background"
         android:orientation="vertical">
 
         <LinearLayout
@@ -30,7 +29,7 @@
                     android:layout_margin="10dp"
                     android:fontFamily="@font/arbutus_slab"
                     android:text="@string/my_dashboard_TV"
-                    android:textColor="@color/teal_700" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/accountHolder"
@@ -38,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@string/acount_holder_name_TV"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="14sp" />
 
 
@@ -51,7 +50,7 @@
                 android:layout_margin="10dp"
                 android:gravity="end"
                 android:src="@drawable/ic_profile"
-                app:civ_border_color="@color/teal_700"
+                app:civ_border_color="@color/black"
                 app:civ_border_width="2dp" />
 
         </LinearLayout>
@@ -334,12 +333,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/yellow_200" />
+            android:background="@color/teal" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/teal_200" />
+            android:background="@color/teal_700" />
 
     </LinearLayout>
 
