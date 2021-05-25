@@ -22,7 +22,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.lang.NumberFormatException
 import com.tapadoo.alerter.Alerter
-import java.time.Year
 import java.util.*
 
 
@@ -38,6 +37,12 @@ class HomeFragment : Fragment() {
     lateinit var currentBalanceTV: TextView
     lateinit var accountHolder: TextView
     lateinit var profilePicture: CircleImageView
+    lateinit var year_TV: TextView
+    lateinit var month_TV: TextView
+    lateinit var amount_TV: TextView
+    lateinit var currentMonthIncome: TextView
+    lateinit var currentMonthExpense: TextView
+    lateinit var BalanceOfThisMonth: TextView
 
     private val PICK_IMAGE: Int = 1
     var imageUri: Uri? = null
@@ -59,6 +64,12 @@ class HomeFragment : Fragment() {
         var allAccountExpense = 0.0
         var budgetAmount = 0.0
 
+        var thisMonthIncome = 0.0
+        var thisMonthExpense = 0.0
+        var totalIncomeOfThisMonth = 0.0
+        var thisMonthBalance = 0.0
+        var thisMonthInitialAccountIncome = 0.0
+
     }
 
 
@@ -79,6 +90,12 @@ class HomeFragment : Fragment() {
         currentBalanceTV = view.findViewById(R.id.current_balance_shown)
         accountHolder = view.findViewById(R.id.accountHolder)
         profilePicture = view.findViewById(R.id.profilepicture)
+        year_TV = view.findViewById(R.id.year)
+        month_TV = view.findViewById(R.id.month)
+        amount_TV = view.findViewById(R.id.amount)
+        currentMonthIncome = view.findViewById(R.id.this_month_income_shown)
+        currentMonthExpense = view.findViewById(R.id.this_month_expense_shown)
+        BalanceOfThisMonth = view.findViewById(R.id.this_month_current_balance_shown)
 
         spinner = view.findViewById(R.id.spinner)
 
@@ -92,7 +109,7 @@ class HomeFragment : Fragment() {
         presentDate = IncomeFragment.dateTimeFormat.format(date)
 
         val spinnerArray = resources.getStringArray(R.array.expenseResources)
-
+        setMonthlPlanData()
 
         spinner.onItemSelectedListener = object :
 
@@ -111,6 +128,11 @@ class HomeFragment : Fragment() {
 
                 } else if (selectedSpinnerItem.equals(getString(R.string.allAccounts))) {
 
+                    //this month
+                    cumulativeInitialAccountIncomeOfThisMonth()
+                    calculateAllAccountExpense()
+
+                    //previous month
                     CumulativeInitialIncome()
                     allAccountExpenseOfPreviousMonth()
 
@@ -118,6 +140,10 @@ class HomeFragment : Fragment() {
                 } else {
 
                     calculateInitialAccountIncome()
+
+                    //this month
+                    calculateThisMonthExpense()
+                    //previous month
                     calculateExpense()
 
                 }
@@ -298,11 +324,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    //setting monthly plan
+    fun setMonthlPlanData() {
+
+        previousMonth()
+        year_TV.text = "Year \n$cYear"
+        month_TV.text = "Month \n$cMonth"
+
+    }
+
 
     //retrieving data from the Account database
     fun calculateInitialAccountIncome() {
         calculateIncome()
+        calculateThisMonthIncome()
         totalIncome = 0.0
+        totalIncomeOfThisMonth = 0.0
         try {
             FirebaseDatabase.getInstance()
                 .getReference("Users/" + user!! + "/Account/" + selectedSpinnerItem)
@@ -315,7 +352,10 @@ class HomeFragment : Fragment() {
                             InitialAccountIncome = income.toDouble()
 
                             totalIncome = InitialAccountIncome + CalculatedIncome
+                            totalIncomeOfThisMonth = InitialAccountIncome + thisMonthIncome
+
                             incomeTV.text = totalIncome.toString()
+                            currentMonthIncome.text = totalIncomeOfThisMonth.toString()
 
                         } catch (e: NumberFormatException) {
 
@@ -409,6 +449,12 @@ class HomeFragment : Fragment() {
                                 allAccountExpense += expense.toInt()
 
                             }
+
+                            currentMonthExpense.text = allAccountExpense.toString()
+
+                            val currentBalance = totalIncomeOfThisMonth - allAccountExpense
+
+                            BalanceOfThisMonth.text = currentBalance.toString()
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -443,15 +489,29 @@ class HomeFragment : Fragment() {
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
-                        val Amt = snapshot.child("amount").value.toString()
+                        try {
+                            val Amt = snapshot.child("amount").value.toString()
 
-                        budgetAmount = Amt.toDouble()
+                            budgetAmount = Amt.toDouble()
 
-                        if (allAccountExpense > budgetAmount) {
+                            //setting budegt amount in the text view
+                            amount_TV.text = "Amount \n" + budgetAmount
 
-                            //send Alert Notification
-                            sendAlertNotification()
+                            if (allAccountExpense > budgetAmount) {
 
+                                //send Alert Notification
+                                sendAlertNotification()
+
+
+                            }
+                        } catch (e: NumberFormatException) {
+
+                            Toast.makeText(
+                                activity,
+                                "Please plan your Budget for this month !",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
 
                         }
 
@@ -500,7 +560,6 @@ class HomeFragment : Fragment() {
     fun allAccountIncomeOfPreviousMonth() {
 
         previousMonth()
-//        calculateInitialAccountIncome()
         CalculatedIncome = 0.0
 
         val categoryArray = resources.getStringArray(R.array.expenseResources)
@@ -539,7 +598,6 @@ class HomeFragment : Fragment() {
             }
 
         }
-
 
     }
 
@@ -646,6 +704,183 @@ class HomeFragment : Fragment() {
 
                 ae.stackTrace
 
+            }
+
+        }
+
+    }
+
+    //calculate income of this month
+    fun calculateThisMonthIncome() {
+        previousMonth()
+
+        thisMonthIncome = 0.0
+
+
+        try {
+            FirebaseDatabase.getInstance()
+                .getReference("Users/" + user!! + "/Income/$cYear/$cMonth/$selectedSpinnerItem")
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        for (i in snapshot.children) {
+
+                            val key = i.key.toString()
+                            val income = snapshot.child("$key/income").value.toString()
+                            thisMonthIncome += income.toInt()
+
+                        }
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
+    }
+
+    //caculate this month epense
+    fun calculateThisMonthExpense() {
+
+        previousMonth()
+        thisMonthExpense = 0.0
+
+        try {
+            FirebaseDatabase.getInstance()
+                .getReference("Users/" + user!! + "/Expense/$cYear/$cMonth/$selectedSpinnerItem")
+                .addValueEventListener(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        for (i in snapshot.children) {
+
+                            val key = i.key.toString()
+                            val expense = snapshot.child("$key/expense").value.toString()
+                            thisMonthExpense += expense.toInt()
+                        }
+                        currentMonthExpense.text = thisMonthExpense.toString()
+
+                        val currentBalance = totalIncomeOfThisMonth - thisMonthExpense
+
+                        BalanceOfThisMonth.text = currentBalance.toString()
+
+                    }
+
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+        } catch (e: Exception) {
+            e.stackTrace
+        }
+
+    }
+
+    //calculate cumulative income
+    fun cumulativeIncomeOfThisMonth() {
+
+        previousMonth()
+        thisMonthIncome = 0.0
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        for (i in 1 until len - 1) {
+
+            val category = categoryArray.get(i)
+            try {
+
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Income/$cYear/$cMonth/$category")
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (j in snapshot.children) {
+
+                                val key = j.key.toString()
+                                val income = snapshot.child("$key/income").value.toString()
+                                thisMonthIncome += income.toInt()
+
+                            }
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+
+            } catch (ae: Exception) {
+
+                ae.stackTrace
+
+            }
+
+        }
+
+    }
+
+    //calculate cumulative income of this month
+    fun cumulativeInitialAccountIncomeOfThisMonth() {
+
+        cumulativeIncomeOfThisMonth()
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        totalIncomeOfThisMonth = 0.0
+        var totalInitialAmount = 0.0
+
+        for (i in 1 until len - 1) {
+            val category = categoryArray.get(i)
+            try {
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Account/" + category)
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            try {
+
+                                val income = snapshot.child("amount").value.toString()
+                                thisMonthInitialAccountIncome = income.toDouble()
+
+                                totalInitialAmount += thisMonthInitialAccountIncome
+                                totalIncomeOfThisMonth = totalInitialAmount + thisMonthIncome
+
+
+                                currentMonthIncome.text = totalIncomeOfThisMonth.toString()
+
+                            } catch (e: NumberFormatException) {
+
+                                Toast.makeText(
+                                    activity,
+                                    "Please add your account details !",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+
+                            }
+
+                        }
+
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+            } catch (ae: Exception) {
+                ae.stackTrace
             }
 
 

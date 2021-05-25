@@ -47,10 +47,10 @@
     <string name="allAccounts">All Accounts</string>
     <string name="others">Others</string>
 
-    <string name="monthly_report_textView">Monthly Report</string>
-    <string name="income_tv">Income</string>
+    <string name="previous_month_report_textView"> Previous Month Report</string>
+    <string name="income_tv">Total Income</string>
     <string name="incomeShown">₹ 00.00</string>
-    <string name="expense_added">Expense</string>
+    <string name="expense_added">Total Expense</string>
     <string name="current_balance_TV">Current Balance</string>
     <string name="previous_balance_TV">Previous Balance</string>
     <string name="account_menuItem">Account</string>
@@ -137,5 +137,10 @@
     <string name="nov">November</string>
     <string name="dec">December</string>
     <string name="cancel_dialogbox_btn">Cancel</string>
+    <string name="monthly_report_TV">Monthly Report</string>
+    <string name="monthly_plan_TV">Monthly Plan</string>
+    <string name="year_TV">Year</string>
+    <string name="month_TV">Month</string>
+    <string name="amount_TV">Amount</string>
 
 </resources>
