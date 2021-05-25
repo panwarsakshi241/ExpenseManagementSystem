@@ -111,19 +111,13 @@ class HomeFragment : Fragment() {
 
                 } else if (selectedSpinnerItem.equals(getString(R.string.allAccounts))) {
 
-//                    allAccountIncomeOfPreviousMonth()
                     CumulativeInitialIncome()
+                    allAccountExpenseOfPreviousMonth()
 
-                    Toast.makeText(
-                        activity,
-                        "yet to be implemented",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+
                 } else {
 
                     calculateInitialAccountIncome()
-
                     calculateExpense()
 
                 }
@@ -219,7 +213,6 @@ class HomeFragment : Fragment() {
 
                         }
 
-                        Toast.makeText(activity, "$CalculatedIncome", Toast.LENGTH_LONG).show()
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -328,14 +321,13 @@ class HomeFragment : Fragment() {
 
                             Toast.makeText(
                                 activity,
-                                "Please add the account your details !",
+                                "Please add your account details !",
                                 Toast.LENGTH_LONG
                             )
                                 .show()
 
                         }
 
-//                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
                     }
 
 
@@ -374,13 +366,6 @@ class HomeFragment : Fragment() {
                         val currentBalance = totalIncome - CalculatedExpense
 
                         currentBalanceTV.text = currentBalance.toString()
-
-                        Toast.makeText(
-                            activity,
-                            CalculatedExpense.toString() + " and " + totalIncome,
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
 
                     }
 
@@ -460,12 +445,6 @@ class HomeFragment : Fragment() {
 
                         val Amt = snapshot.child("amount").value.toString()
 
-                        Toast.makeText(
-                            activity,
-                            "budget amount : $Amt and $allAccountExpense",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
                         budgetAmount = Amt.toDouble()
 
                         if (allAccountExpense > budgetAmount) {
@@ -545,21 +524,6 @@ class HomeFragment : Fragment() {
 
                             }
 
-                            Toast.makeText(
-                                activity,
-                                "CalculatedIncome : $CalculatedIncome",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-//                            totalIncome = InitialAccountIncome + CalculatedIncome
-//
-//                            Toast.makeText(
-//                                activity,
-//                                "Total income : $totalIncome  and InitialAccountIncome : $InitialAccountIncome and Calculated Income : $CalculatedIncome",
-//                                Toast.LENGTH_LONG
-//                            )
-//                                .show()
-//                            incomeTV.text = totalIncome.toString()
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -590,7 +554,7 @@ class HomeFragment : Fragment() {
         totalIncome = 0.0
         var totalInitialAmount = 0.0
 
-        for (i in 1 until len-1) {
+        for (i in 1 until len - 1) {
             val category = categoryArray.get(i)
             try {
                 FirebaseDatabase.getInstance()
@@ -606,12 +570,6 @@ class HomeFragment : Fragment() {
                                 totalInitialAmount += InitialAccountIncome
                                 totalIncome = totalInitialAmount + CalculatedIncome
 
-                                Toast.makeText(
-                                    activity,
-                                    "Total income : $totalIncome  and TotalInitialAmount : $totalInitialAmount and Calculated Income : $CalculatedIncome",
-                                    Toast.LENGTH_LONG
-                                )
-                                    .show()
 
                                 incomeTV.text = totalIncome.toString()
 
@@ -619,14 +577,13 @@ class HomeFragment : Fragment() {
 
                                 Toast.makeText(
                                     activity,
-                                    "Please add the account your details !",
+                                    "Please add your account details !",
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
 
                             }
 
-//                        Toast.makeText(activity, "$totalIncome", Toast.LENGTH_LONG).show()
                         }
 
 
@@ -647,6 +604,52 @@ class HomeFragment : Fragment() {
 
     //function to calculate the total expense (commulative of all accounts) of the previous month
     fun allAccountExpenseOfPreviousMonth() {
+
+        previousMonth()
+        CalculatedExpense = 0.0
+
+        val categoryArray = resources.getStringArray(R.array.expenseResources)
+        val len = categoryArray.size
+
+        for (i in 1 until len - 1) {
+            val category = categoryArray.get(i)
+
+            try {
+
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/" + user!! + "/Expense/$year/$month/$category")
+                    .addValueEventListener(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (j in snapshot.children) {
+
+                                val key = j.key.toString()
+                                val expense = snapshot.child("$key/expense").value.toString()
+                                CalculatedExpense += expense.toInt()
+
+                            }
+
+                            expenseTV.text = CalculatedExpense.toString()
+
+                            val currentBalance = totalIncome - CalculatedExpense
+                            currentBalanceTV.text = currentBalance.toString()
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+
+            } catch (ae: Exception) {
+
+                ae.stackTrace
+
+            }
+
+
+        }
 
 
     }

@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         databaseReference = database?.reference!!.child("Profile")
 
         loadProfile()
-        val current_user = currentUser?.replace(".","")
+        val current_user = currentUser?.replace(".", "")
         ref = FirebaseDatabase.getInstance().getReference("Users/" + current_user)
 
         toggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
@@ -276,8 +276,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
 
         BudgetAmount = dialogLayout.findViewById(R.id.enterBudgetAmtET)
         selectMonth = dialogLayout.findViewById(R.id.selectMonthSpinner)
-        val saveButton = dialogLayout.findViewById<Button>(R.id.saveButton)
-        val cancelButton = dialogLayout.findViewById<Button>(R.id.cancelButton)
+
 
         selectMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -290,17 +289,18 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
             }
 
         }
-        
+
         with(builder) {
             setTitle("Plan Your Budget")
 
-            saveButton.setOnClickListener {
+            setPositiveButton("Save") { _, _ ->
                 //saveBudgetDetails
                 saveBudgetDetails()
             }
-            cancelButton.setOnClickListener {
-                findNavController(R.id.hostfragment).navigate(R.id.homeFragment)
+            setNegativeButton("Cancel") { _, _ ->
+
             }
+
             setView(dialogLayout)
             show()
         }
