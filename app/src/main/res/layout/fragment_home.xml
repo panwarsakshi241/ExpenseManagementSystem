@@ -158,6 +158,7 @@
                         android:background="@drawable/icon_background"
                         android:backgroundTint="@color/white"
                         android:contentDescription="@string/app_name"
+                        android:gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/add_income"
                         android:text="@string/add_income_btn" />
@@ -182,6 +183,7 @@
                         android:background="@drawable/icon_background"
                         android:backgroundTint="@color/white"
                         android:contentDescription="@string/app_name"
+                        android:gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/transfermoney"
                         android:text="@string/transfer_btn" />
@@ -193,6 +195,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/icon_outer_background"
                         android:contentDescription="@string/app_name"
+                        android:gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/generatereports"
                         android:text="@string/view_btn" />
@@ -208,35 +211,39 @@
 
                     <TextView
                         style="@style/expenseManagementSystemH2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:gravity="center"
                         android:text="@string/add_incomeTV"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <TextView
                         style="@style/expenseManagementSystemH2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/add_expense"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <TextView
                         style="@style/expenseManagementSystemH2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:gravity="center"
                         android:text="@string/add_transferTV"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <TextView
                         style="@style/expenseManagementSystemH2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:gravity="center"
                         android:text="@string/view_reportTV"
                         android:textColor="@color/black"
                         android:textSize="12dp" />
@@ -253,7 +260,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/teal_700"
+                android:background="@drawable/icon_outer_background"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="10dp"
@@ -263,19 +270,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
-                <TextView
-                    style="@style/expenseManagementSystemH2"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/monthly_report_TV"
-                    android:textColor="@color/white" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/expensereport" />
+
+                    <TextView
+                        style="@style/expenseManagementSystemH2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monthly_report_TV"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -289,7 +312,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/income_tv"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -298,7 +321,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
                 </LinearLayout>
@@ -314,7 +337,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/expense_added"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -323,7 +346,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
                 </LinearLayout>
@@ -333,7 +356,7 @@
                     android:layout_height="2dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -346,7 +369,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/current_balance_TV"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -355,7 +378,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
                 </LinearLayout>
@@ -364,7 +387,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
             </LinearLayout>
 
 
@@ -373,7 +396,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/teal_700"
+                android:background="@drawable/icon_outer_background"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="10dp"
@@ -383,19 +406,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
-                <TextView
-                    style="@style/expenseManagementSystemH2"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/previous_month_report_textView"
-                    android:textColor="@color/white" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/expensereport" />
+
+                    <TextView
+                        style="@style/expenseManagementSystemH2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous_month_report_textView"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -409,7 +448,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/income_tv"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -418,7 +457,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
                 </LinearLayout>
@@ -434,7 +473,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/expense_added"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -443,7 +482,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
                 </LinearLayout>
@@ -453,7 +492,7 @@
                     android:layout_height="2dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -466,7 +505,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="@string/current_balance_TV"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <TextView
@@ -475,7 +514,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/incomeShown"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textStyle="italic" />
 
 
@@ -485,7 +524,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white" />
+                    android:background="@color/black" />
             </LinearLayout>
 
 
