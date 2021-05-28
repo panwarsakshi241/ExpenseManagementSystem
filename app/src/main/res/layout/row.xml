@@ -4,7 +4,7 @@
     style="@style/gridViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
+    android:background="@drawable/icon_outer_background"
     android:orientation="vertical"
     tools:context=".fragments.home.HomeFragment"
     android:layout_margin="50dp">
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="5dp"
-        android:background="@color/yellow_200">
+        android:background="@color/teal">
 
         <TextView
             android:id="@+id/dateTV"

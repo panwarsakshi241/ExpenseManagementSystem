@@ -111,7 +111,7 @@
     <string name="enter_current_password_ET">Enter current password</string>
     <string name="enter_new_password_ET">Enter new Password</string>
     <string name="separator">____________or____________</string>
-    <string name="expense_details_TV">Expense Details</string>
+    <string name="expense_details_TV">Expense Report</string>
     <string name="my_dashboard_TV">My Dashboard</string>
     <string name="amount_transfered_TV">Amount Transferred</string>
     <string name="source_account_TV">Source Account</string>

@@ -23,7 +23,7 @@ class ViewFragment : Fragment() {
     //    lateinit var ref: DatabaseReference
     lateinit var expenseList: MutableList<Expense>
     lateinit var selectDate: TextView
-    lateinit var totalExpenseCalculated: TextView
+//    lateinit var totalExpenseCalculated: TextView
 
     lateinit var searchByDate: Button
     lateinit var adapter: MyAdapter
@@ -51,7 +51,7 @@ class ViewFragment : Fragment() {
         searchByDate = view.findViewById(R.id.viewbyDateButton)
         selectDate = view.findViewById(R.id.DateEntered)
 
-        totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
+//        totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
 
         expenseList = mutableListOf()
 
@@ -134,7 +134,7 @@ class ViewFragment : Fragment() {
 
                         }
 
-                        totalExpenseCalculated.text = expense
+//                        totalExpenseCalculated.text = expense
                         adapter.notifyDataSetChanged()
                     }
 

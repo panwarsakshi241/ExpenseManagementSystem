@@ -43,6 +43,8 @@ class HomeFragment : Fragment() {
     lateinit var currentMonthIncome: TextView
     lateinit var currentMonthExpense: TextView
     lateinit var BalanceOfThisMonth: TextView
+    lateinit var thisMonthTV: TextView
+    lateinit var previousMonthTV : TextView
 
     private val PICK_IMAGE: Int = 1
     var imageUri: Uri? = null
@@ -96,6 +98,8 @@ class HomeFragment : Fragment() {
         currentMonthIncome = view.findViewById(R.id.this_month_income_shown)
         currentMonthExpense = view.findViewById(R.id.this_month_expense_shown)
         BalanceOfThisMonth = view.findViewById(R.id.this_month_current_balance_shown)
+        thisMonthTV = view.findViewById(R.id.thisMonth)
+        previousMonthTV = view.findViewById(R.id.previousMonth)
 
         spinner = view.findViewById(R.id.spinner)
 
@@ -187,6 +191,10 @@ class HomeFragment : Fragment() {
                     PICK_IMAGE
                 )
             }
+
+        })
+
+        profilePicture.setOnClickListener(View.OnClickListener {
 
         })
 
@@ -330,6 +338,9 @@ class HomeFragment : Fragment() {
         previousMonth()
         year_TV.text = "Year \n$cYear"
         month_TV.text = "Month \n$cMonth"
+
+        thisMonthTV.text = "Month : $cMonth"
+        previousMonthTV.text = "Previous Month : $month"
 
     }
 

@@ -282,10 +282,11 @@
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:contentDescription="@string/app_name"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/expensereport" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/xpensereport" />
 
                     <TextView
+                        android:id="@+id/thisMonth"
                         style="@style/expenseManagementSystemH2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -418,10 +419,11 @@
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:contentDescription="@string/app_name"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/expensereport" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/xpensereport" />
 
                     <TextView
+                        android:id="@+id/previousMonth"
                         style="@style/expenseManagementSystemH2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
