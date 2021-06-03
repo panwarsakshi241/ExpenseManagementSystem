@@ -1,16 +1,17 @@
+@file:Suppress("RedundantSamConstructor")
+
 package com.aapnainfotech.expensemanagementsystem.register
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -18,14 +19,14 @@ import com.google.firebase.database.FirebaseDatabase
 class RegistrationActivity : AppCompatActivity() {
 
 
-    lateinit var enterMail: EditText
-    lateinit var enterPassword: EditText
-    lateinit var confirmPassword: EditText
-    lateinit var signIn: TextView
-    lateinit var register_btn: TextView
-    lateinit var auth : FirebaseAuth
+    private lateinit var enterMail: EditText
+    private lateinit var enterPassword: EditText
+    private lateinit var confirmPassword: EditText
+    private lateinit var signIn: TextView
+    private lateinit var buttonRegister: TextView
+    private lateinit var auth : FirebaseAuth
 
-    var databaseReference : DatabaseReference? = null
+    private var databaseReference : DatabaseReference? = null
     var database : FirebaseDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +35,12 @@ class RegistrationActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_registration)
 
-        enterMail = findViewById(R.id.r_emailidET)
-        enterPassword = findViewById(R.id.r_passwordET)
-        confirmPassword = findViewById(R.id.r_confirmPasswordET)
+        enterMail = findViewById(R.id.et_registration_mail)
+        enterPassword = findViewById(R.id.et_registration_password)
+        confirmPassword = findViewById(R.id.et_regisration_confirmPassword)
 
-        signIn = findViewById(R.id.signinHere)
-        register_btn = findViewById(R.id.registerBtn)
+        signIn = findViewById(R.id.tv_signIn)
+        buttonRegister = findViewById(R.id.btn_register)
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
@@ -56,7 +57,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun register() {
 
-        register_btn.setOnClickListener {
+        buttonRegister.setOnClickListener {
             when {
                 TextUtils.isEmpty(enterMail.text.toString().trim { it <= ' ' }) -> {
                     Toast.makeText(
@@ -82,7 +83,7 @@ class RegistrationActivity : AppCompatActivity() {
                     )
                         .show()
                 }
-                !confirmPassword.text.toString().equals(enterPassword.text.toString()) -> {
+                confirmPassword.text.toString() != enterPassword.text.toString() -> {
 
                     Toast.makeText(
                         this,
@@ -101,14 +102,14 @@ class RegistrationActivity : AppCompatActivity() {
 
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(
-                            OnCompleteListener<AuthResult> { task ->
+                            OnCompleteListener { task ->
 
-                                //if registeration is successfullly done
+                                //if registration is successfully done
                                 if (task.isSuccessful) {
 
                                     val currentUser = auth.currentUser
-                                    val currentUserdb = databaseReference?.child(currentUser?.uid!!)
-                                    currentUserdb?.child("username")?.setValue(enterMail.text.toString())
+                                    val currentUserDB = databaseReference?.child(currentUser?.uid!!)
+                                    currentUserDB?.child("username")?.setValue(enterMail.text.toString())
 
                                     Toast.makeText(this, "You are Registered Successfully !", Toast.LENGTH_LONG).show()
 
@@ -117,7 +118,7 @@ class RegistrationActivity : AppCompatActivity() {
                                     startActivity(intent)
                                     finish()
                                 } else {
-                                    //if registeration is not successful show error message
+                                    //if registration is not successful show error message
                                     Toast.makeText(
                                         this,
                                         task.exception!!.message.toString(),

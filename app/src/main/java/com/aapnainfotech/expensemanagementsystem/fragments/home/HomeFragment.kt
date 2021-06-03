@@ -4,51 +4,59 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.tapadoo.alerter.Alerter
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 import java.io.InputStream
-import java.lang.NumberFormatException
-import com.tapadoo.alerter.Alerter
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
 
-    lateinit var addIncome: ImageButton
-    lateinit var addExpense: ImageButton
-    lateinit var addTrasfer: ImageButton
-    lateinit var ViewReport: ImageButton
+    private lateinit var addIncome: ImageButton
+    private lateinit var addExpense: ImageButton
+    private lateinit var addTransfer: ImageButton
+    private lateinit var viewReport: ImageButton
     lateinit var spinner: Spinner
     lateinit var incomeTV: TextView
     lateinit var expenseTV: TextView
     lateinit var currentBalanceTV: TextView
-    lateinit var accountHolder: TextView
-    lateinit var profilePicture: CircleImageView
-    lateinit var year_TV: TextView
-    lateinit var month_TV: TextView
-    lateinit var amount_TV: TextView
+    private lateinit var accountHolder: TextView
+    private lateinit var profilePicture: CircleImageView
+    private lateinit var yearTV: TextView
+    private lateinit var monthTV: TextView
+    lateinit var amountTV: TextView
     lateinit var currentMonthIncome: TextView
     lateinit var currentMonthExpense: TextView
-    lateinit var BalanceOfThisMonth: TextView
-    lateinit var thisMonthTV: TextView
-    lateinit var previousMonthTV : TextView
+    lateinit var balanceOfThisMonth: TextView
+    private lateinit var thisMonthTV: TextView
+    private lateinit var previousMonthTV: TextView
+    private lateinit var pieChart: PieChart
 
-    private val PICK_IMAGE: Int = 1
-    var imageUri: Uri? = null
-    var bitmap: Bitmap? = null
+    private val pickImage: Int = 1
+    private var imageUri: Uri? = null
+    private var bitmap: Bitmap? = null
 
     companion object {
 
@@ -69,7 +77,6 @@ class HomeFragment : Fragment() {
         var thisMonthIncome = 0.0
         var thisMonthExpense = 0.0
         var totalIncomeOfThisMonth = 0.0
-        var thisMonthBalance = 0.0
         var thisMonthInitialAccountIncome = 0.0
 
     }
@@ -85,21 +92,22 @@ class HomeFragment : Fragment() {
 
         addIncome = view.findViewById(R.id.addincome)
         addExpense = view.findViewById(R.id.addexpense)
-        addTrasfer = view.findViewById(R.id.addtransfer)
-        ViewReport = view.findViewById(R.id.view)
+        addTransfer = view.findViewById(R.id.addtransfer)
+        viewReport = view.findViewById(R.id.view)
         incomeTV = view.findViewById(R.id.income_shown)
         expenseTV = view.findViewById(R.id.expense_shown)
         currentBalanceTV = view.findViewById(R.id.current_balance_shown)
         accountHolder = view.findViewById(R.id.accountHolder)
         profilePicture = view.findViewById(R.id.profilepicture)
-        year_TV = view.findViewById(R.id.year)
-        month_TV = view.findViewById(R.id.month)
-        amount_TV = view.findViewById(R.id.amount)
+        yearTV = view.findViewById(R.id.year)
+        monthTV = view.findViewById(R.id.month)
+        amountTV = view.findViewById(R.id.amount)
         currentMonthIncome = view.findViewById(R.id.this_month_income_shown)
         currentMonthExpense = view.findViewById(R.id.this_month_expense_shown)
-        BalanceOfThisMonth = view.findViewById(R.id.this_month_current_balance_shown)
+        balanceOfThisMonth = view.findViewById(R.id.this_month_current_balance_shown)
         thisMonthTV = view.findViewById(R.id.thisMonth)
         previousMonthTV = view.findViewById(R.id.previousMonth)
+        pieChart = view.findViewById(R.id.piechart)
 
         spinner = view.findViewById(R.id.spinner)
 
@@ -107,49 +115,53 @@ class HomeFragment : Fragment() {
 
         val index = user?.indexOf('@')
         val username = user?.substring(0, index!!)
-        accountHolder.text = "Welcome , $username !!"
+        accountHolder.text = username
 
         val date = Date()
         presentDate = IncomeFragment.dateTimeFormat.format(date)
 
         val spinnerArray = resources.getStringArray(R.array.expenseResources)
-        setMonthlPlanData()
+        setMonthlyPlanData()
 
         spinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectedSpinnerItem = spinnerArray.get(p2)
+                selectedSpinnerItem = spinnerArray[p2]
 
-                if (selectedSpinnerItem.equals(getString(R.string.select))) {
+                when (selectedSpinnerItem) {
+                    getString(R.string.select) -> {
 
-                    Toast.makeText(
-                        activity,
-                        "Please select category !!",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                        Toast.makeText(
+                            activity,
+                            "Please select category !!",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
 
-                } else if (selectedSpinnerItem.equals(getString(R.string.allAccounts))) {
+                    }
+                    getString(R.string.allAccounts) -> {
 
-                    //this month
-                    cumulativeInitialAccountIncomeOfThisMonth()
-                    calculateAllAccountExpense()
+                        //this month
+                        cumulativeInitialAccountIncomeOfThisMonth()
+                        calculateAllAccountExpense()
 
-                    //previous month
-                    CumulativeInitialIncome()
-                    allAccountExpenseOfPreviousMonth()
+                        //previous month
+                        cumulativeInitialIncome()
+                        allAccountExpenseOfPreviousMonth()
 
 
-                } else {
+                    }
+                    else -> {
 
-                    calculateInitialAccountIncome()
+                        calculateInitialAccountIncome()
 
-                    //this month
-                    calculateThisMonthExpense()
-                    //previous month
-                    calculateExpense()
+                        //this month
+                        calculateThisMonthExpense()
+                        //previous month
+                        calculateExpense()
 
+                    }
                 }
 
 
@@ -170,35 +182,32 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_expenseFragment)
         }
 
-        addTrasfer.setOnClickListener {
+        addTransfer.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_transferFragment)
         }
 
-        ViewReport.setOnClickListener {
+        viewReport.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_viewFragment)
         }
 
 
-        profilePicture.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
+        profilePicture.setOnClickListener {
+            val openGalleryIntent = Intent()
+            openGalleryIntent.type = "image/*"
+            openGalleryIntent.action = Intent.ACTION_GET_CONTENT
 
-                val openGalleryIntent = Intent()
-                openGalleryIntent.setType("image/*")
-                openGalleryIntent.setAction(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(
+                Intent.createChooser(openGalleryIntent, "select picture"),
+                pickImage
+            )
+        }
 
-                startActivityForResult(
-                    Intent.createChooser(openGalleryIntent, "select picture"),
-                    PICK_IMAGE
-                )
-            }
-
-        })
-
-        profilePicture.setOnClickListener(View.OnClickListener {
+        profilePicture.setOnClickListener({
 
         })
 
         getBudgetAmount()
+        setPieChart()
 
         return view
     }
@@ -206,7 +215,7 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == PICK_IMAGE && resultCode == RESULT_OK) {
+        if (resultCode == pickImage && resultCode == RESULT_OK) {
             imageUri = data!!.data
 
             try {
@@ -226,7 +235,7 @@ class HomeFragment : Fragment() {
     }
 
     // retrieving data from the  Income
-    fun calculateIncome() {
+    private fun calculateIncome() {
 
         previousMonth()
         CalculatedIncome = 0.0
@@ -261,83 +270,96 @@ class HomeFragment : Fragment() {
     }
 
     //previous month
-    fun previousMonth() {
+    private fun previousMonth() {
 
-        val f_index = presentDate.indexOf('/')
-        val l_index = presentDate.lastIndexOf('/')
-        val pMonth = presentDate.substring(f_index + 1, l_index)
-        val pYear = presentDate.substring(0, f_index)
+        val fIndex = presentDate.indexOf('/')
+        val lIndex = presentDate.lastIndexOf('/')
+        val pMonth = presentDate.substring(fIndex + 1, lIndex)
+        val pYear = presentDate.substring(0, fIndex)
 
-        if (pMonth == "01") {
-            month = "December"
-            cMonth = "January"
-            cYear = pYear
-            val p_Year = pYear.toInt() - 1
-            year = p_Year.toString()
-        } else if (pMonth == "02") {
-            month = "January"
-            cMonth = "February"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "03") {
-            month = "February"
-            cMonth = "March"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "04") {
-            month = "March"
-            cMonth = "April"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "05") {
-            month = "April"
-            cMonth = "May"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "06") {
-            month = "May"
-            cMonth = "June"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "07") {
-            month = "June"
-            cMonth = "July"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "08") {
-            month = "July"
-            cMonth = "August"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "09") {
-            month = "August"
-            cMonth = "September"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "10") {
-            month = "September"
-            cMonth = "October"
-            cYear = pYear
-            year = pYear
-        } else if (pMonth == "11") {
-            month = "October"
-            cMonth = "November"
-            cYear = pYear
-            year = pYear
-        } else {
-            month = "November"
-            cMonth = "December"
-            cYear = pYear
-            year = pYear
+        when (pMonth) {
+            "01" -> {
+                month = "December"
+                cMonth = "January"
+                cYear = pYear
+                val previousYear = pYear.toInt() - 1
+                year = previousYear.toString()
+            }
+            "02" -> {
+                month = "January"
+                cMonth = "February"
+                cYear = pYear
+                year = pYear
+            }
+            "03" -> {
+                month = "February"
+                cMonth = "March"
+                cYear = pYear
+                year = pYear
+            }
+            "04" -> {
+                month = "March"
+                cMonth = "April"
+                cYear = pYear
+                year = pYear
+            }
+            "05" -> {
+                month = "April"
+                cMonth = "May"
+                cYear = pYear
+                year = pYear
+            }
+            "06" -> {
+                month = "May"
+                cMonth = "June"
+                cYear = pYear
+                year = pYear
+            }
+            "07" -> {
+                month = "June"
+                cMonth = "July"
+                cYear = pYear
+                year = pYear
+            }
+            "08" -> {
+                month = "July"
+                cMonth = "August"
+                cYear = pYear
+                year = pYear
+            }
+            "09" -> {
+                month = "August"
+                cMonth = "September"
+                cYear = pYear
+                year = pYear
+            }
+            "10" -> {
+                month = "September"
+                cMonth = "October"
+                cYear = pYear
+                year = pYear
+            }
+            "11" -> {
+                month = "October"
+                cMonth = "November"
+                cYear = pYear
+                year = pYear
+            }
+            else -> {
+                month = "November"
+                cMonth = "December"
+                cYear = pYear
+                year = pYear
+            }
         }
     }
 
     //setting monthly plan
-    fun setMonthlPlanData() {
+    private fun setMonthlyPlanData() {
 
         previousMonth()
-        year_TV.text = "Year \n$cYear"
-        month_TV.text = "Month \n$cMonth"
+        yearTV.text = "Year \n$cYear"
+        monthTV.text = "Month \n$cMonth"
 
         thisMonthTV.text = "Month : $cMonth"
         previousMonthTV.text = "Previous Month : $month"
@@ -445,7 +467,7 @@ class HomeFragment : Fragment() {
 
         for (i in 1 until len - 1) {
 
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
             try {
 
                 FirebaseDatabase.getInstance()
@@ -465,7 +487,7 @@ class HomeFragment : Fragment() {
 
                             val currentBalance = totalIncomeOfThisMonth - allAccountExpense
 
-                            BalanceOfThisMonth.text = currentBalance.toString()
+                            balanceOfThisMonth.text = currentBalance.toString()
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -486,7 +508,7 @@ class HomeFragment : Fragment() {
 
     // retrieve the budget amount from the firebase real time database
 
-    fun getBudgetAmount() {
+    private fun getBudgetAmount() {
 
         previousMonth()
         budgetAmount = 0.0
@@ -501,12 +523,12 @@ class HomeFragment : Fragment() {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         try {
-                            val Amt = snapshot.child("amount").value.toString()
+                            val amount = snapshot.child("amount").value.toString()
 
-                            budgetAmount = Amt.toDouble()
+                            budgetAmount = amount.toDouble()
 
-                            //setting budegt amount in the text view
-                            amount_TV.text = "Amount \n" + budgetAmount
+                            //setting budget amount in the text view
+                            amountTV.text = "Amount \n$budgetAmount"
 
                             if (allAccountExpense > budgetAmount) {
 
@@ -554,7 +576,7 @@ class HomeFragment : Fragment() {
             .setIcon(R.drawable.ic_warning)
             .setBackgroundColorRes(R.color.yellow_200)
             .setDuration(6000)
-            .setOnClickListener(View.OnClickListener {
+            .setOnClickListener({
 
                 Toast.makeText(
                     activity,
@@ -567,8 +589,8 @@ class HomeFragment : Fragment() {
 
     }
 
-    // function to calculate the total income (Commulative of all accounts )of the previous month
-    fun allAccountIncomeOfPreviousMonth() {
+    // function to calculate the total income (Cumulative of all accounts )of the previous month
+    private fun allAccountIncomeOfPreviousMonth() {
 
         previousMonth()
         CalculatedIncome = 0.0
@@ -578,7 +600,7 @@ class HomeFragment : Fragment() {
 
         for (i in 1 until len - 1) {
 
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
             try {
 
                 FirebaseDatabase.getInstance()
@@ -613,7 +635,7 @@ class HomeFragment : Fragment() {
     }
 
     //calculate all category initial account income
-    fun CumulativeInitialIncome() {
+    fun cumulativeInitialIncome() {
 
         allAccountIncomeOfPreviousMonth()
 
@@ -624,7 +646,7 @@ class HomeFragment : Fragment() {
         var totalInitialAmount = 0.0
 
         for (i in 1 until len - 1) {
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
             try {
                 FirebaseDatabase.getInstance()
                     .getReference("Users/" + user!! + "/Account/" + category)
@@ -646,7 +668,7 @@ class HomeFragment : Fragment() {
 
                                 Toast.makeText(
                                     activity,
-                                    "Please add your account details !",
+                                    getString(R.string.account_details_toast_text),
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
@@ -671,7 +693,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    //function to calculate the total expense (commulative of all accounts) of the previous month
+    //function to calculate the total expense (Cumulative of all accounts) of the previous month
     fun allAccountExpenseOfPreviousMonth() {
 
         previousMonth()
@@ -681,7 +703,7 @@ class HomeFragment : Fragment() {
         val len = categoryArray.size
 
         for (i in 1 until len - 1) {
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
 
             try {
 
@@ -722,7 +744,7 @@ class HomeFragment : Fragment() {
     }
 
     //calculate income of this month
-    fun calculateThisMonthIncome() {
+    private fun calculateThisMonthIncome() {
         previousMonth()
 
         thisMonthIncome = 0.0
@@ -757,7 +779,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    //caculate this month epense
+    //Calculate this month expense
     fun calculateThisMonthExpense() {
 
         previousMonth()
@@ -780,7 +802,7 @@ class HomeFragment : Fragment() {
 
                         val currentBalance = totalIncomeOfThisMonth - thisMonthExpense
 
-                        BalanceOfThisMonth.text = currentBalance.toString()
+                        balanceOfThisMonth.text = currentBalance.toString()
 
                     }
 
@@ -797,7 +819,7 @@ class HomeFragment : Fragment() {
     }
 
     //calculate cumulative income
-    fun cumulativeIncomeOfThisMonth() {
+    private fun cumulativeIncomeOfThisMonth() {
 
         previousMonth()
         thisMonthIncome = 0.0
@@ -807,7 +829,7 @@ class HomeFragment : Fragment() {
 
         for (i in 1 until len - 1) {
 
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
             try {
 
                 FirebaseDatabase.getInstance()
@@ -853,7 +875,7 @@ class HomeFragment : Fragment() {
         var totalInitialAmount = 0.0
 
         for (i in 1 until len - 1) {
-            val category = categoryArray.get(i)
+            val category = categoryArray[i]
             try {
                 FirebaseDatabase.getInstance()
                     .getReference("Users/" + user!! + "/Account/" + category)
@@ -896,6 +918,53 @@ class HomeFragment : Fragment() {
 
 
         }
+
+
+    }
+
+    //function to set pie chart
+
+    private fun setPieChart() {
+
+        //x values
+
+        val xValues = ArrayList<String>()
+        xValues.add("Clothing")
+        xValues.add("Bills")
+        xValues.add("Food")
+        xValues.add("Drink")
+        xValues.add("Travel")
+
+        //y values
+
+        val pieChartEntry = ArrayList<Entry>()
+        pieChartEntry.add(Entry(6.5f, 0))
+        pieChartEntry.add(Entry(6.5f, 1))
+        pieChartEntry.add(Entry(6.5f, 2))
+        pieChartEntry.add(Entry(6.5f, 3))
+        pieChartEntry.add(Entry(6.5f, 4))
+
+        //colors
+
+        val colors = ArrayList<Int>()
+        colors.add(Color.RED)
+        colors.add(Color.BLUE)
+        colors.add(Color.YELLOW)
+        colors.add(Color.GRAY)
+        colors.add(Color.GREEN)
+
+        //fill the chart
+
+        val pieDataSet = PieDataSet(pieChartEntry, "Consumption")
+
+        pieDataSet.colors = colors
+        pieDataSet.sliceSpace = 3f
+
+        val data = PieData(xValues, pieDataSet)
+        pieChart.data = data
+
+        pieChart.holeRadius = 5f
+        pieChart.setBackgroundColor(resources.getColor(R.color.white))
 
 
     }

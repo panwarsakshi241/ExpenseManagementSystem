@@ -13,7 +13,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarLayout"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:navigationIcon="@drawable/ic_hamburger"
                 app:title="@string/app_name"
@@ -30,13 +30,14 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <fragment
-            android:id="@+id/hostfragment"
+            android:id="@+id/host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_below="@id/appbarLayout"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/my_nav_graph" />
+            app:navGraph="@navigation/my_nav_graph"
+            tools:ignore="FragmentTagUsage" />
 
 
     </RelativeLayout>
@@ -44,7 +45,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"

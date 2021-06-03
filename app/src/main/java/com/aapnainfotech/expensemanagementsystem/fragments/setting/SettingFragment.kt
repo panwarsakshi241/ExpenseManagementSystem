@@ -1,44 +1,41 @@
 package com.aapnainfotech.expensemanagementsystem.fragments.setting
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.login.LoginActivity
 import com.aapnainfotech.expensemanagementsystem.service.ReminderService
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import org.w3c.dom.Text
 import java.util.*
-import kotlin.concurrent.timerTask
 
 class SettingFragment : Fragment() {
 
-    lateinit var setReminder: TextView
-    lateinit var changePassword: TextView
+    private lateinit var setReminder: TextView
+    private lateinit var changePassword: TextView
 
     //change password dialog views
-    lateinit var currentPassword: EditText
-    lateinit var newpassword: EditText
-    lateinit var confirmPassword: EditText
-    lateinit var deleteAccount: TextView
+    private lateinit var currentPassword: EditText
+    private lateinit var newPassword: EditText
+    private lateinit var confirmPassword: EditText
+    private lateinit var deleteAccount: TextView
 
     //firebase authentication
     private lateinit var auth: FirebaseAuth
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,9 +61,9 @@ class SettingFragment : Fragment() {
             val builder = AlertDialog.Builder(activity)
             val dialogLayout = inflater.inflate(R.layout.change_password_dialog_box, null)
 
-            currentPassword = dialogLayout.findViewById(R.id.currentPassword) as EditText
-            newpassword = dialogLayout.findViewById(R.id.NewPassword) as EditText
-            confirmPassword = dialogLayout.findViewById(R.id.confirmPassword) as EditText
+            currentPassword = dialogLayout.findViewById(R.id.et_current_password) as EditText
+            newPassword = dialogLayout.findViewById(R.id.et_new_password) as EditText
+            confirmPassword = dialogLayout.findViewById(R.id.et_confirm_new_password) as EditText
 
 
             with(builder) {
@@ -124,11 +121,11 @@ class SettingFragment : Fragment() {
     private fun changePassword() {
 
         if (currentPassword.text.isNotEmpty() &&
-            newpassword.text.isNotEmpty() &&
+            newPassword.text.isNotEmpty() &&
             confirmPassword.text.isNotEmpty()
         ) {
             //confirm password
-            if (newpassword.text.toString().equals(confirmPassword.text.toString())) {
+            if (newPassword.text.toString() == confirmPassword.text.toString()) {
 
                 val user = auth.currentUser
                 if (user != null && user.email != null) {
@@ -145,7 +142,7 @@ class SettingFragment : Fragment() {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                user.updatePassword(newpassword.text.toString())
+                                user.updatePassword(newPassword.text.toString())
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             Toast.makeText(
@@ -187,7 +184,7 @@ class SettingFragment : Fragment() {
     }
 
     //delete Account
-    fun deleteAccount() {
+    private fun deleteAccount() {
         deleteAccount.setOnClickListener {
             showDialogueBox()
         }
@@ -203,41 +200,38 @@ class SettingFragment : Fragment() {
         builder.setPositiveButton("Delete") { _: DialogInterface, _: Int ->
             deleteUserAccount()
         }
-        builder.setNegativeButton("Cancel") { _ : DialogInterface, _: Int ->
+        builder.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->
         }
         builder.show()
     }
 
-    fun deleteUserAccount() {
+    private fun deleteUserAccount() {
 
         val firebase = FirebaseAuth.getInstance()
         val firebaseUser = firebase.currentUser
-        firebaseUser?.delete()?.addOnCompleteListener(object : OnCompleteListener<Void> {
+        firebaseUser?.delete()?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(
+                    activity,
+                    "Account Deleted !",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
 
-            override fun onComplete(task: Task<Void>) {
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        activity,
-                        "Account Deleted !",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                val intent = Intent(activity, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                activity?.finish()
 
-                    val intent = Intent(activity , LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(intent)
-                    activity?.finish()
-
-                } else {
-                    Toast.makeText(
-                        activity,
-                        task.exception?.message,
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-                }
+            } else {
+                Toast.makeText(
+                    activity,
+                    task.exception?.message,
+                    Toast.LENGTH_LONG
+                )
+                    .show()
             }
-        })
+        }
     }
 }

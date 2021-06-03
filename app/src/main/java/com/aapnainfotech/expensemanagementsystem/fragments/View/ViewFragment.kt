@@ -1,43 +1,60 @@
+@file:Suppress("PrivatePropertyName")
+
 package com.aapnainfotech.expensemanagementsystem.fragments.View
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context.MODE_PRIVATE
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.fragment.app.Fragment
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.adapter.MyAdapter
 import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.row.*
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 
 class ViewFragment : Fragment() {
 
-    lateinit var list: ListView
+    private lateinit var list: ListView
 
-    //    lateinit var ref: DatabaseReference
+    //    late init var ref: DatabaseReference
     lateinit var expenseList: MutableList<Expense>
-    lateinit var selectDate: TextView
-//    lateinit var totalExpenseCalculated: TextView
+    lateinit var dateEntered: TextView
+    lateinit var selectDateTV: TextView
+//    late init var totalExpenseCalculated: TextView
 
-    lateinit var searchByDate: Button
+    private lateinit var searchByDate: Button
+    private lateinit var progressBar: ProgressBar
     lateinit var adapter: MyAdapter
 
-    lateinit var selectFilterModeSpinner: Spinner
+    private lateinit var selectFilterModeSpinner: Spinner
     var selectedFilterOption: String = ""
     var path = ""
-    var dateSelected = ""
+    private var dateSelected = ""
     var user: String? = ""
-    var spinnerValue = ""
+    private var spinnerValue = ""
 
-    var index: Int = 0
+    private var index: Int = 0
     var date: String = ""
     var expense = ""
+
+    private val STORAGE_PERMISSION_CODE: Int = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +66,9 @@ class ViewFragment : Fragment() {
         list = view.findViewById(R.id.viewList)
         selectFilterModeSpinner = view.findViewById(R.id.selectFilterOption)
         searchByDate = view.findViewById(R.id.viewbyDateButton)
-        selectDate = view.findViewById(R.id.DateEntered)
+        dateEntered = view.findViewById(R.id.DateEntered)
+        selectDateTV = view.findViewById(R.id.selectDate)
+        progressBar = view.findViewById(R.id.progressBar)
 
 //        totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
 
@@ -60,6 +79,9 @@ class ViewFragment : Fragment() {
 
         //retrieving data from Select number of days spinner
         filterBySpinnerValue()
+
+        //setting the select Date TextView visible
+
 
         adapter = MyAdapter(
             requireContext(),
@@ -73,7 +95,9 @@ class ViewFragment : Fragment() {
         //view reports of selected date
         searchByDate.setOnClickListener {
 
-            genrateReport()
+            progressBar.visibility = View.VISIBLE
+            generateReport()
+            listViewItemListener()
 
         }
 
@@ -81,45 +105,100 @@ class ViewFragment : Fragment() {
     }
 
 
-    fun genrateReport() {
+    private fun generateReport() {
+
+        progressBar.visibility = View.GONE
 
         list.visibility = View.VISIBLE
-        dateSelected = selectDate.text.toString()
+        dateSelected = dateEntered.text.toString()
 
         index = dateSelected.lastIndexOf('/')
         date = dateSelected.substring(0, index)
 
-        if(selectedFilterOption.equals(getString(R.string.select))){
-            (selectFilterModeSpinner.getSelectedView() as TextView).error =
-                "Please Choose some category"
-            return
-        }
+//        if(dateSelected.isEmpty()){
+//            dateEntered.error = "Please fill all the required field !"
+//            return
+//        }
+        if (spinnerValue == getString(R.string.allAccounts)) {
 
-        if (selectedFilterOption.equals(getString(R.string.date))) {
+            //all account cumulative report
+            if (selectedFilterOption == getString(R.string.select)) {
+                (selectFilterModeSpinner.selectedView as TextView).error =
+                    "Please Choose some category"
+                return
+            }
+            if (selectedFilterOption == getString(R.string.date)) {
 
-            //view reports of selected date
+                //view reports of selected date
+                val categoryArray = resources.getStringArray(R.array.expenseResources)
+                val len = categoryArray.size
 
-            val query: Query =
-                FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
-                    .orderByChild("date")
-                    .equalTo(dateSelected)
-            query.addListenerForSingleValueEvent(valueEventListener)
+                for (i in 1 until len - 1) {
+                    val spinnerValue = categoryArray[i]
+
+                    val query: Query =
+                        FirebaseDatabase.getInstance()
+                            .getReference("Users/$user/Expense/$date/$spinnerValue")
+                            .orderByChild("date")
+                            .equalTo(dateSelected)
+                    query.addListenerForSingleValueEvent(valueEventListener)
+
+
+                }
+            } else {
+
+//                val categoryArray = resources.getStringArray(R.array.expenseResources)
+//                val len = categoryArray.size
+
+//                for (i in 1 until len - 1) {
+//                    val spinnerValue = categoryArray.get(i)
+
+                val query1: Query =
+                    FirebaseDatabase.getInstance()
+                        .getReference("Users/$user/Expense/$date")
+
+                query1.addListenerForSingleValueEvent(valueEventListener)
+//                }
+
+
+            }
+
 
         } else {
+            if (selectedFilterOption == getString(R.string.select)) {
+                (selectFilterModeSpinner.selectedView as TextView).error =
+                    "Please Choose some category"
+                return
+            }
 
-            val query: Query =
-                FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
+            if (selectedFilterOption == getString(R.string.date)) {
 
-            query.addListenerForSingleValueEvent(valueEventListener)
+                //view reports of selected date
+
+                val query: Query =
+                    FirebaseDatabase.getInstance()
+                        .getReference("Users/$user/Expense/$date/$spinnerValue")
+                        .orderByChild("date")
+                        .equalTo(dateSelected)
+                query.addListenerForSingleValueEvent(valueEventListener)
+
+            } else {
+
+                val query: Query =
+                    FirebaseDatabase.getInstance()
+                        .getReference("Users/$user/Expense/$date/$spinnerValue")
+
+                query.addListenerForSingleValueEvent(valueEventListener)
 
 
+            }
         }
 
     }
 
 
-    val valueEventListener =
-        FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date/$spinnerValue")
+    private val valueEventListener =
+        FirebaseDatabase.getInstance().getReference("Users/$user/Expense/$date")
             .addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -155,10 +234,10 @@ class ViewFragment : Fragment() {
     // set date
     private fun setDate() {
 
-        selectDate.setOnClickListener {
+        dateEntered.setOnClickListener {
 
-            val datepickerDialogue = DatePickerDialog(
-                requireContext(), DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDate ->
+            val datePickerDialogue = DatePickerDialog(
+                requireContext(), { _, mYear, mMonth, mDate ->
 
                     var month = ""
 
@@ -199,26 +278,46 @@ class ViewFragment : Fragment() {
                         month = "December"
                     }
 
-                    selectDate.setText("$mYear/$month/$mDate")
+//                    if (selectedFilterOption.equals(getString(R.string.year))) {
+//                        dateEntered.setText("$mYear")
+//                    } else if (selectedFilterOption.equals(getString(R.string.month))) {
+//                        dateEntered.setText("$mYear/$month")
+//                    } else {
+                    val date = "$mYear/$month/$mDate"
+                    dateEntered.text = date
+//                    }
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             )
 
-            datepickerDialogue.show()
+            datePickerDialogue.show()
 
         }
 
     }
 
-    fun filterBySpinnerValue() {
+    private fun filterBySpinnerValue() {
 
         selectFilterModeSpinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val filterByArray = resources.getStringArray(R.array.selectfilterMode)
-                selectedFilterOption = filterByArray.get(p2)
+                selectedFilterOption = filterByArray[p2]
+
+                selectDateTV.text = "Select $selectedFilterOption"
+
+                if (selectedFilterOption == getString(R.string.date)
+                    || selectedFilterOption == getString(R.string.month)
+                    || selectedFilterOption == getString(R.string.year)
+                ) {
+
+                    selectDateTV.visibility = View.VISIBLE
+                    dateEntered.visibility = View.VISIBLE
+
+                }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -229,4 +328,121 @@ class ViewFragment : Fragment() {
 
     }
 
+    private fun listViewItemListener() {
+
+        list.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id ->
+
+            showDialogueBox()
+            Toast.makeText(
+                activity,
+                "downloading ....",
+                Toast.LENGTH_LONG
+            )
+                .show()
+
+        }
+
+    }
+
+    //dialogue Box to ask if user want to download the reports
+    private fun showDialogueBox() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Do you want download the expense details ??")
+        builder.setMessage(
+            "Note : Downloading the expense report wouldn't remove it from the application !! "
+        )
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+            // save details in the internal storage of the device
+            downloadExpenseReport()
+        }
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+        }
+        builder.show()
+    }
+
+    private fun downloadExpenseReport() {
+
+        if (checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+            PackageManager.PERMISSION_DENIED
+        ) {
+
+            //permission denied
+
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                STORAGE_PERMISSION_CODE
+            )
+
+        } else {
+
+            startDownloading()
+
+        }
+
+    }
+
+    private fun startDownloading() {
+
+        val totalExpense = "Total Expense  = " + ExpenseEntered.text
+        val source = "Source = " + expenseCategoryFetched.text
+        val category = "Category = " + expenseSourceFetched.text
+        val details = "Details = " + expenseDetailsFetched.text
+        val text = "$totalExpense \n $source \n $category \n $details"
+
+        var fos: FileOutputStream? = null
+
+        try {
+            val fileName = "expenseManagementReport.txt"
+//            FileOutputStream(FILE_NAME , MODE_PRIVATE)
+            fos = activity?.openFileOutput(fileName, MODE_PRIVATE)
+            fos?.write(text.toByteArray())
+
+            Toast.makeText(
+                activity,
+                "saved to : " + activity?.filesDir + "/" + fileName,
+                Toast.LENGTH_LONG
+            )
+                .show()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (ae: IOException) {
+            ae.printStackTrace()
+        } finally {
+            if (fos != null) {
+
+                try {
+                    fos.close()
+                } catch (a: IOException) {
+                    a.printStackTrace()
+                }
+
+            }
+        }
+
+
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            STORAGE_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    startDownloading()
+                } else {
+                    Toast.makeText(
+                        activity,
+                        "Permission denied",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+            }
+        }
+    }
 }

@@ -21,14 +21,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/addInitialAmountTV"
+            android:id="@+id/tv_initial_amount"
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/Initial_amount" />
 
         <EditText
-            android:id="@+id/addInitialAmountET"
+            android:id="@+id/et_initial_amount"
             style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,14 +47,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/addCategoryTV"
+            android:id="@+id/tv_category"
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/category_TV" />
 
         <Spinner
-            android:id="@+id/addAccountCategorySpinner"
+            android:id="@+id/spinner_category"
             style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <TextView
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/account_category_warning"

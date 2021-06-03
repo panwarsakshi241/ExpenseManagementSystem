@@ -3,34 +3,32 @@ package com.aapnainfotech.expensemanagementsystem.fragments.account
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.isEmpty
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.aapnainfotech.expensemanagementsystem.model.Account
-import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class AccountFragment : Fragment() {
 
-    lateinit var  initialAmt : EditText
-    lateinit var categorySpinner : Spinner
-    lateinit var saveBtn : Button
+    private lateinit var initialAmt: EditText
+    private lateinit var categorySpinner: Spinner
+    private lateinit var saveBtn: Button
 
     var selectedCategory = ""
-    var timeStamp = ""
+    private var timeStamp = ""
 
-    lateinit var ref : DatabaseReference
+    private lateinit var ref: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +37,8 @@ class AccountFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-        initialAmt = view.findViewById(R.id.addInitialAmountET)
-        categorySpinner = view.findViewById(R.id.addAccountCategorySpinner)
+        initialAmt = view.findViewById(R.id.et_initial_amount)
+        categorySpinner = view.findViewById(R.id.spinner_category)
         saveBtn = view.findViewById(R.id.InitialAmountSave)
 
         //timeStamp
@@ -48,17 +46,17 @@ class AccountFragment : Fragment() {
         val date = Date()
         timeStamp = IncomeFragment.dateTimeFormat.format(date)
 
-        val user = MainActivity.currentUser?.replace(".","")
-        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
+        val user = MainActivity.currentUser?.replace(".", "")
+        ref = FirebaseDatabase.getInstance().getReference("Users/" + user!!)
 
-        //retrieve data drom the Select category Spinner
+        //retrieve data from the Select category Spinner
 
         categorySpinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val CategoryArray = resources.getStringArray(R.array.category)
-                selectedCategory = CategoryArray.get(p2)
+                val categoryArray = resources.getStringArray(R.array.category)
+                selectedCategory = categoryArray[p2]
 
             }
 
@@ -77,17 +75,18 @@ class AccountFragment : Fragment() {
         return view
     }
 
-    private fun saveDetails(){
+    private fun saveDetails() {
 
         val initialAmount = initialAmt.text.toString().trim()
 
-        if(initialAmount.isEmpty() || categorySpinner.isEmpty() || selectedCategory.equals(getString(R.string.select))){
-            if (initialAmount.isEmpty()){
-                initialAmt.error = "Please enter Amount!"
+        if (initialAmount.isEmpty() || categorySpinner.isEmpty() || selectedCategory == getString(R.string.select)) {
+            if (initialAmount.isEmpty()) {
+                initialAmt.error = getString(R.string.text_view_error)
                 return
             }
-            if (categorySpinner.isEmpty() || selectedCategory.equals(getString(R.string.select))){
-                (categorySpinner.getSelectedView() as TextView ).error = "Please Choose some category"
+            if (categorySpinner.isEmpty() || selectedCategory == getString(R.string.select)) {
+                (categorySpinner.selectedView as TextView).error =
+                    getString(R.string.category_spinner_error)
                 return
             }
 
@@ -95,14 +94,16 @@ class AccountFragment : Fragment() {
 
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
-        val path = "Account/"+selectedCategory
+        val path = "Account/$selectedCategory"
 
-        val user = Account(userId, initialAmount.toDouble(), selectedCategory , timeStamp)
+        val user = Account(userId, initialAmount.toDouble(), selectedCategory, timeStamp)
 
         ref.child(path).setValue(user).addOnCompleteListener {
-            Toast.makeText(activity,
-                "Account details saved successfully",
-                Toast.LENGTH_SHORT)
+            Toast.makeText(
+                activity,
+                getString(R.string.account_details_saved_successfully),
+                Toast.LENGTH_SHORT
+            )
                 .show()
 
             findNavController().navigate(R.id.homeFragment)
@@ -113,10 +114,9 @@ class AccountFragment : Fragment() {
     //dialogue Box
     private fun showDialogueBox() {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Are You Sure ??")
+        builder.setTitle(getString(R.string.dialogbox_title))
         builder.setMessage(
-            "you haven't selected the same category ?" +
-                    "your data will be overwritten if you do so ."
+            getString(R.string.dialogbox_message)
         )
         builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             saveDetails()

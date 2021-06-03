@@ -11,7 +11,7 @@ class Account(val id : String ,
      *our model class
      */
 
-    constructor(): this("",0.0,"",""){}
+    constructor(): this("",0.0,"","")
 
 
 

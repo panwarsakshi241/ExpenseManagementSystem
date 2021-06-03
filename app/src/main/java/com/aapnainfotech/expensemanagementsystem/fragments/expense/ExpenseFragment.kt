@@ -4,40 +4,35 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.aapnainfotech.expensemanagementsystem.model.Expense
-import com.aapnainfotech.expensemanagementsystem.model.Income
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import java.text.SimpleDateFormat
-import java.time.Month
-import java.time.MonthDay
-import java.time.Year
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
 
 class ExpenseFragment : Fragment() {
 
-    lateinit var expenseDate: TextView
-    lateinit var ref: DatabaseReference
-    lateinit var saveExpense: Button
-    lateinit var addExpense: EditText
-    lateinit var expenseCategorySpinner: Spinner
-    lateinit var expenseResourceSpinner: Spinner
-    lateinit var expenseDetails: EditText
+    private lateinit var expenseDate: TextView
+    private lateinit var ref: DatabaseReference
+    private lateinit var saveExpense: Button
+    private lateinit var addExpense: EditText
+    private lateinit var expenseCategorySpinner: Spinner
+    private lateinit var expenseResourceSpinner: Spinner
+    private lateinit var expenseDetails: EditText
 
     var selectedCategory: String = ""
-    var selectedresource: String = ""
-    var selectedDate: String = ""
-    var timeStamp = ""
+    var selectedResource: String = ""
+    private var selectedDate: String = ""
+    private var timeStamp = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +41,12 @@ class ExpenseFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_expense, container, false)
 
-        expenseDate = view.findViewById(R.id.addExpenseDateTV)
-        saveExpense = view.findViewById(R.id.saveExpense)
-        addExpense = view.findViewById(R.id.addExpenseET)
-        expenseCategorySpinner = view.findViewById(R.id.addExpenseCategorySpinner)
-        expenseResourceSpinner = view.findViewById(R.id.addExpenseResourceSpinner)
-        expenseDetails = view.findViewById(R.id.comment)
+        expenseDate = view.findViewById(R.id.tv_pick_date)
+        saveExpense = view.findViewById(R.id.btn_save_expense)
+        addExpense = view.findViewById(R.id.et_add_expense)
+        expenseCategorySpinner = view.findViewById(R.id.spinner_expense_category)
+        expenseResourceSpinner = view.findViewById(R.id.spinner_expense_resource)
+        expenseDetails = view.findViewById(R.id.et_comment)
 
 
         //timeStamp
@@ -83,7 +78,7 @@ class ExpenseFragment : Fragment() {
 
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectedCategory = categoryArray.get(p2)
+                selectedCategory = categoryArray[p2]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -95,7 +90,7 @@ class ExpenseFragment : Fragment() {
         expenseResourceSpinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectedresource = resourceArray.get(p2)
+                selectedResource = resourceArray[p2]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -115,9 +110,9 @@ class ExpenseFragment : Fragment() {
 
         if (comment.isEmpty()
             || comment.isEmpty()
-            || selectedDate.equals(getString(R.string.choose_date_TV))
-            || selectedCategory.equals(getString(R.string.select))
-            || selectedresource.equals(getString(R.string.select))
+            || selectedDate == getString(R.string.choose_date_TV)
+            || selectedCategory == getString(R.string.select)
+            || selectedResource == getString(R.string.select)
         ) {
 
             if (expense.isEmpty()) {
@@ -128,17 +123,17 @@ class ExpenseFragment : Fragment() {
                 expenseDetails.error = "Please fill the details "
                 return
             }
-            if (selectedDate.equals(getString(R.string.choose_date_TV))) {
+            if (selectedDate == getString(R.string.choose_date_TV)) {
                 expenseDate.error = "Please choose the date"
                 return
             }
-            if (selectedCategory.equals(getString(R.string.select))) {
-                (expenseCategorySpinner.getSelectedView() as TextView).error =
+            if (selectedCategory == getString(R.string.select)) {
+                (expenseCategorySpinner.selectedView as TextView).error =
                     "Please Choose some category"
                 return
             }
-            if (selectedresource.equals(getString(R.string.select))) {
-                (expenseResourceSpinner.getSelectedView() as TextView).error =
+            if (selectedResource == getString(R.string.select)) {
+                (expenseResourceSpinner.selectedView as TextView).error =
                     "Please Choose some resource"
                 return
             }
@@ -159,7 +154,7 @@ class ExpenseFragment : Fragment() {
                 expense,
                 selectedDate,
                 selectedCategory,
-                selectedresource,
+                selectedResource,
                 comment,
                 timeStamp
             )
@@ -180,8 +175,8 @@ class ExpenseFragment : Fragment() {
         expenseDate.setOnClickListener {
 
 
-            val datepickerDialogue = DatePickerDialog(
-                requireContext(), DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDate ->
+            val datePickerDialogue = DatePickerDialog(
+                requireContext(), { _, mYear, mMonth, mDate ->
 
 
                     var month =""
@@ -223,13 +218,14 @@ class ExpenseFragment : Fragment() {
                         month  = "December"
                     }
 
-                    expenseDate.setText("$mYear/$month/$mDate")
+                    val date = "$mYear/$month/$mDate"
+                    expenseDate.text = date
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             )
 
-            datepickerDialogue.show()
+            datePickerDialogue.show()
 
         }
 
@@ -242,11 +238,11 @@ class ExpenseFragment : Fragment() {
             "The Expense details are all correct?" +
                     " You wouldn't be able to make changes after you press okay ."
         )
-        builder.setPositiveButton("Yes", { _: DialogInterface, _: Int ->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             saveExpense()
-        })
-        builder.setNegativeButton("No", { _: DialogInterface, _: Int ->
-        })
+        }
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+        }
         builder.show()
     }
 

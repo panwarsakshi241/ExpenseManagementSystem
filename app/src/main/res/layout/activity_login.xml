@@ -11,8 +11,8 @@
         style="@style/expenseManagementSystemH1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <ImageView
             style="@style/expenseManagementSystemImageView"
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_wallet" />
 
         <TextView
-            android:id="@+id/loginTV"
+            android:id="@+id/tv_login"
             style="@style/expenseManagementSystemH1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,15 +36,15 @@
         <View
             android:layout_width="100dp"
             android:layout_height="1dp"
-            android:background="@color/black"
+            android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="80dp"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+            android:background="@color/black"
+            android:gravity="center" />
 
 
         <EditText
-            android:id="@+id/emailidET"
+            android:id="@+id/et_email"
             style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:padding="10dp" />
 
         <EditText
-            android:id="@+id/passwordET"
+            android:id="@+id/et_password"
             style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:padding="10dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/loginBtn"
+            android:id="@+id/btn_login"
             style="@style/expenseManagementSystemH2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -79,13 +79,13 @@
             app:cornerRadius="20dp" />
 
         <TextView
-            android:id="@+id/signupHere"
+            android:id="@+id/tv_signUp"
             style="@style/expenseManagementSystemH2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/signUpTV"
-            android:textColor="@color/gray" />
+            android:textColor="@color/purple_500" />
 
 
     </LinearLayout>

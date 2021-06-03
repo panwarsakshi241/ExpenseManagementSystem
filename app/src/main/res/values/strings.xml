@@ -142,5 +142,21 @@
     <string name="year_TV">Year</string>
     <string name="month_TV">Month</string>
     <string name="amount_TV">Amount</string>
+    <string name="id">Id</string>
+    <string name="source">Source</string>
+    <string name="category">Category</string>
+    <string name="details">Details</string>
+    <string name="dated">Dated</string>
+    <string name="year">Year</string>
+    <string name="account_details_toast_text">Please add your account details !</string>
+    <string name="successful_login">You are Logged in Successfully !</string>
+    <string name="timber_text">Disable button before Text Changed</string>
+    <string name="enable_button_timber_text">\"Enable button after text is changed \"</string>
+    <string name="text_view_error">Please enter Amount!</string>
+    <string name="category_spinner_error">Please Choose some category</string>
+    <string name="account_details_saved_successfully">Account details saved successfully</string>
+    <string name="dialogbox_title">Are You Sure ??</string>
+    <string name="dialogbox_message">you haven\'t selected the same category ? Your data will be overwritten if you do so .</string>
+    <string name="welcome">\"Welcome \"</string>
 
 </resources>

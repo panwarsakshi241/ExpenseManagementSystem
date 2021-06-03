@@ -4,41 +4,49 @@
     style="@style/gridViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/icon_outer_background"
+    android:layout_marginBottom="80dp"
+    android:background="@drawable/custom_bg"
     android:orientation="vertical"
-    tools:context=".fragments.home.HomeFragment"
-    android:layout_margin="50dp">
+    android:padding="20dp"
+    tools:context=".fragments.home.HomeFragment">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="@color/black"/>
+        android:background="@color/black" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="5dp"
-        android:background="@color/teal">
+        android:background="@color/off_white"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/dateTV"
+            style="@style/tv_expense_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dated "
-            android:textStyle="bold"
-            style="@style/settingStyle"
-            android:textColor="@color/black"/>
+            android:text="@string/dated"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expenseDateFetched"
+            style="@style/tv_expense_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/incomeShown"
-            style="@style/settingStyle"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="50dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_download" />
 
     </LinearLayout>
 
@@ -46,43 +54,45 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="@color/black"/>
+        android:background="@color/black" />
 
 
     <LinearLayout
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10sp">
+        android:layout_marginStart="10sp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/expenseId"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Id"
-            android:textStyle="bold" />
+            android:text="@string/id"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/ExpenseIdFetched"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/incomeShown" />
+            android:text="@string/incomeShown"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <LinearLayout
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/ExpenseTV"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/expense_added"
@@ -90,7 +100,7 @@
 
         <TextView
             android:id="@+id/ExpenseEntered"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/incomeShown" />
@@ -99,23 +109,23 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/expenseCategoryTV"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Source"
+            android:text="@string/source"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expenseCategoryFetched"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/incomeShown" />
@@ -125,23 +135,23 @@
 
 
     <LinearLayout
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/expenseSourceTV"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/category"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expenseSourceFetched"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/incomeShown" />
@@ -150,23 +160,24 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/settingStyle"
+        style="@style/tv_expense_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
 
         <TextView
             android:id="@+id/DetailsTV"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Details"
+            android:text="@string/details"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expenseDetailsFetched"
-            style="@style/settingStyle"
+            style="@style/tv_expense_instruction"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/incomeShown" />
@@ -178,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="@color/black"
-        />
+        android:layout_marginBottom="20dp"
+        android:background="@color/black" />
 
 </LinearLayout>

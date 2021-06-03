@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.tapadoo.android:alerter:6.1.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 
     //circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'

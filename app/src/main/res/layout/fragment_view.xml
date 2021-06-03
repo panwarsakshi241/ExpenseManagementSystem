@@ -22,14 +22,14 @@
         <TextView
             android:id="@+id/selectNoOfDays"
             style="@style/viewStyle"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/filterMode" />
 
         <Spinner
             android:id="@+id/selectFilterOption"
             style="@style/viewStyle"
-            android:layout_width="100dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:entries="@array/selectfilterMode"
             android:padding="10dp"
@@ -46,19 +46,21 @@
         <TextView
             android:id="@+id/selectDate"
             style="@style/viewStyle"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/selectDateTV" />
+            android:text="@string/selectDateTV"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/DateEntered"
             style="@style/viewStyle"
-            android:layout_width="100dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:autofillHints="@string/_23_04_2021_date"
             android:background="@drawable/custom_input"
             android:hint="@string/_23_04_2021_date"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>
@@ -80,30 +82,6 @@
         android:layout_margin="5dp"
         android:text="@string/expense_details_TV" />
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/totalExpense"-->
-<!--            style="@style/viewStyle"-->
-<!--            android:layout_width="200dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/total_expense_calculated" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/totalExpenseCalculated"-->
-<!--            style="@style/viewStyle"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/custom_input"-->
-<!--            android:padding="5dp"-->
-<!--            android:text="@string/Hint_2000" />-->
-
-
-<!--    </LinearLayout>-->
-
     <ListView
         android:id="@+id/viewList"
         android:layout_width="match_parent"
@@ -111,5 +89,18 @@
         android:layout_margin="5dp"
         android:padding="10dp"
         android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyle"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"/>
 
 </LinearLayout>

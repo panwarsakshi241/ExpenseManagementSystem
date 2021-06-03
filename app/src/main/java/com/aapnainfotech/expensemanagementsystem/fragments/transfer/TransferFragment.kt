@@ -4,11 +4,11 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
@@ -22,19 +22,19 @@ import java.util.*
 
 class TransferFragment : Fragment() {
 
-    lateinit var addTransferDate: TextView
-    lateinit var transferButton: Button
-    lateinit var ref: DatabaseReference
-    lateinit var transferedAmountET: EditText
-    lateinit var sourceAccountSpinner: Spinner
-    lateinit var targetAccountSpinner: Spinner
+    private lateinit var addTransferDate: TextView
+    private lateinit var transferButton: Button
+    private lateinit var ref: DatabaseReference
+    private lateinit var transferredAmountET: EditText
+    private lateinit var sourceAccountSpinner: Spinner
+    private lateinit var targetAccountSpinner: Spinner
 
-    var timeStamp = ""
+    private var timeStamp = ""
     var user: String? = ""
     var sourceAccount = ""
     var targetAccount = ""
-    var selectedDate = ""
-    var transferedAmt = ""
+    private var selectedDate = ""
+    private var transferredAmt = ""
 
 
     override fun onCreateView(
@@ -48,10 +48,10 @@ class TransferFragment : Fragment() {
         transferButton = view.findViewById(R.id.transferBtn)
         sourceAccountSpinner = view.findViewById(R.id.sourceAccountspinner)
         targetAccountSpinner = view.findViewById(R.id.targetAccountSpinner)
-        transferedAmountET = view.findViewById(R.id.transferedAmountET)
+        transferredAmountET = view.findViewById(R.id.transferedAmountET)
 
         user = MainActivity.currentUser?.replace(".", "")
-        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/" + user!!)
 
         sourceAccountSpinnerValue()
         targetAccountSpinnerValue()
@@ -74,8 +74,8 @@ class TransferFragment : Fragment() {
     //set date
     private fun setDate() {
 
-        val datepickerDialogue = DatePickerDialog(
-            requireContext(), DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDate ->
+        val datePickerDialogue = DatePickerDialog(
+            requireContext(), { _, mYear, mMonth, mDate ->
 
                 var month = ""
 
@@ -116,26 +116,27 @@ class TransferFragment : Fragment() {
                     month = "December"
                 }
 
-                addTransferDate.setText("$mYear/$month/$mDate")
+                val date = "$mYear/$month/$mDate"
+                addTransferDate.text = date
             }, Calendar.getInstance().get(Calendar.YEAR),
             Calendar.getInstance().get(Calendar.MONTH),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         )
 
-        datepickerDialogue.show()
+        datePickerDialogue.show()
 
     }
 
     //retrieve spinner value
-    fun sourceAccountSpinnerValue() {
+    private fun sourceAccountSpinnerValue() {
 
         sourceAccountSpinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val CategoryArray = resources.getStringArray(R.array.category)
-                sourceAccount = CategoryArray.get(p2)
+                val categoryArray = resources.getStringArray(R.array.category)
+                sourceAccount = categoryArray[p2]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -146,15 +147,15 @@ class TransferFragment : Fragment() {
 
     }
 
-    fun targetAccountSpinnerValue() {
+    private fun targetAccountSpinnerValue() {
 
         targetAccountSpinner.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val CategoryArray = resources.getStringArray(R.array.category)
-                targetAccount = CategoryArray.get(p2)
+                val categoryArray = resources.getStringArray(R.array.category)
+                targetAccount = categoryArray[p2]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -167,26 +168,26 @@ class TransferFragment : Fragment() {
 
     private fun saveTransferDetails() {
 
-        transferedAmt = transferedAmountET.text.toString().trim()
+        transferredAmt = transferredAmountET.text.toString().trim()
         selectedDate = addTransferDate.text.toString().trim()
 
-        if (transferedAmt.isEmpty()) {
-            transferedAmountET.error = "Please enter Income !"
+        if (transferredAmt.isEmpty()) {
+            transferredAmountET.error = "Please enter Income !"
             return
         }
 
-        if (sourceAccount.equals(getString(R.string.select))) {
-            (sourceAccountSpinner.getSelectedView() as TextView).error =
+        if (sourceAccount == getString(R.string.select)) {
+            (sourceAccountSpinner.selectedView as TextView).error =
                 "Please Choose some category"
             return
         }
 
-        if (targetAccount.equals(getString(R.string.select))) {
-            (targetAccountSpinner.getSelectedView() as TextView).error =
+        if (targetAccount == getString(R.string.select)) {
+            (targetAccountSpinner.selectedView as TextView).error =
                 "Please Choose some resource"
             return
         }
-        if (selectedDate.equals(getString(R.string.choose_date_TV))) {
+        if (selectedDate == getString(R.string.choose_date_TV)) {
             addTransferDate.error = "Please select date"
             return
         }
@@ -201,13 +202,13 @@ class TransferFragment : Fragment() {
     /**
      * saving the details in the source account
      *
-     * for the source account the transfered amount is considered as expense
-     * so the transfered amount will be saved as expense under the choosen
+     * for the source account the transferred amount is considered as expense
+     * so the transferred amount will be saved as expense under the chosen
      * category.
      */
 
 
-    fun sourceAccountPathToSaveData() {
+    private fun sourceAccountPathToSaveData() {
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
 
@@ -218,11 +219,11 @@ class TransferFragment : Fragment() {
         val user =
             Expense(
                 userId,
-                transferedAmt,
+                transferredAmt,
                 selectedDate,
                 sourceAccount,
                 targetAccount,
-                "Transfered Amount from $sourceAccount to $targetAccount",
+                "Transferred Amount from $sourceAccount to $targetAccount",
                 timeStamp
             )
 
@@ -235,12 +236,12 @@ class TransferFragment : Fragment() {
     /**
      * saving the details in the target account
      *
-     * for the target account the transfered amount is considered as income
-     * so the transfered amount will be saved as income under the choosen
+     * for the target account the transferred amount is considered as income
+     * so the transferred amount will be saved as income under the chosen
      * category.
      */
 
-    fun targetAccountPathToSaveData() {
+    private fun targetAccountPathToSaveData() {
 
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
@@ -252,7 +253,7 @@ class TransferFragment : Fragment() {
         val user =
             Income(
                 userId,
-                transferedAmt,
+                transferredAmt,
                 selectedDate,
                 sourceAccount,
                 targetAccount,
