@@ -202,9 +202,9 @@ class HomeFragment : Fragment() {
             )
         }
 
-        profilePicture.setOnClickListener({
+        profilePicture.setOnClickListener {
 
-        })
+        }
 
         getBudgetAmount()
         setPieChart()
@@ -358,11 +358,13 @@ class HomeFragment : Fragment() {
     private fun setMonthlyPlanData() {
 
         previousMonth()
-        yearTV.text = "Year \n$cYear"
-        monthTV.text = "Month \n$cMonth"
+        yearTV.text = cYear
+        monthTV.text = cMonth
 
-        thisMonthTV.text = "Month : $cMonth"
-        previousMonthTV.text = "Previous Month : $month"
+        val thisMonth = "Month : $cMonth"
+        thisMonthTV.text = thisMonth
+        val previousMonth = "Previous Month : $month"
+        previousMonthTV.text = previousMonth
 
     }
 
@@ -528,7 +530,8 @@ class HomeFragment : Fragment() {
                             budgetAmount = amount.toDouble()
 
                             //setting budget amount in the text view
-                            amountTV.text = "Amount \n$budgetAmount"
+                            val budget = "Amount \n$budgetAmount"
+                            amountTV.text = budget
 
                             if (allAccountExpense > budgetAmount) {
 
@@ -576,7 +579,7 @@ class HomeFragment : Fragment() {
             .setIcon(R.drawable.ic_warning)
             .setBackgroundColorRes(R.color.yellow_200)
             .setDuration(6000)
-            .setOnClickListener({
+            .setOnClickListener {
 
                 Toast.makeText(
                     activity,
@@ -585,7 +588,7 @@ class HomeFragment : Fragment() {
                 )
                     .show()
 
-            }).show()
+            }.show()
 
     }
 

@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
-        <activity android:name=".WalkThrough"></activity>
+        <activity android:name=".WalkThrough"/>
         <activity android:name=".register.RegistrationActivity" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
