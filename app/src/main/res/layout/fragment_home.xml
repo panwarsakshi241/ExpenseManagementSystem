@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,14 +38,14 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@string/acount_holder_name_TV"
+                    android:text="@string/account_holder_name_TV"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
 
             </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profilepicture"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profilePicture"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
@@ -98,13 +99,13 @@
 
                 </LinearLayout>
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/budget_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_margin="10dp"
                     android:gravity="end"
-                    android:src="@drawable/budgetplan"
+                    android:src="@drawable/monthly_budget"
                     app:civ_border_color="@color/teal"
                     app:civ_border_width="4dp" />
 
@@ -145,406 +146,474 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_bg"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/spinner"
-                style="@style/expenseManagementSystemH2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_bg"
-                android:entries="@array/expenseResources"
-                android:padding="10dp">
-
-            </Spinner>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <ImageButton
-                        android:id="@+id/addincome"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/icon_background"
-                        android:backgroundTint="@color/white"
-                        android:contentDescription="@string/app_name"
-                        android:gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/add_income"
-                        android:text="@string/add_income_btn" />
-
-                    <ImageButton
-                        android:id="@+id/addexpense"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/icon_background"
-                        android:backgroundTint="@color/white"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/expense"
-                        android:text="@string/add_expense_btn" />
-
-                    <ImageButton
-                        android:id="@+id/addtransfer"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/icon_background"
-                        android:backgroundTint="@color/white"
-                        android:contentDescription="@string/app_name"
-                        android:gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/transfermoney"
-                        android:text="@string/transfer_btn" />
-
-                    <ImageButton
-                        android:id="@+id/view"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/icon_outer_background"
-                        android:contentDescription="@string/app_name"
-                        android:gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/generatereports"
-                        android:text="@string/view_btn" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="center"
-                        android:text="@string/add_incomeTV"
-                        android:textColor="@color/black"
-                        android:textSize="12dp" />
-
-                    <TextView
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/add_expense"
-                        android:textColor="@color/black"
-                        android:textSize="12dp" />
-
-                    <TextView
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:text="@string/add_transferTV"
-                        android:textColor="@color/black"
-                        android:textSize="12dp" />
-
-                    <TextView
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:text="@string/view_reportTV"
-                        android:textColor="@color/black"
-                        android:textSize="12dp" />
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
+            android:layout_margin="5dp"
+            android:background="@color/gray"
+            android:elevation="5dp"
+            android:padding="10dp"
+            app:cardCornerRadius="20dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardView1"
-                    android:layout_width="250dp"
+                <Spinner
+                    android:id="@+id/spinner"
+                    style="@style/expenseManagementSystemH2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@color/gray"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:visibility="visible">
+                    android:background="@drawable/custom_bg"
+                    android:entries="@array/expenseResources"
+                    android:padding="10dp" />
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:padding="30dp">
-
-                        <ImageView
-                            android:id="@+id/iv_report"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:contentDescription="@string/app_name"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/xpensereport" />
-
-                        <TextView
-                            android:id="@+id/tv_thisMonth"
-                            style="@style/expenseManagementSystemH2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iv_report"
-                            android:text="@string/monthly_report_TV"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_income_added"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_report"
-                            android:text="@string/income_tv"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_income_shown"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_thisMonth"
-                            android:layout_toEndOf="@+id/tv_this_month_income_added"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_expense"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_this_month_income_added"
-                            android:text="@string/expense_added"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_expense_shown"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_this_month_income_shown"
-                            android:layout_toEndOf="@id/tv_this_month_expense"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_current_balance"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_this_month_expense"
-                            android:text="@string/current_balance_TV"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_this_month_current_balance_shown"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_this_month_expense_shown"
-                            android:layout_toEndOf="@+id/tv_this_month_current_balance"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
-
-
-                    </RelativeLayout>
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardView2"
-                    android:layout_width="250dp"
+                <RelativeLayout
+                    android:id="@+id/relative_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_below="@id/spinner"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@color/gray"
-                    android:elevation="10dp"
                     android:gravity="center"
-                    android:visibility="gone">
+                    android:padding="10dp">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_addIncome"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageButton
+                                android:id="@+id/btn_addIncome"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/icon_background"
+                                android:backgroundTint="@color/white"
+                                android:contentDescription="@string/app_name"
+                                android:gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/add_income"
+                                android:text="@string/add_income_btn" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/btn_addIncome"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="@string/add_incomeTV"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_addExpense"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:layout_toEndOf="@id/cv_addIncome"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageButton
+                                android:id="@+id/btn_addExpense"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/icon_background"
+                                android:backgroundTint="@color/white"
+                                android:contentDescription="@string/app_name"
+                                android:gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/expense"
+                                android:text="@string/add_expense_btn" />
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/btn_addExpense"
+                                android:gravity="center"
+                                android:text="@string/add_expense"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_addTransfer"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/cv_addIncome"
+                        android:layout_margin="10dp"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageButton
+                                android:id="@+id/btn_addTransfer"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/icon_background"
+                                android:backgroundTint="@color/white"
+                                android:contentDescription="@string/app_name"
+                                android:gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/transfermoney"
+                                android:text="@string/transfer_btn" />
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/btn_addTransfer"
+                                android:gravity="center"
+                                android:text="@string/add_transferTV"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_viewReport"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/cv_addExpense"
+                        android:layout_margin="10dp"
+                        android:layout_toEndOf="@+id/cv_addTransfer"
+                        android:elevation="5dp"
+                        app:cardCornerRadius="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageButton
+                                android:id="@+id/view"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/icon_outer_background"
+                                android:contentDescription="@string/app_name"
+                                android:gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/generatereports"
+                                android:text="@string/view_btn" />
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/view"
+                                android:gravity="center"
+                                android:text="@string/view_reportTV"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relative_layout">
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardView1"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/gray"
+                        android:elevation="10dp"
                         android:gravity="center"
-                        android:padding="30dp">
+                        android:visibility="visible">
 
-                        <ImageView
-                            android:id="@+id/iv_previousMonth"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:contentDescription="@string/app_name"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/xpensereport" />
-
-                        <TextView
-                            android:id="@+id/tv_previousMonth"
-                            style="@style/expenseManagementSystemH2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/iv_previousMonth"
-                            android:text="@string/previous_month_report_textView"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_income_added"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_previousMonth"
-                            android:text="@string/income_tv"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_income_shown"
-                            style="@style/tv_expense_instruction"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_previousMonth"
-                            android:layout_toEndOf="@id/tv_income_added"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="30dp">
 
-                        <TextView
-                            android:id="@+id/tv_expense"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_income_added"
-                            android:text="@string/expense_added"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
+                            <ImageView
+                                android:id="@+id/iv_report"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:contentDescription="@string/app_name"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/xpensereport" />
 
-                        <TextView
-                            android:id="@+id/tv_expense_shown"
-                            style="@style/tv_expense_instruction"
+                            <TextView
+                                android:id="@+id/tv_thisMonth"
+                                style="@style/expenseManagementSystemH2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/iv_report"
+                                android:text="@string/monthly_report_TV"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_income_added"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/iv_report"
+                                android:text="@string/income_tv"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_income_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_thisMonth"
+                                android:layout_toEndOf="@+id/tv_this_month_income_added"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_expense"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_this_month_income_added"
+                                android:text="@string/expense_added"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_expense_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_this_month_income_shown"
+                                android:layout_toEndOf="@id/tv_this_month_expense"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_current_balance"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_this_month_expense"
+                                android:text="@string/current_balance_TV"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_this_month_current_balance_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_this_month_expense_shown"
+                                android:layout_toEndOf="@+id/tv_this_month_current_balance"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
+
+
+                        </RelativeLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardView2"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/gray"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_income_shown"
-                            android:layout_toEndOf="@+id/tv_expense"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="30dp">
 
-                        <TextView
-                            android:id="@+id/tv_current_balance_added"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_expense"
-                            android:text="@string/current_balance_TV"
-                            android:textColor="@color/gray"
-                            android:textStyle="bold" />
+                            <ImageView
+                                android:id="@+id/iv_previousMonth"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:contentDescription="@string/app_name"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/xpensereport" />
 
-                        <TextView
-                            android:id="@+id/tv_current_balance_shown"
-                            style="@style/tv_expense_instruction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_expense_shown"
-                            android:layout_toEndOf="@+id/tv_current_balance_added"
-                            android:text="@string/incomeShown"
-                            android:textColor="@color/gray"
-                            android:textStyle="italic" />
+                            <TextView
+                                android:id="@+id/tv_previousMonth"
+                                style="@style/expenseManagementSystemH2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/iv_previousMonth"
+                                android:text="@string/previous_month_report_textView"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_income_added"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_previousMonth"
+                                android:text="@string/income_tv"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_income_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_previousMonth"
+                                android:layout_toEndOf="@id/tv_income_added"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tv_expense"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_income_added"
+                                android:text="@string/expense_added"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_expense_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_income_shown"
+                                android:layout_toEndOf="@+id/tv_expense"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tv_current_balance_added"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_expense"
+                                android:text="@string/current_balance_TV"
+                                android:textColor="@color/gray"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_current_balance_shown"
+                                style="@style/tv_expense_instruction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_expense_shown"
+                                android:layout_toEndOf="@+id/tv_current_balance_added"
+                                android:text="@string/incomeShown"
+                                android:textColor="@color/gray"
+                                android:textStyle="italic" />
 
 
-                    </RelativeLayout>
+                        </RelativeLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                <ImageView
-                    android:id="@+id/forward_arrow"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:layout_toEndOf="@id/cardView1"
-                    android:background="@drawable/icon_outer_background"
-                    android:contentDescription="@string/app_name"
-                    android:elevation="4dp"
-                    android:src="@drawable/ic_forward_arrow"
-                    android:visibility="visible" />
+                    <ImageView
+                        android:id="@+id/forward_arrow"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_toEndOf="@id/cardView1"
+                        android:background="@drawable/icon_outer_background"
+                        android:contentDescription="@string/app_name"
+                        android:elevation="4dp"
+                        android:src="@drawable/ic_forward_arrow"
+                        android:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/backward_arrow"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_toStartOf="@id/cardView2"
-                    android:background="@drawable/icon_outer_background"
-                    android:contentDescription="@string/app_name"
-                    android:elevation="4dp"
-                    android:src="@drawable/ic_backward_arrow"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/backward_arrow"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toStartOf="@id/cardView2"
+                        android:background="@drawable/icon_outer_background"
+                        android:contentDescription="@string/app_name"
+                        android:elevation="4dp"
+                        android:src="@drawable/ic_backward_arrow"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_summary"
+                    style="@style/gridViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_report"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="@string/tv_summary"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_below="@+id/tv_summary" />
+
 
             </RelativeLayout>
 
-            <TextView
-                style="@style/gridViewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="Summary"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
-
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <View
             android:layout_width="match_parent"

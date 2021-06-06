@@ -25,7 +25,7 @@
     <string name="settings_menuItem_titile">settings</string>
     <string name="agenda_menuitem_Title">agenda</string>
     <string name="XpenseManager">Xpense 🔍ditor</string>
-    <string name="acount_holder_name_TV">Acount Holder Name</string>
+    <string name="account_holder_name_TV">Acount Holder Name</string>
     <!--- settings -->
     <string name="set_expense_limit_textView">Set Expense Limit </string>
     <string name="Hint_2000">₹ 2000</string>
@@ -158,5 +158,6 @@
     <string name="dialogbox_title">Are You Sure ??</string>
     <string name="dialogbox_message">you haven\'t selected the same category ? Your data will be overwritten if you do so .</string>
     <string name="welcome">\"Welcome \"</string>
+    <string name="tv_summary">Summary</string>
 
 </resources>

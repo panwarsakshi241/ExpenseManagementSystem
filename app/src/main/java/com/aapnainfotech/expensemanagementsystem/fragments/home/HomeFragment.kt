@@ -97,15 +97,15 @@ class HomeFragment : Fragment() {
 
         val view = View.inflate(context, R.layout.fragment_home, null)
 
-        addIncome = view.findViewById(R.id.addincome)
-        addExpense = view.findViewById(R.id.addexpense)
-        addTransfer = view.findViewById(R.id.addtransfer)
+        addIncome = view.findViewById(R.id.btn_addIncome)
+        addExpense = view.findViewById(R.id.btn_addExpense)
+        addTransfer = view.findViewById(R.id.btn_addTransfer)
         viewReport = view.findViewById(R.id.view)
         incomeTV = view.findViewById(R.id.tv_income_shown)
         expenseTV = view.findViewById(R.id.tv_expense_shown)
         currentBalanceTV = view.findViewById(R.id.tv_current_balance_shown)
         accountHolder = view.findViewById(R.id.accountHolder)
-        profilePicture = view.findViewById(R.id.profilepicture)
+        profilePicture = view.findViewById(R.id.iv_profilePicture)
         yearTV = view.findViewById(R.id.year)
         monthTV = view.findViewById(R.id.month)
         amountTV = view.findViewById(R.id.amount)
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
         balanceOfThisMonth = view.findViewById(R.id.tv_this_month_current_balance_shown)
         thisMonthTV = view.findViewById(R.id.tv_thisMonth)
         previousMonthTV = view.findViewById(R.id.tv_previousMonth)
-        pieChart = view.findViewById(R.id.piechart)
+        pieChart = view.findViewById(R.id.pie_chart)
         spinner = view.findViewById(R.id.spinner)
 
         cardView1 = view.findViewById(R.id.cardView1)
