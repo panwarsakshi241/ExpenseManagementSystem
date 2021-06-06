@@ -71,4 +71,8 @@ dependencies {
     //Notification Library
     implementation "io.karn:notify:1.3.0"
 
+    //card view and recycler view dependency
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+
 }

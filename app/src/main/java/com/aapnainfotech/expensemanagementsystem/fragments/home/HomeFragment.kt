@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
@@ -53,6 +54,12 @@ class HomeFragment : Fragment() {
     private lateinit var thisMonthTV: TextView
     private lateinit var previousMonthTV: TextView
     private lateinit var pieChart: PieChart
+    private lateinit var forwardArrow : ImageView
+    private lateinit var backwardArrow : ImageView
+
+
+    private lateinit var cardView1 : CardView
+    private lateinit var cardView2 : CardView
 
     private val pickImage: Int = 1
     private var imageUri: Uri? = null
@@ -94,22 +101,27 @@ class HomeFragment : Fragment() {
         addExpense = view.findViewById(R.id.addexpense)
         addTransfer = view.findViewById(R.id.addtransfer)
         viewReport = view.findViewById(R.id.view)
-        incomeTV = view.findViewById(R.id.income_shown)
-        expenseTV = view.findViewById(R.id.expense_shown)
-        currentBalanceTV = view.findViewById(R.id.current_balance_shown)
+        incomeTV = view.findViewById(R.id.tv_income_shown)
+        expenseTV = view.findViewById(R.id.tv_expense_shown)
+        currentBalanceTV = view.findViewById(R.id.tv_current_balance_shown)
         accountHolder = view.findViewById(R.id.accountHolder)
         profilePicture = view.findViewById(R.id.profilepicture)
         yearTV = view.findViewById(R.id.year)
         monthTV = view.findViewById(R.id.month)
         amountTV = view.findViewById(R.id.amount)
-        currentMonthIncome = view.findViewById(R.id.this_month_income_shown)
-        currentMonthExpense = view.findViewById(R.id.this_month_expense_shown)
-        balanceOfThisMonth = view.findViewById(R.id.this_month_current_balance_shown)
-        thisMonthTV = view.findViewById(R.id.thisMonth)
-        previousMonthTV = view.findViewById(R.id.previousMonth)
+        currentMonthIncome = view.findViewById(R.id.tv_this_month_income_shown)
+        currentMonthExpense = view.findViewById(R.id.tv_this_month_expense_shown)
+        balanceOfThisMonth = view.findViewById(R.id.tv_this_month_current_balance_shown)
+        thisMonthTV = view.findViewById(R.id.tv_thisMonth)
+        previousMonthTV = view.findViewById(R.id.tv_previousMonth)
         pieChart = view.findViewById(R.id.piechart)
-
         spinner = view.findViewById(R.id.spinner)
+
+        cardView1 = view.findViewById(R.id.cardView1)
+        cardView2 = view.findViewById(R.id.cardView2)
+
+        forwardArrow = view.findViewById(R.id.forward_arrow)
+        backwardArrow = view.findViewById(R.id.backward_arrow)
 
         user = MainActivity.currentUser?.replace(".", "")
 
@@ -207,6 +219,7 @@ class HomeFragment : Fragment() {
         }
 
         getBudgetAmount()
+        viewPreviousMonthReport()
         setPieChart()
 
         return view
@@ -363,7 +376,7 @@ class HomeFragment : Fragment() {
 
         val thisMonth = "Month : $cMonth"
         thisMonthTV.text = thisMonth
-        val previousMonth = "Previous Month : $month"
+        val previousMonth = "Month : $month"
         previousMonthTV.text = previousMonth
 
     }
@@ -969,7 +982,26 @@ class HomeFragment : Fragment() {
         pieChart.holeRadius = 5f
         pieChart.setBackgroundColor(resources.getColor(R.color.white))
 
+    }
+
+    private fun viewPreviousMonthReport(){
+
+        forwardArrow.setOnClickListener {
+            cardView1.visibility = View.GONE
+            cardView2.visibility = View.VISIBLE
+            backwardArrow.visibility = View.VISIBLE
+            forwardArrow.visibility = View.GONE
+        }
+
+        backwardArrow.setOnClickListener {
+            cardView1.visibility = View.VISIBLE
+            cardView2.visibility = View.GONE
+            backwardArrow.visibility = View.GONE
+            forwardArrow.visibility = View.VISIBLE
+        }
+
 
     }
+
 
 }

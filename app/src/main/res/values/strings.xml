@@ -47,12 +47,12 @@
     <string name="allAccounts">All Accounts</string>
     <string name="others">Others</string>
 
-    <string name="previous_month_report_textView"> Previous Month Report</string>
-    <string name="income_tv">Total Income</string>
+    <string name="previous_month_report_textView"> Previous Month</string>
+    <string name="income_tv">Income</string>
     <string name="incomeShown">₹ 00.00</string>
-    <string name="expense_added">Total Expense</string>
-    <string name="current_balance_TV">Current Balance</string>
-    <string name="previous_balance_TV">Previous Balance</string>
+    <string name="expense_added">Expense</string>
+    <string name="current_balance_TV">Balance</string>
+    <string name="previous_balance_TV">Balance</string>
     <string name="account_menuItem">Account</string>
     <string name="add_income_TV">Add Income</string>
     <string name="category_TV">Category</string>

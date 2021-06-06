@@ -7,11 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aapnainfotech.expensemanagementsystem.R
-import com.aapnainfotech.expensemanagementsystem.model.Onboarding
-import kotlinx.android.synthetic.main.onboarding_item_container.view.*
-import org.w3c.dom.Text
+import com.aapnainfotech.expensemanagementsystem.model.OnBoarding
 
-class OnboardingItemsAdapter(private val onboardingItems : List<Onboarding>) :
+class OnboardingItemsAdapter(private val onboardingItems : List<OnBoarding>) :
     RecyclerView.Adapter<OnboardingItemsAdapter.OnboardingItemViewHolder>() {
 
     inner class OnboardingItemViewHolder(view : View) : RecyclerView.ViewHolder(view){
@@ -20,11 +18,11 @@ class OnboardingItemsAdapter(private val onboardingItems : List<Onboarding>) :
         private val textTitle = view.findViewById<TextView>(R.id.textTitle)
         private val textDescription = view.findViewById<TextView>(R.id.textDescription)
 
-        fun bind(onboardingItem : Onboarding){
+        fun bind(onboardingItem : OnBoarding){
 
-            imageOnboarding.setImageResource(onboardingItem.onboardingImage)
-            textTitle.text = onboardingItem.title
-            textDescription.text = onboardingItem.description
+            imageOnboarding.setImageResource(onboardingItem.onBoardingImage)
+            textTitle.text = onboardingItem.date
+            textDescription.text = onboardingItem.source
 
         }
     }

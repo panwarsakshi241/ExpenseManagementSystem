@@ -8,7 +8,6 @@ import android.app.DatePickerDialog
 import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aapnainfotech.expensemanagementsystem.MainActivity
 import com.aapnainfotech.expensemanagementsystem.R
-import com.aapnainfotech.expensemanagementsystem.adapter.MyAdapter
+import com.aapnainfotech.expensemanagementsystem.adapter.recyclerviewAdapter.MyRecyclerViewAdapter
 import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.google.firebase.database.*
@@ -31,7 +32,8 @@ import java.util.*
 
 class ViewFragment : Fragment() {
 
-    private lateinit var list: ListView
+    //    private late init var list: ListView
+    private lateinit var recyclerView: RecyclerView
 
     //    late init var ref: DatabaseReference
     lateinit var expenseList: MutableList<Expense>
@@ -41,7 +43,7 @@ class ViewFragment : Fragment() {
 
     private lateinit var searchByDate: Button
     private lateinit var progressBar: ProgressBar
-    lateinit var adapter: MyAdapter
+    lateinit var adapter: MyRecyclerViewAdapter
 
     private lateinit var selectFilterModeSpinner: Spinner
     var selectedFilterOption: String = ""
@@ -63,16 +65,17 @@ class ViewFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val view = inflater.inflate(R.layout.fragment_view, container, false)
-        list = view.findViewById(R.id.viewList)
+//        list = view.findViewById(R.id.viewList)
+        recyclerView = view.findViewById(R.id.recycler_view)
+
         selectFilterModeSpinner = view.findViewById(R.id.selectFilterOption)
         searchByDate = view.findViewById(R.id.viewbyDateButton)
         dateEntered = view.findViewById(R.id.DateEntered)
         selectDateTV = view.findViewById(R.id.selectDate)
         progressBar = view.findViewById(R.id.progressBar)
 
-//        totalExpenseCalculated = view.findViewById(R.id.totalExpenseCalculated)
-
         expenseList = mutableListOf()
+
 
         user = MainActivity.currentUser?.replace(".", "")
         spinnerValue = selectedSpinnerItem
@@ -83,11 +86,10 @@ class ViewFragment : Fragment() {
         //setting the select Date TextView visible
 
 
-        adapter = MyAdapter(
-            requireContext(),
-            R.layout.row, expenseList
-        )
-        list.adapter = adapter
+        adapter = MyRecyclerViewAdapter(expenseList)
+        recyclerView.adapter = MyRecyclerViewAdapter(expenseList)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.setHasFixedSize(true)
 
         //set on click listener on selectDate TextView
         setDate()
@@ -109,7 +111,7 @@ class ViewFragment : Fragment() {
 
         progressBar.visibility = View.GONE
 
-        list.visibility = View.VISIBLE
+        recyclerView.visibility = View.VISIBLE
         dateSelected = dateEntered.text.toString()
 
         index = dateSelected.lastIndexOf('/')
@@ -278,14 +280,24 @@ class ViewFragment : Fragment() {
                         month = "December"
                     }
 
-//                    if (selectedFilterOption.equals(getString(R.string.year))) {
-//                        dateEntered.setText("$mYear")
-//                    } else if (selectedFilterOption.equals(getString(R.string.month))) {
-//                        dateEntered.setText("$mYear/$month")
-//                    } else {
-                    val date = "$mYear/$month/$mDate"
-                    dateEntered.text = date
-//                    }
+                    if (selectedFilterOption.equals(getString(R.string.year))) {
+
+                        dateEntered.text = mYear.toString()
+                        searchByDate.visibility = View.VISIBLE
+
+                    } else if (selectedFilterOption.equals(getString(R.string.month))) {
+
+                        val selectedMonth = "$mYear/$month "
+                        dateEntered.text = selectedMonth
+                        searchByDate.visibility = View.VISIBLE
+
+                    } else {
+
+                        val date = "$mYear/$month/$mDate"
+                        dateEntered.text = date
+                        searchByDate.visibility = View.VISIBLE
+
+                    }
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -306,7 +318,8 @@ class ViewFragment : Fragment() {
                 val filterByArray = resources.getStringArray(R.array.selectfilterMode)
                 selectedFilterOption = filterByArray[p2]
 
-                selectDateTV.text = "Select $selectedFilterOption"
+                val selectFilter = "Select $selectedFilterOption"
+                selectDateTV.text = selectFilter
 
                 if (selectedFilterOption == getString(R.string.date)
                     || selectedFilterOption == getString(R.string.month)
@@ -330,17 +343,17 @@ class ViewFragment : Fragment() {
 
     private fun listViewItemListener() {
 
-        list.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id ->
-
-            showDialogueBox()
-            Toast.makeText(
-                activity,
-                "downloading ....",
-                Toast.LENGTH_LONG
-            )
-                .show()
-
-        }
+//        recyclerView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id ->
+//
+//            showDialogueBox()
+//            Toast.makeText(
+//                activity,
+//                "downloading ....",
+//                Toast.LENGTH_LONG
+//            )
+//                .show()
+//
+//        }
 
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.home.HomeFragment">
 
@@ -49,7 +49,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/selectDateTV"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/DateEntered"
@@ -60,7 +60,7 @@
             android:background="@drawable/custom_input"
             android:hint="@string/_23_04_2021_date"
             android:padding="5dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
     </LinearLayout>
@@ -74,7 +74,8 @@
         android:backgroundTint="@color/teal_700"
         android:gravity="center"
         android:text="@string/view_btn"
-        app:cornerRadius="20dp"/>
+        android:visibility="gone"
+        app:cornerRadius="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -82,25 +83,27 @@
         android:layout_margin="5dp"
         android:text="@string/expense_details_TV" />
 
-    <ListView
-        android:id="@+id/viewList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:padding="10dp"
-        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clipToPadding="false"
+        android:padding="4dp"
+        android:visibility="gone"
+        tools:listitem="@layout/recyclerview_item" />
 
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyle"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

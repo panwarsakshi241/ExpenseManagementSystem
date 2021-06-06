@@ -280,291 +280,263 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                style="@style/gridViewStyle"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/custom_bg"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:layout_height="wrap_content">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/black"
-                    />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView1"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:visibility="visible">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/xpensereport" />
-
-                    <TextView
-                        android:id="@+id/thisMonth"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monthly_report_TV"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/this_month_income_added"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/income_tv"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/this_month_income_shown"
-                        style="@style/tv_expense_instruction"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="30dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/iv_report"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/xpensereport" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tv_thisMonth"
+                            style="@style/expenseManagementSystemH2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/iv_report"
+                            android:text="@string/monthly_report_TV"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_income_added"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/iv_report"
+                            android:text="@string/income_tv"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_income_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_thisMonth"
+                            android:layout_toEndOf="@+id/tv_this_month_income_added"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_expense"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_this_month_income_added"
+                            android:text="@string/expense_added"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_expense_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_this_month_income_shown"
+                            android:layout_toEndOf="@id/tv_this_month_expense"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_current_balance"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_this_month_expense"
+                            android:text="@string/current_balance_TV"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_this_month_current_balance_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_this_month_expense_shown"
+                            android:layout_toEndOf="@+id/tv_this_month_current_balance"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
+
+
+                    </RelativeLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/this_month_expense"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/expense_added"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/this_month_expense_shown"
-                        style="@style/tv_expense_instruction"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="30dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/iv_previousMonth"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/xpensereport" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/black" />
+                        <TextView
+                            android:id="@+id/tv_previousMonth"
+                            style="@style/expenseManagementSystemH2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/iv_previousMonth"
+                            android:text="@string/previous_month_report_textView"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_income_added"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/iv_previousMonth"
+                            android:text="@string/income_tv"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/this_month_current_balance"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current_balance_TV"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_income_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_previousMonth"
+                            android:layout_toEndOf="@id/tv_income_added"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
 
-                    <TextView
-                        android:id="@+id/this_month_current_balance_shown"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
+                        <TextView
+                            android:id="@+id/tv_expense"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_income_added"
+                            android:text="@string/expense_added"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_expense_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_income_shown"
+                            android:layout_toEndOf="@+id/tv_expense"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_current_balance_added"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_expense"
+                            android:text="@string/current_balance_TV"
+                            android:textColor="@color/gray"
+                            android:textStyle="bold" />
 
-
-            <LinearLayout
-                style="@style/gridViewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/custom_bg"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/xpensereport" />
-
-                    <TextView
-                        android:id="@+id/previousMonth"
-                        style="@style/expenseManagementSystemH2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/previous_month_report_textView"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/income_added"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/income_tv"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/income_shown"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/expense"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/expense_added"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/expense_shown"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/current_balance_added"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current_balance_TV"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/current_balance_shown"
-                        style="@style/tv_expense_instruction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/incomeShown"
-                        android:textColor="@color/black"
-                        android:textStyle="italic" />
+                        <TextView
+                            android:id="@+id/tv_current_balance_shown"
+                            style="@style/tv_expense_instruction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_expense_shown"
+                            android:layout_toEndOf="@+id/tv_current_balance_added"
+                            android:text="@string/incomeShown"
+                            android:textColor="@color/gray"
+                            android:textStyle="italic" />
 
 
-                </LinearLayout>
+                    </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black" />
-            </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageView
+                    android:id="@+id/forward_arrow"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_toEndOf="@id/cardView1"
+                    android:background="@drawable/icon_outer_background"
+                    android:contentDescription="@string/app_name"
+                    android:elevation="4dp"
+                    android:src="@drawable/ic_forward_arrow"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/backward_arrow"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toStartOf="@id/cardView2"
+                    android:background="@drawable/icon_outer_background"
+                    android:contentDescription="@string/app_name"
+                    android:elevation="4dp"
+                    android:src="@drawable/ic_backward_arrow"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
             <TextView
+                style="@style/gridViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Summary"
-                android:textStyle="bold"
-                style="@style/gridViewStyle"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:layout_marginBottom="10dp"/>
+                android:text="Summary"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"

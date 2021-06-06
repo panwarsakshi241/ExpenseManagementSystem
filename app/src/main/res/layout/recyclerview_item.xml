@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:elevation="4dp"
+    android:layout_margin="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_reports" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imageView"
+            style="@style/tv_expense_instruction"
+            android:text="@string/date"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_date"
+            android:layout_toEndOf="@id/imageView"
+            android:text="@string/total_expense_calculated"
+            style="@style/tv_expense_instruction"
+            android:textColor="@color/gray"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tv_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_expense"
+            android:layout_toEndOf="@id/imageView"
+            android:text="@string/source"
+            style="@style/tv_expense_instruction"
+            android:textColor="@color/gray"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_source"
+            android:layout_toEndOf="@id/imageView"
+            android:text="@string/category"
+            style="@style/tv_expense_instruction"
+            android:textColor="@color/gray"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tv_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_category"
+            android:layout_toEndOf="@id/imageView"
+            android:text="@string/details"
+            style="@style/tv_expense_instruction"
+            android:textColor="@color/gray"
+            android:textStyle="italic" />
+
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
