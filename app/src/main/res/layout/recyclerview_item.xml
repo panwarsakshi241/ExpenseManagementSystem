@@ -30,6 +30,14 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toEndOf="@+id/tv_date"
+            android:src="@drawable/ic_download"
+            android:contentDescription="@string/app_name"
+            android:layout_alignParentEnd="true"/>
+
         <TextView
             android:id="@+id/tv_expense"
             android:layout_width="wrap_content"

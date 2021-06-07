@@ -162,41 +162,51 @@ class IncomeFragment : Fragment() {
 
                 var month =""
 
-                if(mMonth == 0){
-                   month  = "January"
-                }
-                if(mMonth == 1){
-                    month  = "February"
-                }
-                if(mMonth == 2){
-                    month  = "March"
-                }
-                if(mMonth == 3){
-                    month  = "April"
-                }
-                if(mMonth == 4){
-                    month  = "May"
-                }
-                if(mMonth == 6){
-                    month  = "June"
-                }
-                if(mMonth == 7){
-                    month  = "July"
-                }
-                if(mMonth == 8){
-                    month  = "August"
-                }
-                if(mMonth == 9){
-                    month  = "September"
-                }
-                if(mMonth == 10){
-                    month  = "October"
-                }
-                if(mMonth == 11){
-                    month  = "November"
-                }
-                if(mMonth == 12){
-                    month  = "December"
+                when (mMonth) {
+                    0 -> {
+                        month = resources.getString(R.string.jan)
+                    }
+                    1 -> {
+                        month = resources.getString(R.string.feb)
+                    }
+                    2 -> {
+                        month = resources.getString(R.string.march)
+                    }
+                    3 -> {
+                        month = resources.getString(R.string.april)
+                    }
+                    4 -> {
+                        month = resources.getString(R.string.may)
+                    }
+                    5 -> {
+                        month = resources.getString(R.string.june)
+                    }
+                    6 -> {
+                        month = resources.getString(R.string.july)
+                    }
+                    7 -> {
+                        month = resources.getString(R.string.aug)
+                    }
+                    8 -> {
+                        month = resources.getString(R.string.sep)
+                    }
+                    9 -> {
+                        month = resources.getString(R.string.oct)
+                    }
+                    10 -> {
+                        month = resources.getString(R.string.nov)
+                    }
+                    11 -> {
+                        month = resources.getString(R.string.dec)
+                    }
+                    else -> {
+                        Toast.makeText(
+                            activity,
+                            "please choose a category !",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
                 }
 
                 val date = "$mYear/$month/$mDate"

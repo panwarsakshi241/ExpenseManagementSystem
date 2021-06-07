@@ -23,14 +23,14 @@ import com.aapnainfotech.expensemanagementsystem.adapter.recyclerviewAdapter.MyR
 import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.row.*
+import kotlinx.android.synthetic.main.recyclerview_item.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
 
-class ViewFragment : Fragment() {
+class ViewFragment : Fragment(), MyRecyclerViewAdapter.OnItemClickListener {
 
     //    private late init var list: ListView
     private lateinit var recyclerView: RecyclerView
@@ -86,8 +86,8 @@ class ViewFragment : Fragment() {
         //setting the select Date TextView visible
 
 
-        adapter = MyRecyclerViewAdapter(expenseList)
-        recyclerView.adapter = MyRecyclerViewAdapter(expenseList)
+        adapter = MyRecyclerViewAdapter(expenseList, this)
+        recyclerView.adapter = MyRecyclerViewAdapter(expenseList, this)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
 
@@ -97,9 +97,8 @@ class ViewFragment : Fragment() {
         //view reports of selected date
         searchByDate.setOnClickListener {
 
-            progressBar.visibility = View.VISIBLE
+//            progressBar.visibility = View.VISIBLE
             generateReport()
-            listViewItemListener()
 
         }
 
@@ -109,7 +108,7 @@ class ViewFragment : Fragment() {
 
     private fun generateReport() {
 
-        progressBar.visibility = View.GONE
+//        progressBar.visibility = View.GONE
 
         recyclerView.visibility = View.VISIBLE
         dateSelected = dateEntered.text.toString()
@@ -121,80 +120,84 @@ class ViewFragment : Fragment() {
 //            dateEntered.error = "Please fill all the required field !"
 //            return
 //        }
-        if (spinnerValue == getString(R.string.allAccounts)) {
-
-            //all account cumulative report
-            if (selectedFilterOption == getString(R.string.select)) {
-                (selectFilterModeSpinner.selectedView as TextView).error =
-                    "Please Choose some category"
-                return
-            }
-            if (selectedFilterOption == getString(R.string.date)) {
-
-                //view reports of selected date
-                val categoryArray = resources.getStringArray(R.array.expenseResources)
-                val len = categoryArray.size
-
-                for (i in 1 until len - 1) {
-                    val spinnerValue = categoryArray[i]
-
-                    val query: Query =
-                        FirebaseDatabase.getInstance()
-                            .getReference("Users/$user/Expense/$date/$spinnerValue")
-                            .orderByChild("date")
-                            .equalTo(dateSelected)
-                    query.addListenerForSingleValueEvent(valueEventListener)
-
-
-                }
-            } else {
-
+//        if (spinnerValue == getString(R.string.allAccounts)) {
+//
+//            //all account cumulative report
+//            if (selectedFilterOption == getString(R.string.select)) {
+//                (selectFilterModeSpinner.selectedView as TextView).error =
+//                    "Please Choose some category"
+//                return
+//            }
+//            if (selectedFilterOption == getString(R.string.date)) {
+//
+//                //view reports of selected date
 //                val categoryArray = resources.getStringArray(R.array.expenseResources)
 //                val len = categoryArray.size
-
+//
 //                for (i in 1 until len - 1) {
-//                    val spinnerValue = categoryArray.get(i)
-
-                val query1: Query =
-                    FirebaseDatabase.getInstance()
-                        .getReference("Users/$user/Expense/$date")
-
-                query1.addListenerForSingleValueEvent(valueEventListener)
+//                    val spinnerValue = categoryArray[i]
+//
+//                    val query: Query =
+//                        FirebaseDatabase.getInstance()
+//                            .getReference("Users/$user/Expense/$date/$spinnerValue")
+//                            .orderByChild("date")
+//                            .equalTo(dateSelected)
+//                    query.addListenerForSingleValueEvent(valueEventListener)
+//
+//
 //                }
+//            } else {
+//
+////                val categoryArray = resources.getStringArray(R.array.expenseResources)
+////                val len = categoryArray.size
+//
+////                for (i in 1 until len - 1) {
+////                    val spinnerValue = categoryArray.get(i)
+//
+//                val query1: Query =
+//                    FirebaseDatabase.getInstance()
+//                        .getReference("Users/$user/Expense/$date")
+//
+//                query1.addListenerForSingleValueEvent(valueEventListener)
+////                }
+//
+//
+//            }
+//
+//
+//        } else {
+        if (selectedFilterOption == getString(R.string.select)) {
+            (selectFilterModeSpinner.selectedView as TextView).error =
+                "Please Choose some category"
+            return
+        }
 
+        if (selectedFilterOption == getString(R.string.date)) {
 
-            }
+            //view reports of selected date
 
+            val query: Query =
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/$user/Expense/$date/$spinnerValue")
+                    .orderByChild("date")
+                    .equalTo(dateSelected)
+            query.addListenerForSingleValueEvent(valueEventListener)
+
+            Toast.makeText(activity, "spinner value is date : $date", Toast.LENGTH_LONG).show()
 
         } else {
-            if (selectedFilterOption == getString(R.string.select)) {
-                (selectFilterModeSpinner.selectedView as TextView).error =
-                    "Please Choose some category"
-                return
-            }
 
-            if (selectedFilterOption == getString(R.string.date)) {
+            val query: Query =
+                FirebaseDatabase.getInstance()
+                    .getReference("Users/$user/Expense/$date/$spinnerValue")
 
-                //view reports of selected date
+            query.addListenerForSingleValueEvent(valueEventListener)
 
-                val query: Query =
-                    FirebaseDatabase.getInstance()
-                        .getReference("Users/$user/Expense/$date/$spinnerValue")
-                        .orderByChild("date")
-                        .equalTo(dateSelected)
-                query.addListenerForSingleValueEvent(valueEventListener)
-
-            } else {
-
-                val query: Query =
-                    FirebaseDatabase.getInstance()
-                        .getReference("Users/$user/Expense/$date/$spinnerValue")
-
-                query.addListenerForSingleValueEvent(valueEventListener)
+            Toast.makeText(activity, "spinner value is month or year", Toast.LENGTH_LONG).show()
 
 
-            }
         }
+//        }
 
     }
 
@@ -243,60 +246,74 @@ class ViewFragment : Fragment() {
 
                     var month = ""
 
-                    if (mMonth == 0) {
-                        month = "January"
-                    }
-                    if (mMonth == 1) {
-                        month = "February"
-                    }
-                    if (mMonth == 2) {
-                        month = "March"
-                    }
-                    if (mMonth == 3) {
-                        month = "April"
-                    }
-                    if (mMonth == 4) {
-                        month = "May"
-                    }
-                    if (mMonth == 6) {
-                        month = "June"
-                    }
-                    if (mMonth == 7) {
-                        month = "July"
-                    }
-                    if (mMonth == 8) {
-                        month = "August"
-                    }
-                    if (mMonth == 9) {
-                        month = "September"
-                    }
-                    if (mMonth == 10) {
-                        month = "October"
-                    }
-                    if (mMonth == 11) {
-                        month = "November"
-                    }
-                    if (mMonth == 12) {
-                        month = "December"
+                    when (mMonth) {
+                        0 -> {
+                            month = resources.getString(R.string.jan)
+                        }
+                        1 -> {
+                            month = resources.getString(R.string.feb)
+                        }
+                        2 -> {
+                            month = resources.getString(R.string.march)
+                        }
+                        3 -> {
+                            month = resources.getString(R.string.april)
+                        }
+                        4 -> {
+                            month = resources.getString(R.string.may)
+                        }
+                        5 -> {
+                            month = resources.getString(R.string.june)
+                        }
+                        6 -> {
+                            month = resources.getString(R.string.july)
+                        }
+                        7 -> {
+                            month = resources.getString(R.string.aug)
+                        }
+                        8 -> {
+                            month = resources.getString(R.string.sep)
+                        }
+                        9 -> {
+                            month = resources.getString(R.string.oct)
+                        }
+                        10 -> {
+                            month = resources.getString(R.string.nov)
+                        }
+                        11 -> {
+                            month = resources.getString(R.string.dec)
+                        }
+                        else -> {
+                            Toast.makeText(
+                                activity,
+                                "please choose a category !",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
                     }
 
-                    if (selectedFilterOption.equals(getString(R.string.year))) {
+                    when (selectedFilterOption) {
+                        getString(R.string.year) -> {
 
-                        dateEntered.text = mYear.toString()
-                        searchByDate.visibility = View.VISIBLE
+                            dateEntered.text = mYear.toString()
+                            searchByDate.visibility = View.VISIBLE
 
-                    } else if (selectedFilterOption.equals(getString(R.string.month))) {
+                        }
+                        getString(R.string.month) -> {
 
-                        val selectedMonth = "$mYear/$month "
-                        dateEntered.text = selectedMonth
-                        searchByDate.visibility = View.VISIBLE
+                            val selectedMonth = "$mYear/$month "
+                            dateEntered.text = selectedMonth
+                            searchByDate.visibility = View.VISIBLE
 
-                    } else {
+                        }
+                        else -> {
 
-                        val date = "$mYear/$month/$mDate"
-                        dateEntered.text = date
-                        searchByDate.visibility = View.VISIBLE
+                            val date = "$mYear/$month/$mDate"
+                            dateEntered.text = date
+                            searchByDate.visibility = View.VISIBLE
 
+                        }
                     }
                 }, Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -341,22 +358,6 @@ class ViewFragment : Fragment() {
 
     }
 
-    private fun listViewItemListener() {
-
-//        recyclerView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id ->
-//
-//            showDialogueBox()
-//            Toast.makeText(
-//                activity,
-//                "downloading ....",
-//                Toast.LENGTH_LONG
-//            )
-//                .show()
-//
-//        }
-
-    }
-
     //dialogue Box to ask if user want to download the reports
     private fun showDialogueBox() {
         val builder = AlertDialog.Builder(activity)
@@ -396,10 +397,10 @@ class ViewFragment : Fragment() {
 
     private fun startDownloading() {
 
-        val totalExpense = "Total Expense  = " + ExpenseEntered.text
-        val source = "Source = " + expenseCategoryFetched.text
-        val category = "Category = " + expenseSourceFetched.text
-        val details = "Details = " + expenseDetailsFetched.text
+        val totalExpense = "Total Expense  = " + tv_expense.text
+        val source = "Source = " + tv_source.text
+        val category = "Category = " + tv_category.text
+        val details = "Details = " + tv_details.text
         val text = "$totalExpense \n $source \n $category \n $details"
 
         var fos: FileOutputStream? = null
@@ -457,5 +458,18 @@ class ViewFragment : Fragment() {
                 }
             }
         }
+    }
+
+    //method of onItemClickListener method of the MyRecyclerView Adapter
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(
+            activity,
+            "download report",
+            Toast.LENGTH_LONG
+        )
+            .show()
+
+        showDialogueBox()
     }
 }

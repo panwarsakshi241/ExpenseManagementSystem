@@ -3,19 +3,23 @@ package com.aapnainfotech.expensemanagementsystem.adapter.recyclerviewAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.model.Expense
-import com.aapnainfotech.expensemanagementsystem.model.OnBoarding
 
-class MyRecyclerViewAdapter(private val list : List<Expense>) : RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
+class MyRecyclerViewAdapter(
+    private val list: List<Expense>,
+    private val listener: OnItemClickListener
+) :
+    RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
     //to change the body of created function use file
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,
-        parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(
+            R.layout.recyclerview_item,
+            parent, false
+        )
 
         return MyViewHolder(itemView)
     }
@@ -33,14 +37,30 @@ class MyRecyclerViewAdapter(private val list : List<Expense>) : RecyclerView.Ada
 
     override fun getItemCount() = list.size
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
-//        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        //        val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val date: TextView = itemView.findViewById(R.id.tv_date)
         val expense: TextView = itemView.findViewById(R.id.tv_expense)
         val source: TextView = itemView.findViewById(R.id.tv_source)
         val category: TextView = itemView.findViewById(R.id.tv_category)
         val comment: TextView = itemView.findViewById(R.id.tv_details)
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(view: View?) {
+            val position :Int = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

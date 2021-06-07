@@ -1,12 +1,15 @@
 package com.aapnainfotech.expensemanagementsystem.fragments.account
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -120,10 +123,19 @@ class AccountFragment : Fragment() {
         )
         builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             saveDetails()
+            closeKeyboard(initialAmt)
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
         }
         builder.show()
+    }
+
+    //funtion to close keyboard
+    private fun closeKeyboard(view: View){
+
+        val inputMethodManager: InputMethodManager =activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+
     }
 
 }
