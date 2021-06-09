@@ -159,5 +159,7 @@
     <string name="dialogbox_message">you haven\'t selected the same category ? Your data will be overwritten if you do so .</string>
     <string name="welcome">\"Welcome \"</string>
     <string name="tv_summary">Summary</string>
+    <string name="tv_disconnected">Oops ! No Internet.\nPlease check your internet connection .</string>
+
 
 </resources>

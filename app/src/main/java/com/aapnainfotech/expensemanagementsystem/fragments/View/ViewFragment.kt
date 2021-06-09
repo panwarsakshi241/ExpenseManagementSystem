@@ -18,11 +18,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aapnainfotech.expensemanagementsystem.MainActivity
+import com.aapnainfotech.expensemanagementsystem.NetworkConnection
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.adapter.recyclerviewAdapter.MyRecyclerViewAdapter
 import com.aapnainfotech.expensemanagementsystem.fragments.home.HomeFragment.Companion.selectedSpinnerItem
 import com.aapnainfotech.expensemanagementsystem.model.Expense
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_view.*
 import kotlinx.android.synthetic.main.recyclerview_item.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -83,22 +85,30 @@ class ViewFragment : Fragment(), MyRecyclerViewAdapter.OnItemClickListener {
         //retrieving data from Select number of days spinner
         filterBySpinnerValue()
 
-        //setting the select Date TextView visible
-
-
         adapter = MyRecyclerViewAdapter(expenseList, this)
         recyclerView.adapter = MyRecyclerViewAdapter(expenseList, this)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
 
-        //set on click listener on selectDate TextView
+        /**
+         *set on click listener on selectDate TextView
+         */
+
         setDate()
 
-        //view reports of selected date
+        /**
+         * view reports of selected date
+         */
         searchByDate.setOnClickListener {
 
 //            progressBar.visibility = View.VISIBLE
-            generateReport()
+//            generateReport()
+
+            /**
+             *Validate network connection
+             */
+
+            validateNetworkConnection()
 
         }
 
@@ -172,20 +182,21 @@ class ViewFragment : Fragment(), MyRecyclerViewAdapter.OnItemClickListener {
             return
         }
 
-        if (selectedFilterOption == getString(R.string.date)) {
+//        if (selectedFilterOption == getString(R.string.date)) {
+//
+//            //view reports of selected date
+//
+//            val query: Query =
+//                FirebaseDatabase.getInstance()
+//                    .getReference("Users/$user/Expense/$date/$spinnerValue")
+//                    .orderByChild("date")
+//                    .equalTo(dateSelected)
+//            query.addListenerForSingleValueEvent(valueEventListener)
+//
+//            Toast.makeText(activity, "spinner value is date : $date", Toast.LENGTH_LONG).show()
 
-            //view reports of selected date
-
-            val query: Query =
-                FirebaseDatabase.getInstance()
-                    .getReference("Users/$user/Expense/$date/$spinnerValue")
-                    .orderByChild("date")
-                    .equalTo(dateSelected)
-            query.addListenerForSingleValueEvent(valueEventListener)
-
-            Toast.makeText(activity, "spinner value is date : $date", Toast.LENGTH_LONG).show()
-
-        } else {
+//        }
+        else {
 
             val query: Query =
                 FirebaseDatabase.getInstance()
@@ -471,5 +482,25 @@ class ViewFragment : Fragment(), MyRecyclerViewAdapter.OnItemClickListener {
             .show()
 
         showDialogueBox()
+    }
+
+    // check the network connection
+
+    private fun validateNetworkConnection() {
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
+            if (isConnected) {
+
+                generateReport()
+
+            } else {
+                progressBar.visibility = View.VISIBLE
+                iv_internetConnection.visibility = View.VISIBLE
+                tv_internetConnection.visibility = View.VISIBLE
+            }
+
+        })
+
     }
 }

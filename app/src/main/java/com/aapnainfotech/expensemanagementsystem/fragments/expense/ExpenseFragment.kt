@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
+import com.aapnainfotech.expensemanagementsystem.NetworkConnection
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.aapnainfotech.expensemanagementsystem.model.Expense
@@ -62,13 +63,18 @@ class ExpenseFragment : Fragment() {
         val user = MainActivity.currentUser?.replace(".", "")
 
         //initiating the Firebase Database
-        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/" + user!!)
 
         Toast.makeText(activity, MainActivity.currentUser, Toast.LENGTH_LONG).show()
 
         //setting onClick listener to date EditText
         setDate()
 
+        /**
+         * validate network connection
+         */
+
+        validateNetworkConnection()
 
         //saving the expense data to the database
         saveExpense.setOnClickListener {
@@ -147,7 +153,7 @@ class ExpenseFragment : Fragment() {
             ref.push().key.toString()//push will generate unique key for every users
 
         val index = selectedDate.lastIndexOf('/')
-        val date = selectedDate.substring(0,index)
+        val date = selectedDate.substring(0, index)
         val path = "Expense/$date/$selectedCategory/$userId"
 
         val user =
@@ -181,7 +187,7 @@ class ExpenseFragment : Fragment() {
                 requireContext(), { _, mYear, mMonth, mDate ->
 
 
-                    var month =""
+                    var month = ""
 
                     when (mMonth) {
                         0 -> {
@@ -258,12 +264,41 @@ class ExpenseFragment : Fragment() {
         builder.show()
     }
 
-    //funtion to close keyboard
-    private fun closeKeyboard(view: View){
+    //function to close keyboard
+    private fun closeKeyboard(view: View) {
 
-        val inputMethodManager: InputMethodManager =activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+        val inputMethodManager: InputMethodManager =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
+
+    /**
+     * validate the internet connection
+     */
+    private fun validateNetworkConnection() {
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
+            if (isConnected) {
+
+                saveExpense.isEnabled = true
+
+            } else {
+
+                saveExpense.isEnabled = false
+
+                Toast.makeText(
+                    activity,
+                    "No Internet !! please try again.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+        })
+
+    }
+
 
 }

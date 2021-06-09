@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
+import com.aapnainfotech.expensemanagementsystem.NetworkConnection
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.aapnainfotech.expensemanagementsystem.model.Expense
@@ -60,6 +61,11 @@ class TransferFragment : Fragment() {
 
         val date = Date()
         timeStamp = IncomeFragment.dateTimeFormat.format(date)
+
+        /**
+         * validate internet connection
+         */
+        validateNetworkConnection()
 
         addTransferDate.setOnClickListener {
             setDate()
@@ -300,6 +306,33 @@ class TransferFragment : Fragment() {
 
         val inputMethodManager: InputMethodManager =activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+
+    }
+
+    /**
+     * validate the internet connection
+     */
+    private fun validateNetworkConnection() {
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
+            if (isConnected) {
+
+                transferButton.isEnabled = true
+
+            } else {
+
+                transferButton.isEnabled = false
+
+                Toast.makeText(
+                    activity,
+                    "No Internet !! please try again.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+        })
 
     }
 

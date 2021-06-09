@@ -24,10 +24,10 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var confirmPassword: EditText
     private lateinit var signIn: TextView
     private lateinit var buttonRegister: TextView
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
-    private var databaseReference : DatabaseReference? = null
-    var database : FirebaseDatabase? = null
+    private var databaseReference: DatabaseReference? = null
+    var database: FirebaseDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,37 +60,23 @@ class RegistrationActivity : AppCompatActivity() {
         buttonRegister.setOnClickListener {
             when {
                 TextUtils.isEmpty(enterMail.text.toString().trim { it <= ' ' }) -> {
-                    Toast.makeText(
-                        this,
-                        "Please Enter email",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+
+                    enterMail.error = "Please fill all the required Fields !"
+
                 }
                 TextUtils.isEmpty(enterPassword.text.toString().trim { it <= ' ' }) -> {
-                    Toast.makeText(
-                        this,
-                        "Please Enter password",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+
+                    enterPassword.error = "Please fill all the required Fields !"
+
                 }
                 TextUtils.isEmpty(confirmPassword.text.toString().trim { it <= ' ' }) -> {
-                    Toast.makeText(
-                        this,
-                        "Please confirm password !",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+
+                    confirmPassword.error = "please fill all the required field !"
+
                 }
                 confirmPassword.text.toString() != enterPassword.text.toString() -> {
 
-                    Toast.makeText(
-                        this,
-                        "Please confirm password !",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                    confirmPassword.error = "Password Mismatch"
 
                 }
 
@@ -109,12 +95,18 @@ class RegistrationActivity : AppCompatActivity() {
 
                                     val currentUser = auth.currentUser
                                     val currentUserDB = databaseReference?.child(currentUser?.uid!!)
-                                    currentUserDB?.child("username")?.setValue(enterMail.text.toString())
+                                    currentUserDB?.child("username")
+                                        ?.setValue(enterMail.text.toString())
 
-                                    Toast.makeText(this, "You are Registered Successfully !", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        this,
+                                        "You are Registered Successfully !",
+                                        Toast.LENGTH_LONG
+                                    ).show()
 
                                     val intent = Intent(this, MainActivity::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
                                     finish()
                                 } else {

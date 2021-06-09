@@ -14,74 +14,97 @@
         android:text="@string/account_note"
         android:textColor="@color/red" />
 
-
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_margin="20dp"
+        android:elevation="5dp"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tv_initial_amount"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="@string/Initial_amount" />
-
-        <EditText
-            android:id="@+id/et_initial_amount"
-            style="@style/expenseManagementSystemH2"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/Hint_2000"
-            android:background="@drawable/custom_input"
-            android:hint="@string/Hint_2000"
-            android:inputType="number"
-            android:padding="5dp" />
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/account_linear_layout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_initial_amount"
+                    style="@style/expenseManagementSystemH2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Initial_amount" />
+
+                <EditText
+                    android:id="@+id/et_initial_amount"
+                    style="@style/expenseManagementSystemH2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@string/Hint_2000"
+                    android:background="@drawable/custom_input"
+                    android:hint="@string/Hint_2000"
+                    android:inputType="number"
+                    android:padding="5dp" />
 
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/account_linear_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/account_linear_layout1"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_category"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="@string/category_TV" />
+                <TextView
+                    android:id="@+id/tv_category"
+                    style="@style/expenseManagementSystemH2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_TV" />
 
-        <Spinner
-            android:id="@+id/spinner_category"
-            style="@style/expenseManagementSystemH2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_input"
-            android:entries="@array/category"
-            android:padding="5dp"
-            android:popupBackground="@color/teal" />
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    style="@style/expenseManagementSystemH2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_input"
+                    android:entries="@array/category"
+                    android:padding="5dp"
+                    android:popupBackground="@color/white" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_account_expense_note"
+                style="@style/tv_expense_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/account_linear_layout2"
+                android:text="@string/account_category_warning"
+                android:textColor="@color/green" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/InitialAmountSave"
+                style="@style/expenseManagementSystemH2"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_account_expense_note"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/teal_700"
+                android:enabled="false"
+                android:text="@string/income_save_btn"
+                android:textColor="@color/white"
+                app:cornerRadius="20dp" />
 
 
-    </LinearLayout>
+        </RelativeLayout>
 
-    <TextView
-        style="@style/tv_expense_instruction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/account_category_warning"
-        android:textColor="@color/green" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/InitialAmountSave"
-        style="@style/expenseManagementSystemH2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
-        android:text="@string/income_save_btn"
-        android:textColor="@color/white"
-        app:cornerRadius="20dp" />
+    </com.google.android.material.card.MaterialCardView>
 
     <ImageView
         android:layout_width="50dp"

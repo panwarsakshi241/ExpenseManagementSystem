@@ -3,7 +3,10 @@ package com.aapnainfotech.expensemanagementsystem
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
+import android.service.autofill.Validators.and
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -293,12 +296,17 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         }
     }
 
-//    //funtion to close keyboard
+//    override fun onResume() {
+//        super.onResume()
 //
-//    private fun closeKeyboard(view: View){
+//        val darkFlag : Int = (resources.configuration.uiMode)
+//                & (Configuration.UI_MODE_NIGHT_MASK)
 //
-//        val inputMethodManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+//        if (darkFlag == Configuration.UI_MODE_NIGHT_YES){
+//            if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.Q){
+//
+//            }
+//        }
 //
 //    }
 

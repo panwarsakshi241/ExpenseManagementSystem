@@ -2,15 +2,18 @@ package com.aapnainfotech.expensemanagementsystem.fragments.income
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
+import com.aapnainfotech.expensemanagementsystem.NetworkConnection
 import com.aapnainfotech.expensemanagementsystem.R
 import com.aapnainfotech.expensemanagementsystem.model.Income
 import com.google.firebase.database.DatabaseReference
@@ -32,10 +35,10 @@ class IncomeFragment : Fragment() {
     var selectedResource: String = ""
     private var selectedDate: String = ""
     private var timeStamp = ""
-    var user : String? = ""
+    var user: String? = ""
 
     companion object {
-        val dateTimeFormat = SimpleDateFormat("yyyy/MM/dd hh:mm:ss",Locale.ENGLISH)
+        val dateTimeFormat = SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.ENGLISH)
     }
 
 
@@ -47,7 +50,7 @@ class IncomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_income, container, false)
 
         user = MainActivity.currentUser?.replace(".", "")
-        ref = FirebaseDatabase.getInstance().getReference("Users/"+user!!)
+        ref = FirebaseDatabase.getInstance().getReference("Users/" + user!!)
 
         addDate = view.findViewById(R.id.addDateTV)
         saveIncome = view.findViewById(R.id.incomeSave)
@@ -59,8 +62,14 @@ class IncomeFragment : Fragment() {
         val date = Date()
         timeStamp = dateTimeFormat.format(date)
 
+        /**
+         * Validate network connection
+         */
+        validateNetworkConnection()
+
         saveIncome.setOnClickListener {
             showDialogueBox()
+//            validateNetworkConnection()
         }
 
         addDate.setOnClickListener {
@@ -136,12 +145,11 @@ class IncomeFragment : Fragment() {
 
         }
 
-
         val userId: String =
             ref.push().key.toString()//push will generate unique key for every users
 
         val index = selectedDate.lastIndexOf('/')
-        val date = selectedDate.substring(0,index)
+        val date = selectedDate.substring(0, index)
         val path = "Income/$date/$selectedCategory/$userId"
 
         val user =
@@ -160,7 +168,7 @@ class IncomeFragment : Fragment() {
         val datePickerDialogue = DatePickerDialog(
             requireContext(), { _, mYear, mMonth, mDate ->
 
-                var month =""
+                var month = ""
 
                 when (mMonth) {
                     0 -> {
@@ -231,11 +239,50 @@ class IncomeFragment : Fragment() {
         )
         builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             saveIncomeDetails()
+            closeKeyboard(addIncome)
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
         }
         builder.show()
     }
 
+
+    /**
+     * validate the internet connection
+     */
+    private fun validateNetworkConnection() {
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
+            if (isConnected) {
+
+                saveIncome.isEnabled = true
+
+            } else {
+
+                saveIncome.isEnabled = false
+
+                Toast.makeText(
+                    activity,
+                    "No Internet !! please try again.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+        })
+
+    }
+
+    /**
+     * close the keyboard
+     */
+
+    private fun closeKeyboard(view: View){
+
+        val inputMethodManager: InputMethodManager =activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken,0)
+
+    }
 
 }

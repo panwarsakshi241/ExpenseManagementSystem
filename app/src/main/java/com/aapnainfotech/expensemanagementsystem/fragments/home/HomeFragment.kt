@@ -984,6 +984,12 @@ class HomeFragment : Fragment() {
 
     }
 
+
+    /**
+     * function to adjust the visibility
+     * of the this month report and previous month report.
+     */
+
     private fun viewPreviousMonthReport(){
 
         forwardArrow.setOnClickListener {

@@ -20,7 +20,6 @@
             android:textColor="@color/red" />
 
 
-
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,8 +65,8 @@
                     android:id="@+id/expense_linear_layout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/expense_linear_layout1">
+                    android:layout_below="@+id/expense_linear_layout1"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_expense_category"
@@ -93,8 +92,8 @@
                     android:id="@+id/expense_linear_layout3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/expense_linear_layout2">
+                    android:layout_below="@+id/expense_linear_layout2"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_expense_resources"
@@ -120,8 +119,8 @@
                     android:id="@+id/expense_linear_layout4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/expense_linear_layout3">
+                    android:layout_below="@+id/expense_linear_layout3"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_date"
@@ -147,33 +146,34 @@
                     style="@style/expenseManagementSystemH2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/expense_linear_layout4"
                     android:autofillHints="@string/details_of_expense_ET"
                     android:background="@drawable/custom_input"
                     android:hint="@string/details_of_expense_ET"
                     android:inputType="textAutoCorrect"
-                    android:padding="10dp"
-                    android:layout_below="@+id/expense_linear_layout4"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:id="@+id/tv_expense_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_comment"
                     android:layout_marginStart="5dp"
                     android:text="@string/comment_note"
-                    android:textColor="@color/green"
-                    android:layout_below="@+id/et_comment"/>
+                    android:textColor="@color/green" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save_expense"
                     style="@style/expenseManagementSystemH2"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_expense_note"
+                    android:layout_centerInParent="true"
                     android:backgroundTint="@color/teal_700"
+                    android:enabled="false"
                     android:text="@string/income_save_btn"
                     android:textColor="@color/white"
-                    app:cornerRadius="20dp"
-                    android:layout_below="@+id/tv_expense_note"
-                    android:layout_centerInParent="true"/>
+                    app:cornerRadius="20dp" />
 
 
             </RelativeLayout>

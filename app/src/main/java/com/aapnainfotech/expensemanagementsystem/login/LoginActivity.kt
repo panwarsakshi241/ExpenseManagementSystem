@@ -89,6 +89,8 @@ class LoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             when {
                 TextUtils.isEmpty(username.text.toString().trim()) -> {
+
+                    username.error = "fill the required field !"
                     Toast.makeText(
                         this,
                         "Please Enter email",
@@ -97,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
                         .show()
                 }
                 TextUtils.isEmpty(password.text.toString().trim { it <= ' ' }) -> {
+                    password.error = "fill the required field !"
                     Toast.makeText(
                         this,
                         "Please Enter password",
