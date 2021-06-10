@@ -13,9 +13,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.aapnainfotech.expensemanagementsystem.MainActivity
+import com.aapnainfotech.expensemanagementsystem.NetworkConnection
 import com.aapnainfotech.expensemanagementsystem.R
+import com.aapnainfotech.expensemanagementsystem.data.User
+import com.aapnainfotech.expensemanagementsystem.data.UserViewModel
 import com.aapnainfotech.expensemanagementsystem.fragments.income.IncomeFragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
@@ -54,12 +58,14 @@ class HomeFragment : Fragment() {
     private lateinit var thisMonthTV: TextView
     private lateinit var previousMonthTV: TextView
     private lateinit var pieChart: PieChart
-    private lateinit var forwardArrow : ImageView
-    private lateinit var backwardArrow : ImageView
+    private lateinit var forwardArrow: ImageView
+    private lateinit var backwardArrow: ImageView
 
 
-    private lateinit var cardView1 : CardView
-    private lateinit var cardView2 : CardView
+    private lateinit var cardView1: CardView
+    private lateinit var cardView2: CardView
+
+    private lateinit var mUserViewModel: UserViewModel
 
     private val pickImage: Int = 1
     private var imageUri: Uri? = null
@@ -123,6 +129,8 @@ class HomeFragment : Fragment() {
         forwardArrow = view.findViewById(R.id.forward_arrow)
         backwardArrow = view.findViewById(R.id.backward_arrow)
 
+        mUserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
         user = MainActivity.currentUser?.replace(".", "")
 
         val index = user?.indexOf('@')
@@ -173,6 +181,8 @@ class HomeFragment : Fragment() {
                         //previous month
                         calculateExpense()
 
+                        //Insert data to room database
+                        insertDataToRoomDatabase()
                     }
                 }
 
@@ -990,7 +1000,7 @@ class HomeFragment : Fragment() {
      * of the this month report and previous month report.
      */
 
-    private fun viewPreviousMonthReport(){
+    private fun viewPreviousMonthReport() {
 
         forwardArrow.setOnClickListener {
             cardView1.visibility = View.GONE
@@ -1009,5 +1019,47 @@ class HomeFragment : Fragment() {
 
     }
 
+    /**
+     * saving the previous month and
+     * this month details in the
+     * room database .
+     * So that the application can work in the offline mode as well.
+     */
+
+    private fun insertDataToRoomDatabase() {
+        previousMonth()
+        val spinner = selectedSpinnerItem
+        val pYear = year
+        val pMonth = previousMonthTV.text.toString()
+        val pIncome = incomeTV.text.toString()
+        val pExpense = expenseTV.text.toString()
+        val pCurrentBalance = currentBalanceTV.text.toString()
+
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
+            if (isConnected) {
+
+                val data = User(0, pYear, pMonth, pIncome, pExpense, pCurrentBalance , spinner)
+                Toast.makeText(
+                    activity,
+                    "Successfully added",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+
+                mUserViewModel.addDetails(data)
+
+            } else {
+
+                Toast.makeText(
+                    activity,
+                    "No Internet !! please try again.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+        })
+    }
 
 }
